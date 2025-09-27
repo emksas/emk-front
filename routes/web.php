@@ -23,5 +23,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     ->names('employee');
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])
+    ->group(function(){
+        Route::get('/expenses/from-mail', [ExpensesController::class, 'getExpensesFromMail'])->name('expenses.fromMail');
+    })
     ->resource('expenses', ExpensesController::class) 
     ->names('expenses');
