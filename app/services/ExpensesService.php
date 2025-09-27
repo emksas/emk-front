@@ -32,7 +32,7 @@ class ExpensesService
     }
 
 
-    public function createExpense( StoreExpenseRequest $data)
+    public function createExpense(StoreExpenseRequest $data)
     {
         $isValidated = $data->validated();
         print_r($isValidated);
@@ -50,8 +50,10 @@ class ExpensesService
         return Expense::all()->toArray();
     }
 
-
-
+    public function deleteExpense(Expense $expense)
+    {
+        return $expense->delete();
+    }
 }
 
 

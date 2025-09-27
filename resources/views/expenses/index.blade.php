@@ -68,7 +68,7 @@
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit"
-                                                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
+                                                    class="bg-red-500 hover:bg-red-700 text-red font-bold py-1 px-2 rounded"
                                                     onclick="return confirm('Are you sure you want to delete this expense?');">
                                                     Delete
                                                 </button>

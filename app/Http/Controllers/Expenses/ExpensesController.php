@@ -78,10 +78,13 @@ class ExpensesController extends Controller
     public function destroy(Expense $expense)
     {
         try {
-            $this->expensesService->deleteExpense($expense->idegreso);
+            $this->expensesService->deleteExpense($expense);
             return redirect()->route('expenses.index')->with('success', 'Expense deleted successfully.');
         } catch (\Exception $e) {
             return redirect()->route('expenses.index')->with('error', 'Failed to delete expense: ' . $e->getMessage());
         }
     }
+
+
+    
 }
