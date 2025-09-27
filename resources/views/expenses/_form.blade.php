@@ -15,7 +15,7 @@
 
         <div>
             <label class="block text-sm font-medium mb-1">Description *</label>
-            <input type="text" name="descripcion" value="{{ $val('description') }}"
+            <input type="text" name="descripcion" value="{{ $val('descripcion') }}"
                 class="w-full border rounded px-3 py-2" required>
             @error('description')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
         </div>
@@ -24,7 +24,10 @@
     <div class="grid grid-cols-1 gap-4">
         <div>
             <label class="block text-sm font-medium mb-1">Date *</label>
-            <input type="date" name="fecha" class="w-full border rounded px-3 py-2" required>
+
+            <input type="date" name="fecha" class="w-full border rounded px-3 py-2"
+                value="{{ old('hire_date', isset($expense) && $expense->fecha ? $expense->fecha : '') }}"
+                required>
             @error('fecha')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
         </div>
     </div>

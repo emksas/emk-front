@@ -25,7 +25,20 @@ class UpdateExpenseRequest extends FormRequest
             'valor' => 'required|numeric',
             'descripcion' => 'required|string|max:255',
             'fecha' => 'required|date',
+            'estado' => 'nullable|string',
+            'idPlanificacion' => 'nullable|integer',
+            'cuentaContable_id' => 'nullable|integer',
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'estado' => $this->input('estado', 'pay'),
+            'idPlanificacion' => $this->input('idPlanificacion', 1),
+            'cuentaContable_id' => $this->input('cuentaContable_id', 1),
+        ]);
+
     }
 
     public function messages(): array

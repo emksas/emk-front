@@ -59,11 +59,11 @@
                                             {{ $expense['fecha'] }}
                                         </td>
                                         <td>
-                                            <a href="{{ route('expenses.edit', $expense['id']) }}"
+                                            <a href="{{ route('expenses.edit', $expense['idegreso']) }}"
                                                 class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded">
                                                 Edit
                                             </a>
-                                            <form action="{{ route('expenses.destroy', $expense['id']) }}" method="POST"
+                                            <form action="{{ route('expenses.destroy', $expense['idegreso']) }}" method="POST"
                                                 style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')

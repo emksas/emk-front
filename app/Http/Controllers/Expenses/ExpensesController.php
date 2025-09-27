@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Expenses;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreExpenseRequest;
+use App\Http\Requests\UpdateExpenseRequest;
 use App\Models\Expense;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -59,15 +60,16 @@ class ExpensesController extends Controller
      */
     public function edit(Expense $expense)
     {
-        //
+        return view('expenses.edit', ['expense' => $expense]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Expense $expense)
+    public function update(UpdateExpenseRequest $request, Expense $expense)
     {
-        //
+        $expense->update($request->validated());
+        return redirect()->route('expenses.index')->with('success', 'Expense updated successfully.');
     }
 
     /**
@@ -75,6 +77,11 @@ class ExpensesController extends Controller
      */
     public function destroy(Expense $expense)
     {
-        //
+        try {
+            $this->expensesService->deleteExpense($expense->idegreso);
+            return redirect()->route('expenses.index')->with('success', 'Expense deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('expenses.index')->with('error', 'Failed to delete expense: ' . $e->getMessage());
+        }
     }
 }
