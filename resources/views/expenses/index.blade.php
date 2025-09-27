@@ -12,7 +12,8 @@
                 <div class="bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 p-6 lg:p-8">
 
                     <div class="flex items-center justify-center">
-                        <a href="{{ route('expenses.create') }}" class="bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded">
+                        <a href="{{ route('expenses.create') }}"
+                            class="bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded">
                             Add expense
                         </a>
                     </div>
@@ -38,6 +39,9 @@
                                 <th>
                                     Date
                                 </th>
+                                <th>
+                                    Actions
+                                </th>
                             </tr>
                         </thead>
 
@@ -53,6 +57,22 @@
                                         </td>
                                         <td>
                                             {{ $expense['fecha'] }}
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('expenses.edit', $expense['id']) }}"
+                                                class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded">
+                                                Edit
+                                            </a>
+                                            <form action="{{ route('expenses.destroy', $expense['id']) }}" method="POST"
+                                                style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
+                                                    onclick="return confirm('Are you sure you want to delete this expense?');">
+                                                    Delete
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endif

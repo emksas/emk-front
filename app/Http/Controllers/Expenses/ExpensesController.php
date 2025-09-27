@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Expenses;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreExpenseRequest;
 use App\Models\Expense;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -13,15 +14,16 @@ class ExpensesController extends Controller
 {
 
 
+    public function __construct(private ExpensesService $expensesService)
+    {
+    }
 
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-
-        $expensesService = new ExpensesService();
-        $expenses = $expensesService->getAllExpenses();
+        $expenses = $this->expensesService->getAllExpenses();
         $error = null;
 
         return view('expenses.index', compact('expenses', 'error'));
@@ -38,9 +40,10 @@ class ExpensesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreExpenseRequest $request)
     {
-        //
+        $this->expensesService->createExpense($request);
+        return redirect()->route('expenses.index')->with('success', 'Expense created successfully.');
     }
 
     /**

@@ -11,18 +11,19 @@
                 <div class="py-8">
                     <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
                         <div class="bg-white p-6 shadow sm:rounded-lg">
-                            <form action="{{ route('expenses.store') }}" method="POST" class="space-y-6">
+                            <form action="{{ route('expenses.update', $employee) }}" method="POST" class="space-y-6">
                                 @csrf
+                                @method('PUT')
+
                                 @include('expenses._form', [
-                                    'expense' => null
+                                    'employee' => $employee,
+                                    'jobs' => $jobs,
+                                    'depts' => $depts,
+                                    'managers' => $managers,
                                 ])
 
                                 <div class="pt-4 flex gap-3">
-                                    <button type="submit">
-                                        Guardar
-                                    </button>
-                                </div>
-                                <div class="pt-4 flex gap-3">
+                                    <button class="px-4 py-2 bg-blue-600 text-white rounded">Actualizar</button>
                                     <a href="{{ route('employee.index') }}"
                                         class="px-4 py-2 border rounded">Cancelar</a>
                                 </div>

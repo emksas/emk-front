@@ -2,13 +2,16 @@
 
 namespace App\Services;
 
+use App\Http\Requests\StoreExpenseRequest;
 use App\Models\Expense;
 use Illuminate\Support\Facades\Http;
 
-class ExpensesService{
+class ExpensesService
+{
 
 
-    public function fetchExpenses(){
+    public function fetchExpenses()
+    {
         $expenses = [];
 
         try {
@@ -29,12 +32,21 @@ class ExpensesService{
     }
 
 
-    public function createExpense($data){
-        return Expense::create($data);
+    public function createExpense( StoreExpenseRequest $data)
+    {
+        $isValidated = $data->validated();
+        print_r($isValidated);
+        if (!$isValidated) {
+            throw new \InvalidArgumentException('Invalid data provided for creating an expense.');
+        } else {
+            return Expense::create($isValidated);
+        }
+
     }
 
 
-    public function getAllExpenses(){
+    public function getAllExpenses()
+    {
         return Expense::all()->toArray();
     }
 
