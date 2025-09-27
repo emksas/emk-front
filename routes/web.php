@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Employee\EmployeeController;
+use App\Http\Controllers\Expenses\ExpensesController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -15,3 +17,11 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])
+    ->resource('employee', EmployeeController::class) 
+    ->names('employee');
+
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])
+    ->resource('expenses', ExpensesController::class) 
+    ->names('expenses');
