@@ -1,21 +1,25 @@
-<div class="bg-gray-200 bg-opacity-25 grid grid-cols-2 gap-6 lg:gap-8 p-6 lg:p-8">
+<div class="grid grid-cols-2 gap-2">
 
-    <div class="flex items-center">
+    <div class="bg-gray-200 bg-opacity-25 flex items-center">
         <h2 class="ms-3 text-xl font-semibold text-gray-900">
             <a href="https://laravel.com/docs">Expenses Month</a>
         </h2>
         <p> 0 </p>
     </div>
 
-    <div class="flex items-center">
+    <div class="bg-gray-200 bg-opacity-25 flex items-center">
         <h2 class="ms-3 text-xl font-semibold text-gray-900">
             <a href="https://laravel.com/docs">Total Expenses</a>
         </h2>
         <p> 0 </p>
     </div>
 
+</div>
 
-    <!--
+
+
+
+  <!--
     <div>
         
 
@@ -89,5 +93,3 @@
         </p>
     </div>
 -->
-
-</div>

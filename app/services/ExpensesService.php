@@ -5,7 +5,8 @@ namespace App\Services;
 use App\Http\Requests\StoreExpenseRequest;
 use App\Models\Expense;
 use Illuminate\Support\Facades\Http;
-
+use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 class ExpensesService
 {
 
@@ -42,6 +43,52 @@ class ExpensesService
             return Expense::create($isValidated);
         }
 
+    }
+
+    public function fromMail()
+    {
+        $expensesFromMail = $this->fetchExpenses();
+        foreach ($expensesFromMail as $expenseData) {
+            if ($expenseData['paymentMethod'] != null) {
+
+                $date = Carbon::parse($expenseData['transactionDate']);
+                $data = [
+                    'valor' => $expenseData['amount'],
+                    'descripcion' => $expenseData['merchant'],
+                    'fecha' => $date->format('Y-m-d H:i:s'),
+                    'estado' => 'pay',
+                    'idPlanificacion' => 1,
+                    'cuentaContable_id' => 1,
+                ];
+
+                $rules = [
+                    'valor' => ['required'],
+                    'descripcion' => ['required', 'string', 'max:255'],
+                    'fecha' => ['required'], // si viene en otro formato, ver abajo
+                    'estado' => ['sometimes', 'string'],
+                    'idPlanificacion' => ['sometimes', 'integer'],
+                    'cuentaContable_id' => ['sometimes', 'integer'],
+                ];
+                $validated = Validator::make($data, $rules)->validate();
+                Expense::create($validated);
+
+            }
+        }
+    }
+
+    public function getMonthlyExpenses($month, $year)
+    {
+        return Expense::whereMonth('fecha', $month)
+            ->whereYear('fecha', $year)
+            ->get()
+            ->toArray();
+    }
+
+    public function getSumOfExpensesByMonth($month, $year)
+    {
+        return Expense::whereMonth('fecha', $month)
+            ->whereYear('fecha', $year)
+            ->sum('valor');
     }
 
 
