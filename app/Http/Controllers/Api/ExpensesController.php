@@ -24,6 +24,29 @@ class ExpensesController extends Controller
         return response()->json(['numberOfExpenses' => $numberOfExpenses, 'sum' => $sumOfExpenses, 'data' => $expenses], 200);
     }
 
+    public function createExpense(Request $request)
+    {
+        $expensesService = app(\App\Services\ExpensesService::class);
+        try {
+            $expense = $expensesService->createExpense($request);
+            return response()->json(['data' => $expense], 201);
+        } catch (\InvalidArgumentException $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'An error occurred while creating the expense.'], 500);
+        }
+    }
+
+    public function fetchExpensesFromMail()
+    {
+        $expensesService = app(\App\Services\ExpensesService::class);
+        $result = $expensesService->fromMail();
+        if ($result === false) {
+            return response()->json(['error' => 'Failed to fetch expenses from mail.'], 500);
+        }
+        return response()->json(['message' => 'Expenses fetched and stored successfully.'], 200);
+    }
+
 }
 
 

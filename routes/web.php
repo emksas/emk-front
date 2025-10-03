@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Employee\EmployeeController;
 use App\Http\Controllers\Expenses\ExpensesController;
+use App\Http\Controllers\AccountingAccount\AccountingAccountController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -28,3 +29,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     })
     ->resource('expenses', ExpensesController::class) 
     ->names('expenses');
+
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])
+    ->resource('accountingAccount', AccountingAccountController::class) 
+    ->names('accountingAccount');
