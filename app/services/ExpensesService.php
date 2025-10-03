@@ -7,6 +7,7 @@ use App\Models\Expense;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 class ExpensesService
 {
 
@@ -80,6 +81,18 @@ class ExpensesService
     {
         return Expense::whereMonth('fecha', $month)
             ->whereYear('fecha', $year)
+            ->get()
+            ->toArray();
+    }
+
+    public function getMonthlyExpensesByAccount($month, $year)
+    {
+        return Expense::join('cuentacontable as cc', 'cc.id', '=', 'egreso.cuentaContable_id')
+            ->whereYear('egreso.fecha', $year)
+            ->whereMonth('egreso.fecha', $month)
+            ->groupBy('cc.id', 'cc.descripcion')
+            ->select('cc.id as cuenta_id', 'cc.descripcion', DB::raw('SUM(egreso.valor) as total'))
+            ->orderByDesc('total')
             ->get()
             ->toArray();
     }

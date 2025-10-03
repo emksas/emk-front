@@ -3,6 +3,7 @@
 use App\Http\Controllers\Employee\EmployeeController;
 use App\Http\Controllers\Expenses\ExpensesController;
 use App\Http\Controllers\AccountingAccount\AccountingAccountController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -14,9 +15,7 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
 });
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])
