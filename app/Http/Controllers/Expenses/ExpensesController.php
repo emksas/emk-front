@@ -59,7 +59,6 @@ class ExpensesController extends Controller
      */
     public function edit(Expense $expense)
     {
-        print_r($expense);
         $accountingAccounts = $this->accountingAccountService->getAllAccountingAccounts();
         return view('expenses.edit', ['expense' => $expense, 'accountingAccounts' => $accountingAccounts]);
     }
