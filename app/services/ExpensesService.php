@@ -114,6 +114,23 @@ class ExpensesService
     {
         return $expense->delete();
     }
+
+    public function getYersAvailables( ){
+        return Expense::selectRaw('YEAR(fecha) as year')
+            ->distinct()
+            ->orderBy('year', 'desc')
+            ->pluck('year')
+            ->toArray();
+    }
+
+    public function getMonthsAvailables( $year ){
+        return Expense::selectRaw('MONTH(fecha) as month')
+            ->whereYear('fecha', intval($year))
+            ->distinct()
+            ->orderBy('month', 'desc')
+            ->pluck('month');
+    }
+
 }
 
 
