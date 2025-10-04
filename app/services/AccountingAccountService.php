@@ -2,24 +2,20 @@
 
 namespace App\Services;
 
+use App\Http\Requests\UpdateAccountingAccountRequest;
 use App\Models\AccountingAccount;
-use Symfony\Component\HttpFoundation\AcceptHeaderItem;
+use Illuminate\Support\Facades\Auth;
 
 class AccountingAccountService
 {
     public function getAllAccountingAccounts()
     {
-        return AccountingAccount::all()->toArray();
+        return AccountingAccount::all()->where('userId', Auth::id())->toArray();
     }
 
     public function createAccountingAccount($request)
     {
         AccountingAccount::create($request->validated());
-    }
-
-    public function updateAccountingAccount($request, AccountingAccount $accountingAccount)
-    {
-        $accountingAccount->update($request->validated());
     }
 
     public function deleteAccountingAccount(AccountingAccount $accountingAccount)

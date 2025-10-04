@@ -2,21 +2,21 @@
 
 <div class="grid grid-cols-2 gap-2">
 
-    <div class="bg-white rounded-2xl shadow p-6 border flex flex-col items-center text-center">
-        <h2 class="text-xl font-semibold text-gray-900">
+    <div class="bg-white rounded-2xl shadow p-6 border flex flex-col items-center text-center m-2">
+        <h2 class="text-xl font-semibold text-gray-900 ">
             Expenses Month
         </h2>
         <p class="mt-2 text-3xl font-bold text-gray-700"> {{ $dashboardData['totalExpenses'] }} </p>
     </div>
 
-    <div class="bg-white rounded-2xl shadow p-6 border flex flex-col items-center text-center">
-        <h2 class="text-xl font-semibold text-gray-900">
+    <div class="bg-white rounded-2xl shadow p-6 border flex flex-col items-center text-center m-2">
+        <h2 class="text-xl font-semibold text-gray-900 mt-2">
             Total Expenses
         </h2>
         <p class="mt-2 text-3xl font-bold text-gray-700"> {{ $dashboardData['numberOfExpenses'] }} </p>
     </div>
 
-    <div class="bg-white rounded-2xl shadow p-6 border flex flex-col items-center text-center">
+    <div class="bg-white rounded-2xl shadow p-6 border flex flex-col items-center text-center m-2">
         <h2 class="text-xl font-semibold text-gray-900">
             Expenses By Account
         </h2>
@@ -51,7 +51,7 @@
         </div>
     </div>
 
-    <div class="bg-white rounded-2xl shadow p-6 border flex flex-col items-center text-center">
+    <div class="bg-white rounded-2xl shadow p-6 border flex flex-col items-center text-center m-2">
         <h2 class="text-xl font-semibold text-gray-900">
             Expenses By Account
         </h2>
@@ -60,9 +60,7 @@
         </div>
     </div>
 
-    <br>
-
-    <div class="col-span-2  p-6 lg:p-8 bg-white border-b border-gray-200">
+    <div class="col-span-2  p-6 lg:p-8 bg-white border-b border-gray-200 m-2">
         <table id="expenses" class="display" style="width:100%">
             <thead>
                 <tr>

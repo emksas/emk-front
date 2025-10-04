@@ -11,12 +11,12 @@
                 <div class="py-8">
                     <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
                         <div class="bg-white p-6 shadow sm:rounded-lg">
-                            <form action="{{ route('accountingAccount.update', $expense) }}" method="POST" class="space-y-6">
+                            <form action="{{ route('accountingAccount.update', $accountingAccount) }}" method="POST" class="space-y-6">
                                 @csrf
                                 @method('PUT')
 
                                 @include('accountingAccount._form', [
-                                    'accountingAccount' => $expense,
+                                    'accountingAccount' => $accountingAccount,
                                 ])
                                 
                                 <div class="pt-4 flex gap-3">

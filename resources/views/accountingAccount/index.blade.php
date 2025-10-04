@@ -50,14 +50,14 @@
                                         {{ $accountingAccount['descripcion'] }}
                                     </td>
                                     <td>
-                                        {{ $accountingAccount['usuario_cedula'] }}
+                                        {{ $accountingAccount['userId'] }}
                                     </td>
                                     <td>
-                                        <a href="{{ route('expenses.edit', $accountingAccount['id']) }}"
+                                        <a href="{{ route('accountingAccount.edit', $accountingAccount['id']) }}"
                                             class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded">
                                             Edit
                                         </a>
-                                        <form action="{{ route('expenses.destroy', $accountingAccount['id']) }}"
+                                        <form action="{{ route('accountingAccount.destroy', $accountingAccount['id']) }}"
                                             method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')

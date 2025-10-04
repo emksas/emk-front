@@ -15,7 +15,7 @@ class StoreAccountingAccountRequest extends FormRequest
     {
         return [
             'descripcion' => 'required|string|max:255',
-            'usuario_cedula' => 'required|string|max:20',
+            'userId' => 'required',
         ];
     }
 
@@ -25,9 +25,7 @@ class StoreAccountingAccountRequest extends FormRequest
             'descripcion.required' => 'El campo descripción es obligatorio.',
             'descripcion.string' => 'El campo descripción debe ser una cadena de texto.',
             'descripcion.max' => 'El campo descripción no debe exceder los 255 caracteres.',
-            'usuario_cedula.required' => 'El campo usuario_cedula es obligatorio.',
-            'usuario_cedula.string' => 'El campo usuario_cedula debe ser una cadena de texto.',
-            'usuario_cedula.max' => 'El campo usuario_cedula no debe exceder los 20 caracteres.',
+            'userId.required' => 'El campo usuario_cedula es obligatorio.',
         ];
     }
 

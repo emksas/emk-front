@@ -4,6 +4,7 @@ namespace App\Http\Controllers\AccountingAccount;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAccountingAccountRequest;
+use App\Http\Requests\UpdateAccountingAccountRequest;
 use App\Models\AccountingAccount;
 use Illuminate\Http\Request;
 use App\Services\AccountingAccountService;
@@ -12,7 +13,7 @@ class AccountingAccountController extends Controller
 {
 
 
-    public function __construct( private AccountingAccountService $accountingAccountService)
+    public function __construct(private AccountingAccountService $accountingAccountService)
     {
         //
     }
@@ -64,7 +65,7 @@ class AccountingAccountController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, AccountingAccount $accountingAccount)
+    public function update(UpdateAccountingAccountRequest $request, AccountingAccount $accountingAccount)
     {
         $accountingAccount->update($request->validated());
         return redirect()->route('accountingAccount.index')->with('success', 'Accounting Account updated');

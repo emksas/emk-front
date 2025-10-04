@@ -11,8 +11,7 @@ class AccountingAccount extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'id',
         'descripcion',
-        'usuario_cedula'
+        'userId'
     ];
 }
