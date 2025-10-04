@@ -6,12 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreExpenseRequest;
 use App\Http\Requests\UpdateExpenseRequest;
 use App\Models\Expense;
+use App\Services\AccountingAccountService;
 use App\Services\ExpensesService;
 
 class ExpensesController extends Controller
 {
-    public function __construct(private ExpensesService $expensesService)
-    {
+    public function __construct(
+        private ExpensesService $expensesService,
+        private AccountingAccountService $accountingAccountService
+    ) {
     }
 
     /**
@@ -30,7 +33,8 @@ class ExpensesController extends Controller
      */
     public function create()
     {
-        return view('expenses.create');
+        $accountingAccounts = $this->accountingAccountService->getAllAccountingAccounts();
+        return view('expenses.create', ['accountingAccounts' => $accountingAccounts]);
     }
 
     /**
@@ -55,7 +59,9 @@ class ExpensesController extends Controller
      */
     public function edit(Expense $expense)
     {
-        return view('expenses.edit', ['expense' => $expense]);
+        print_r($expense);
+        $accountingAccounts = $this->accountingAccountService->getAllAccountingAccounts();
+        return view('expenses.edit', ['expense' => $expense, 'accountingAccounts' => $accountingAccounts]);
     }
 
     /**

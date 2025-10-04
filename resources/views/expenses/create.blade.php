@@ -14,7 +14,8 @@
                             <form action="{{ route('expenses.store') }}" method="POST" class="space-y-6">
                                 @csrf
                                 @include('expenses._form', [
-                                    'expense' => null
+                                    'expense' => null, 
+                                    'accountingAccounts' => $accountingAccounts
                                 ])
 
                                 <div class="flex justify-center items-center gap-2">

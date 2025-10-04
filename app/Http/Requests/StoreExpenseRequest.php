@@ -27,7 +27,7 @@ class StoreExpenseRequest extends FormRequest
             'fecha' => 'required|date',
             'estado' => 'nullable|string',
             'idPlanificacion' => 'nullable|integer',
-            'cuentaContable_id' => 'nullable|integer',
+            'cuentaContable_id' => 'required',
         ];
     }
 
@@ -52,6 +52,7 @@ class StoreExpenseRequest extends FormRequest
             'descripcion.max' => 'El campo descripción no debe exceder los 255 caracteres.',
             'fecha.required' => 'El campo fecha es obligatorio.',
             'fecha.date' => 'El campo fecha debe ser una fecha válida.',
+            'cuentaContable_id.required' => 'El campo cuenta contable es obligatorio.',
         ];
     }
 }

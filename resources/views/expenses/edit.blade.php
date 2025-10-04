@@ -17,6 +17,7 @@
 
                                 @include('expenses._form', [
                                     'expense' => $expense,
+                                    'accountingAccounts' => $accountingAccounts
                                 ])
                                 
                                 <div class="pt-4 flex gap-3">

@@ -16,7 +16,6 @@
         </h2>
         <div class="sm:ml-auto flex items-center gap-2">
             <form method="GET" action="{{ route('dashboard') }}" class="flex gap-2">
-                @csrf
                 <select id="selYear" name="year" class="border rounded px-2 py-1 text-sm min-w-32">
                     <option value="">{{ $actualYear }}</option>
                 </select>
