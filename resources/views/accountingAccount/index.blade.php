@@ -3,24 +3,20 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Accounting Account') }}
         </h2>
+
+        <div class="sm:ml-auto flex items-center gap-2">
+            <a href="{{ route('accountingAccount.create') }}" class="inline-flex items-center gap-2 rounded-lg border border-blue-600
+         bg-transparent px-4 py-2 text-sm font-medium text-blue-600
+         hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-600/40
+         disabled:opacity-50 disabled:pointer-events-none">
+                Add Accounting Account
+            </a>
+        </div>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-
-                <div class="bg-gray-200 bg-opacity-25 grid grid-cols-1 gap-6 lg:gap-8 p-6 lg:p-8">
-
-                    <div class="flex items-center justify-center">
-                        <a href="{{ route('accountingAccount.create') }}"
-                            class="bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded">
-                            Add Accounting Account
-                        </a>
-                    </div>
-                </div>
-
-                <hr>
-
                 <div class="p-6 lg:p-8 bg-white border-b border-gray-200">
                     <table id="accountingAccount" class="display" style="width:100%">
                         <thead>
@@ -30,9 +26,6 @@
                                 </th>
                                 <th>
                                     Description
-                                </th>
-                                <th>
-                                    User Id
                                 </th>
                                 <th>
                                     Actions
@@ -49,32 +42,35 @@
                                     <td>
                                         {{ $accountingAccount['descripcion'] }}
                                     </td>
-                                    <td>
-                                        {{ $accountingAccount['userId'] }}
-                                    </td>
-                                    <td>
-                                        <a href="{{ route('accountingAccount.edit', $accountingAccount['id']) }}"
-                                            class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded">
-                                            Edit
-                                        </a>
-                                        <form action="{{ route('accountingAccount.destroy', $accountingAccount['id']) }}"
-                                            method="POST" style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                class="bg-red-500 hover:bg-red-700 text-red font-bold py-1 px-2 rounded"
-                                                onclick="return confirm('Are you sure you want to delete this expense?');">
-                                                Delete
-                                            </button>
-                                        </form>
+                                    <td class="px-4 py-2">
+                                        <div class="flex justify-center items-center gap-2">
+                                            <a href="{{ route('accountingAccount.edit', $accountingAccount['id']) }}"
+                                                class="inline-flex items-center gap-2 rounded-lg border border-yellow-600
+                                             bg-transparent px-4 py-2 text-sm font-medium text-yellow-600
+                                             hover:bg-yellow-50 focus:outline-none focus:ring-2 focus:ring-yellow-600/40
+                                             disabled:opacity-50 disabled:pointer-events-none">
+                                                Edit
+                                            </a>
+
+                                            <form action="{{ route('accountingAccount.destroy', $accountingAccount['id']) }}"
+                                                method="POST" onsubmit="return confirm('Are you sure you want to delete this accounting account?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    class="inline-flex items-center gap-2 rounded-lg border border-red-600
+                                             bg-transparent px-4 py-2 text-sm font-medium text-red-600
+                                             hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-600/40
+                                             disabled:opacity-50 disabled:pointer-events-none">
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
-
-
             </div>
         </div>
     </div>
