@@ -16,7 +16,10 @@
 <body>
 
     <header>
-        <a href="{{ route('login') }}">Iniciar sesión</a>
+        <a href="{{ route('login') }}">Login</a>
+        <br>
+        <a href="{{ route('register') }}">Create new user</a>
+
     </header>
 
 </body>
