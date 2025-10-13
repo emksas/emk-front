@@ -17,6 +17,6 @@ class Expense extends Model
         'fecha',
         'estado', 
         'idPlanificacion', 
-        'cuentaContable_id'
+        'cuentacontable_id'
     ]; 
 }

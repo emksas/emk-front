@@ -59,7 +59,7 @@ class ExpensesService
                     'fecha' => $date->format('Y-m-d H:i:s'),
                     'estado' => 'pay',
                     'idPlanificacion' => 1,
-                    'cuentaContable_id' => 1,
+                    'cuentacontable_id' => 1,
                 ];
 
                 $rules = [
@@ -68,7 +68,7 @@ class ExpensesService
                     'fecha' => ['required'], // si viene en otro formato, ver abajo
                     'estado' => ['sometimes', 'string'],
                     'idPlanificacion' => ['sometimes', 'integer'],
-                    'cuentaContable_id' => ['sometimes', 'integer'],
+                    'cuentacontable_id' => ['sometimes', 'integer'],
                 ];
                 $validated = Validator::make($data, $rules)->validate();
                 Expense::create($validated);
@@ -87,7 +87,7 @@ class ExpensesService
 
     public function getMonthlyExpensesByAccount($month, $year)
     {
-        return Expense::join('cuentacontable as cc', 'cc.id', '=', 'egreso.cuentaContable_id')
+        return Expense::join('cuentacontable as cc', 'cc.id', '=', 'egreso.cuentacontable_id')
             ->whereYear('egreso.fecha', $year)
             ->whereMonth('egreso.fecha', $month)
             ->groupBy('cc.id', 'cc.descripcion')

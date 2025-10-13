@@ -27,7 +27,7 @@ class UpdateExpenseRequest extends FormRequest
             'fecha' => 'required|date',
             'estado' => 'nullable|string',
             'idPlanificacion' => 'nullable|integer',
-            'cuentaContable_id' => 'nullable|integer',
+            'cuentacontable_id' => 'nullable|integer',
         ];
     }
 
@@ -36,7 +36,7 @@ class UpdateExpenseRequest extends FormRequest
         $this->merge([
             'estado' => $this->input('estado', 'pay'),
             'idPlanificacion' => $this->input('idPlanificacion', 1),
-            'cuentaContable_id' => $this->input('cuentaContable_id', 1),
+            'cuentacontable_id' => $this->input('cuentacontable_id', 1),
         ]);
 
     }

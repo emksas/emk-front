@@ -36,15 +36,15 @@
 
         <div>
             <label class="block text-sm font-medium mb-1">Accounting Account*</label>
-            <select id="accountingAccount" name="cuentaContable_id" class="w-full border rounded px-3 py-2" required>
+            <select id="accountingAccount" name="cuentacontable_id" class="w-full border rounded px-3 py-2" required>
                 @foreach ($accountingAccounts as $accountingAccount)
-                    <option value="{{ $accountingAccount['id'] }}" {{ (isset($expense) && $expense['cuentaContable_id'] == $accountingAccount['id']) ? 'selected' : '' }}>
+                    <option value="{{ $accountingAccount['id'] }}" {{ (isset($expense) && $expense['cuentacontable_id'] == $accountingAccount['id']) ? 'selected' : '' }}>
                         {{ $accountingAccount['descripcion'] }}
                     </option>
 
                 @endforeach
             </select>
-            @error('cuentaContable_id')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
+            @error('cuentacontable_id')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
 
         </div>
     </div>

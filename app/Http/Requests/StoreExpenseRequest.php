@@ -27,7 +27,7 @@ class StoreExpenseRequest extends FormRequest
             'fecha' => 'required|date',
             'estado' => 'nullable|string',
             'idPlanificacion' => 'nullable|integer',
-            'cuentaContable_id' => 'required',
+            'cuentacontable_id' => 'required',
         ];
     }
 
@@ -37,7 +37,7 @@ class StoreExpenseRequest extends FormRequest
         $this->merge([
             'estado' => $this->input('estado', 'pay'),
             'idPlanificacion' => $this->input('idPlanificacion', 1),
-            'cuentaContable_id' => $this->input('cuentaContable_id', 1),
+            'cuentacontable_id' => $this->input('cuentaContable_id', 1),
         ]);
 
     }
@@ -52,7 +52,7 @@ class StoreExpenseRequest extends FormRequest
             'descripcion.max' => 'El campo descripción no debe exceder los 255 caracteres.',
             'fecha.required' => 'El campo fecha es obligatorio.',
             'fecha.date' => 'El campo fecha debe ser una fecha válida.',
-            'cuentaContable_id.required' => 'El campo cuenta contable es obligatorio.',
+            'cuentacontable_id.required' => 'El campo cuenta contable es obligatorio.',
         ];
     }
 }
