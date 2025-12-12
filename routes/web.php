@@ -5,10 +5,14 @@ use App\Http\Controllers\Expenses\ExpensesController;
 use App\Http\Controllers\AccountingAccount\AccountingAccountController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FinancialPlanningController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::middleware('auth')->get('/financial-planning', [FinancialPlanningController::class, 'viewPage'])
+    ->name('financial-planning.page');
 
 Route::middleware([
     'auth:sanctum',

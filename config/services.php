@@ -31,4 +31,9 @@ return [
         ],
     ],
 
+    'spring_financial' => [
+        'base_url' => env('SPRING_FINANCIAL_BASE_URL', 'http://localhost:8080/api'),
+    ],
+
+
 ];
