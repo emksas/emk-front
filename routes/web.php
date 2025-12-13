@@ -4,6 +4,7 @@ use App\Http\Controllers\Employee\EmployeeController;
 use App\Http\Controllers\Expenses\ExpensesController;
 use App\Http\Controllers\AccountingAccount\AccountingAccountController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PlannedOperationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FinancialPlanningController;
 
@@ -11,8 +12,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+/*
 Route::middleware('auth')->get('/financial-planning', [FinancialPlanningController::class, 'viewPage'])
     ->name('financial-planning.page');
+*/
 
 Route::middleware([
     'auth:sanctum',
@@ -41,3 +44,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])
     ->resource('accountingAccount', AccountingAccountController::class)
     ->names('accountingAccount');
+
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])
+    ->resource('financial-planning', FinancialPlanningController::class)
+    ->names('financial-planning');
+
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])
+    ->resource('planning-operation', PlannedOperationController::class)
+    ->names('planning-operation');

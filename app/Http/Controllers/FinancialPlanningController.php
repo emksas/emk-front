@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Http;
 class FinancialPlanningController extends Controller
 {
 
-    public function viewPage(Request $request)
+    public function index(Request $request)
     {
         $user = $request->user();
 
@@ -38,5 +38,43 @@ class FinancialPlanningController extends Controller
             'financialPlannings' => $financialPlannings
         ]);
 
+    }
+
+    public function showCreateForm()
+    {
+        return view('financial-planning.create');
+    }
+
+
+    public function showUpdateForm($planId)
+    {
+        $user = auth()->user();
+        $baseUrl = config('services.spring_financial.base_url');
+
+        $response = Http::get($baseUrl . '/api/financial-planning/plan/' . $planId . '/user/' . $user->id);
+
+        if ($response->failed()) {
+            return redirect()->route('financial-planning.index')->with('error', 'Error fetching data from financial planning service');
+        }
+
+        $financialPlanning = $response->json();
+
+        return view('financial-planning.update', [
+            'financialPlanning' => $financialPlanning
+        ]);
+    }
+
+    public function deletePlan($planId)
+    {
+        $user = auth()->user();
+        $baseUrl = config('services.spring_financial.base_url');
+
+        $response = Http::delete($baseUrl . '/api/financial-planning/plan/' . $planId . '/user/' . $user->id);
+
+        if ($response->failed()) {
+            return redirect()->route('financial-planning.index')->with('error', 'Error deleting plan from financial planning service');
+        }
+
+        return redirect()->route('financial-planning.index')->with('success', 'Financial plan deleted successfully.');
     }
 }
