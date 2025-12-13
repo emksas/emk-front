@@ -7,31 +7,16 @@ use Illuminate\Support\Facades\Http;
 
 class FinancialPlanningController extends Controller
 {
-    // Este es el que ya teníamos tipo API (opcional)
-    public function index(Request $request)
-    {
-        $user = $request->user();
-        $baseUrl = config('services.spring_financial.base_url');
 
-        $response = Http::get($baseUrl . '/financial-planning/' . $user->id);
-
-        if ($response->failed()) {
-            return response()->json([
-                'message' => 'Error fetching data from financial planning service',
-                'spring_status' => $response->status(),
-            ], 500);
-        }
-
-        return response()->json($response->json(), 200);
-    }
-
-    // 🔹 Este es el nuevo: devuelve una VISTA Blade
     public function viewPage(Request $request)
     {
         $user = $request->user();
+
         $baseUrl = config('services.spring_financial.base_url');
 
-        $response = Http::get($baseUrl . '/financial-planning/status' );
+        $response = Http::get($baseUrl . '/api/financial-planning/user/' . $user->id);
+
+        $financialPlannings = $response->json();
 
         if ($response->failed()) {
             return view('financial-planning.index', [
@@ -40,8 +25,17 @@ class FinancialPlanningController extends Controller
             ]);
         }
 
+        foreach ($financialPlannings as $key => $financialPlanning) {
+            $operationsResponse = Http::get($baseUrl . '/api/planned-operations/user/' . $user->id . '/plan/' . $financialPlanning['planId']);
+            if ($operationsResponse->successful()) {
+                $financialPlannings[$key]['operations'] = $operationsResponse->json();
+            } else {
+                $financialPlannings[$key]['operations'] = [];
+            }
+        }
+
         return view('financial-planning.index', [
-            'response' => $response->json()
+            'financialPlannings' => $financialPlannings
         ]);
 
     }
