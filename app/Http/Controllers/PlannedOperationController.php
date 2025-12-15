@@ -25,8 +25,9 @@ class PlannedOperationController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create() 
     {
+
         $accountingAccounts = $this->accountingAccountService->getAllAccountingAccounts();
 
         if (empty($accountingAccounts)) {
@@ -36,6 +37,21 @@ class PlannedOperationController extends Controller
             return view('plannedOperation.create', ['accountingAccounts' => $accountingAccounts]);
         }
 
+    }
+
+
+    public function createPlannedOperation(string $planId)
+    {
+        $accountingAccounts = $this->accountingAccountService->getAllAccountingAccounts();
+        if (empty($accountingAccounts)) {
+            return redirect()->route('accountingAccount.create')
+                ->with('error', 'Please create an accounting account before adding a planned operation.');
+        } else {
+            return view('plannedOperation.create', [
+                'accountingAccounts' => $accountingAccounts,
+                'planId' => $planId
+            ]);
+        }
     }
 
     /**

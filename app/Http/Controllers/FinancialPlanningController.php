@@ -40,7 +40,7 @@ class FinancialPlanningController extends Controller
 
     }
 
-    public function showCreateForm()
+    public function create()
     {
         return view('financial-planning.create');
     }
@@ -53,9 +53,11 @@ class FinancialPlanningController extends Controller
 
         $response = Http::get($baseUrl . '/api/financial-planning/plan/' . $planId . '/user/' . $user->id);
 
+        /*
         if ($response->failed()) {
             return redirect()->route('financial-planning.index')->with('error', 'Error fetching data from financial planning service');
         }
+        */
 
         $financialPlanning = $response->json();
 
