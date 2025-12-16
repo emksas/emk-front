@@ -11,12 +11,12 @@
                 <div class="py-8">
                     <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
                         <div class="bg-white p-6 shadow sm:rounded-lg">
-                            <form action="{{ route('expenses.update', $expense) }}" method="POST" class="space-y-6">
+                            <form action="{{ route('planning-operation.update', [ 'transactionId' => $plannedOperation['id'], 'planningId' => $plannedOperation['planificationId'] ]) }}" method="POST" class="space-y-6">
                                 @csrf
                                 @method('PUT')
 
-                                @include('expenses._form', [
-                                    'expense' => $expense,
+                                @include('plannedOperation._form', [
+                                    'expense' => $plannedOperation,
                                     'accountingAccounts' => $accountingAccounts
                                 ])
                                 

@@ -37,6 +37,21 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])
     ->group(function () {
         Route::get('/expenses/from-mail', [ExpensesController::class, 'getExpensesFromMail'])->name('expenses.fromMail');
+
+        Route::get('/planning-operation/create/{planId}', [PlannedOperationController::class, 'create'])
+            ->name('planning-operation.create');
+
+        Route::post('/planning-operation/{planId}', [PlannedOperationController::class, 'store'])
+            ->name('planning-operation.store');
+
+        Route::get('/planning-operation/planification/{planningId}/transaction/{transactionId}', [PlannedOperationController::class, 'edit'])
+            ->name('planning-operation.edit');
+
+        Route::put('/planning-operation/planification/{planningId}/transaction/{transactionId}', [PlannedOperationController::class, 'update'])
+            ->name('planning-operation.update');
+
+        Route::delete('/planning-operation/planification/{planningId}/transaction/{transactionId}', [PlannedOperationController::class, 'destroy'])
+            ->name('planning-operation.destroy');
     })
     ->resource('expenses', ExpensesController::class)
     ->names('expenses');
@@ -48,7 +63,3 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])
     ->resource('financial-planning', FinancialPlanningController::class)
     ->names('financial-planning');
-
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])
-    ->resource('planning-operation', PlannedOperationController::class)
-    ->names('planning-operation');

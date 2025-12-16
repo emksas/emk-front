@@ -55,7 +55,7 @@
                                         {{ $financialPlanning['description'] }}
                                     </p>
 
-                                    <a href="{{ route('planning-operation.create', ['planningId' => $financialPlanning['planId'] ]) }}" class="inline-flex items-center gap-2 rounded-lg border border-blue-600
+                                    <a href="{{ route('planning-operation.create', ['planId' => $financialPlanning['planId'] ]) }}" class="inline-flex items-center gap-2 rounded-lg border border-blue-600
                                      bg-transparent px-4 py-2 text-sm font-medium text-blue-600
                                      hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-600/40
                                      disabled:opacity-50 disabled:pointer-events-none">
@@ -70,13 +70,16 @@
                                         <thead>
                                             <tr>
                                                 <th>
+                                                    Description
+                                                </th>
+                                                <th>
+                                                    Projected Value
+                                                </th>
+                                                <th>
                                                     Amount
                                                 </th>
                                                 <th>
-                                                    Merchant
-                                                </th>
-                                                <th>
-                                                    Date
+                                                    Total Projected Value
                                                 </th>
                                                 <th>
                                                     Actions
@@ -86,26 +89,29 @@
 
                                         <tbody>
                                             @foreach ($financialPlanning['operations'] as $planningExpense)
-                                                @if ($planningExpense['descripcion'] != null)
+                                                @if ($planningExpense['description'] != null)
                                                     <tr>
                                                         <td>
-                                                            {{ $planningExpense['valor'] }}
+                                                            {{ $planningExpense['description'] }}
                                                         </td>
                                                         <td>
-                                                            {{ $planningExpense['descripcion'] }}
+                                                            {{ $planningExpense['projectedValue'] }}
                                                         </td>
                                                         <td>
-                                                            {{ $planningExpense['fecha'] }}
+                                                            {{ $planningExpense['amount'] }}
+                                                        </td>
+                                                        <td>
+                                                            {{ $planningExpense['totalProjectedValue'] }}
                                                         </td>
                                                         <td class="px-4 py-2">
                                                             <div class="flex justify-center items-center gap-2">
-                                                                <a href="{{ route('planning-operation.edit', [ 'id' => $planningExpense['id'], 'planId' => $financialPlanning['idplanificacionfinanciera'] ]) }}" class="inline-flex items-center gap-2 rounded-lg border border-yellow-600
+                                                                <a href="{{ route('planning-operation.edit', [ 'transactionId' => $planningExpense['id'], 'planningId' => $planningExpense['planificationId'] ]) }}" class="inline-flex items-center gap-2 rounded-lg border border-yellow-600
                                                          bg-transparent px-4 py-2 text-sm font-medium text-yellow-600
                                                          hover:bg-yellow-50 focus:outline-none focus:ring-2 focus:ring-yellow-600/40
                                                          disabled:opacity-50 disabled:pointer-events-none">
                                                                     Edit
                                                                 </a>
-                                                                <form action="{{ route('financial-planning.destroy',  [ 'id' => $planningExpense['id'], 'planId' => $financialPlanning['idplanificacionfinanciera'] ] ) }}"
+                                                                <form action="{{ route('planning-operation.destroy',  [ 'transactionId' => $planningExpense['id'], 'planningId' => $planningExpense['planificationId'] ] ) }}"
                                                                     method="POST" style="display:inline;">
                                                                     @csrf
                                                                     @method('DELETE')
