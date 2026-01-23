@@ -95,6 +95,7 @@ class ExpensesService
             ->orderByDesc('total')
             ->get()
             ->toArray();
+
     }
 
     public function getSumOfExpensesByMonth($month, $year)

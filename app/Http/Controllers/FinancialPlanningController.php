@@ -4,9 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use App\Services\AccountingAccountService;
 
 class FinancialPlanningController extends Controller
 {
+
+    public function __construct(
+        private AccountingAccountService $accountingAccountService
+    ) {
+    }
 
     public function index(Request $request)
     {
@@ -42,9 +48,50 @@ class FinancialPlanningController extends Controller
 
     public function create()
     {
-        return view('financial-planning.create');
+
+        $accountingAccounts = $this->accountingAccountService->getAllAccountingAccounts();
+
+        if (empty($accountingAccounts)) {
+            return redirect()->route('financial-planning.index')
+                ->with('error', 'You need to have accounting accounts before creating a planned operation.');
+        } else {
+            return view('financial-planning.create', ['accountingAccounts' => $accountingAccounts]);
+        }
     }
 
+    public function update(Request $request, $planId)
+    {
+        $user = $request->user();
+        $baseUrl = config('services.spring_financial.base_url');
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'startDate' => 'required|date',
+            'endDate' => 'required|date|after_or_equal:startDate',
+            'budget' => 'required|numeric|min:0',
+        ]);
+
+        $payload = [
+            'name' => $validated['name'],
+            'description' => $validated['description'] ?? null,
+            'startDate' => $validated['startDate'],
+            'endDate' => $validated['endDate'],
+            'budget' => $validated['budget'],
+        ];
+
+        $response = Http::acceptJson()
+            ->asJson()
+            ->put("{$baseUrl}/api/financial-planning/plan/{$planId}/user/{$user->id}", $payload);
+
+        if ($response->successful()) {
+            return redirect()->route('financial-planning.index')
+                ->with('success', 'Financial plan updated successfully.');
+        } else {
+            return redirect()->route('financial-planning.index')
+                ->with('error', 'Error updating financial plan: ' . $response->status());
+        }
+    }
 
     public function showUpdateForm($planId)
     {

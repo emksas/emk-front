@@ -15,7 +15,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-            <label class="block text-sm font-medium mb-1">Value *</label>
+            <label class="block text-sm font-medium mb-1">Projected Value *</label>
             <input type="numeric" name="valor" value="{{ $val('valor') }}" class="w-full border rounded px-3 py-2"
                 required>
             @error('valor')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror

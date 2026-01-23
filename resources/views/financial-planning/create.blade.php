@@ -11,10 +11,10 @@
                 <div class="py-8">
                     <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
                         <div class="bg-white p-6 shadow sm:rounded-lg">
-                            <form action="{{ route('expenses.store') }}" method="POST" class="space-y-6">
+                            <form action="{{ route('financial-planning.store') }}" method="POST" class="space-y-6">
                                 @csrf
                                 @include('expenses._form', [
-                                    'expense' => null, 
+                                    'financialPlan' => null, 
                                     'accountingAccounts' => $accountingAccounts
                                 ])
 
