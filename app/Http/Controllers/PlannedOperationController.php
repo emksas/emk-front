@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Services\AccountingAccountService;
+use App\services\AccountingAccountService;
 use Illuminate\Support\Facades\Http;
 
 

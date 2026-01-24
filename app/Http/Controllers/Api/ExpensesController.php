@@ -16,7 +16,7 @@ class ExpensesController extends Controller
             return response()->json(['error' => 'Month and year parameters are required.'], 400);
         }
 
-        $expensesService = app(\App\Services\ExpensesService::class);
+        $expensesService = app(\App\services\ExpensesService::class);
         $expenses = $expensesService->getMonthlyExpenses($month, $year);
         $numberOfExpenses = count($expenses);
         $sumOfExpenses = $expensesService->getSumOfExpensesByMonth($month, $year);
@@ -26,7 +26,7 @@ class ExpensesController extends Controller
 
     public function createExpense(Request $request)
     {
-        $expensesService = app(\App\Services\ExpensesService::class);
+        $expensesService = app(\App\services\ExpensesService::class);
         try {
             $expense = $expensesService->createExpense($request);
             return response()->json(['data' => $expense], 201);
@@ -39,7 +39,7 @@ class ExpensesController extends Controller
 
     public function fetchExpensesFromMail()
     {
-        $expensesService = app(\App\Services\ExpensesService::class);
+        $expensesService = app(\App\services\ExpensesService::class);
         $result = $expensesService->fromMail();
         if ($result === false) {
             return response()->json(['error' => 'Failed to fetch expenses from mail.'], 500);

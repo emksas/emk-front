@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use App\Services\AccountingAccountService;
+use App\services\AccountingAccountService;
 
 class FinancialPlanningController extends Controller
 {
