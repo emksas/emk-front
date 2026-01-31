@@ -21,6 +21,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
+        if (app()->environment('production')) {
+            URL::forceScheme('https');
+        }
         DB::listen(function ($query) {
             // Registra la consulta en el log de Laravel
             Log::info('Consulta SQL ejecutada: ' . $query->sql);
