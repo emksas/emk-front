@@ -33,5 +33,15 @@ services:
       - ./:/var/www
     command: sh -lc "npm ci && npm run build"
 
+  spring-api:
+    build:
+      context: ./spring-api
+      dockerfile: Dockerfile
+    container_name: spring_api
+    ports:
+      - "8081:8080"
+    networks:
+      - laravel
+
 networks:
   laravel:
