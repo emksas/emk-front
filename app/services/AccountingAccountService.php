@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\services;
 
 use App\Http\Requests\UpdateAccountingAccountRequest;
 use App\Models\AccountingAccount;

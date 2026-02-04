@@ -7,7 +7,7 @@ use App\Http\Requests\StoreAccountingAccountRequest;
 use App\Http\Requests\UpdateAccountingAccountRequest;
 use App\Models\AccountingAccount;
 use Illuminate\Http\Request;
-use App\Services\AccountingAccountService;
+use App\services\AccountingAccountService;
 
 class AccountingAccountController extends Controller
 {
