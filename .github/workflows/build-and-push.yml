@@ -35,5 +35,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
+          file: docker/php/Dockerfile
           push: true
           tags: ghcr.io/emksas/emk-front:${{ steps.vars.outputs.tag }}
