@@ -37,37 +37,37 @@ services:
   # -------------------------
   # Spring Boot
   # -------------------------
-  spring:
-    image: "ghcr.io/emksas/financial-planning:${SPRING_TAG:-develop-latest}"
-    container_name: emk_spring
-    env_file:
-      - ./.env
-    environment:
-      SPRING_PROFILES_ACTIVE: "${SPRING_PROFILES_ACTIVE:-prod}"
+  #spring:
+  #  image: "ghcr.io/emksas/financial-planning:${SPRING_TAG:-develop-latest}"
+  #  container_name: emk_spring
+  #  env_file:
+  #    - ./.env
+  #  environment:
+  #    SPRING_PROFILES_ACTIVE: "${SPRING_PROFILES_ACTIVE:-prod}"
       # Ejemplo si usa DB:
       # SPRING_DATASOURCE_URL: "${SPRING_DATASOURCE_URL}"
       # SPRING_DATASOURCE_USERNAME: "${SPRING_DATASOURCE_USERNAME}"
       # SPRING_DATASOURCE_PASSWORD: "${SPRING_DATASOURCE_PASSWORD}"
-    ports:
-      - "${SPRING_HOST_PORT:-8082}:8080"
-    networks:
-      - emk_net
-    restart: unless-stopped
+  #  ports:
+  #    - "${SPRING_HOST_PORT:-8082}:8080"
+  #  networks:
+  #    - emk_net
+  #  restart: unless-stopped
 
   # -------------------------
   # Node (opcional)
   # -------------------------
-  node:
-    image: "ghcr.io/emksas/emk-node:${NODE_TAG:-develop-latest}"
-    container_name: emk_node
-    env_file:
-      - ./.env
-    ports:
-      - "${NODE_HOST_PORT:-3000}:3000"
-    networks:
-      - emk_net
-    restart: unless-stopped
-    profiles: ["node"]  # para prenderlo solo cuando quieras: docker compose --profile node up -d
+  #node:
+  #  image: "ghcr.io/emksas/emk-node:${NODE_TAG:-develop-latest}"
+  #  container_name: emk_node
+  #  env_file:
+  #    - ./.env
+  #  ports:
+  #    - "${NODE_HOST_PORT:-3000}:3000"
+  #  networks:
+  #    - emk_net
+  #  restart: unless-stopped
+  #  profiles: ["node"]  # para prenderlo solo cuando quieras: docker compose --profile node up -d
 
 
 networks:
