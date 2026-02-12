@@ -35,7 +35,7 @@ services:
 
   spring-api:
     build:
-      context: /opt/financialPlaning
+      context: /opt/financial-planing
       dockerfile: Dockerfile
     container_name: spring_api
     ports:
