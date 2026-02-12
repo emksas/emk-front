@@ -43,7 +43,7 @@ jobs:
         uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.DEPLOY_TRIGGER_TOKEN }}
-          repository: emksas/<REPO_COMPOSE>
+          repository: emksas/emk-front
           event-type: deploy
           client-payload: |
             {"branch":"${{ github.ref_name }}","service":"${{ github.repository }}"}
