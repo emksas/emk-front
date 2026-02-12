@@ -19,8 +19,17 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('accountingAccount.index') }}" :active="request()->routeIs('accountingAccount.*')">
+                    <x-nav-link href="{{ route('accountingAccount.index') }}"
+                        :active="request()->routeIs('accountingAccount.*')">
                         {{ __('Accounting Account') }}
+                    </x-nav-link>
+                </div>
+
+                <!-- Navigation Links -->
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link href="{{ route('financial-planning.index') }}"
+                        :active="request()->routeIs('financial-planning.*')">
+                        {{ __('Financial Planning') }}
                     </x-nav-link>
                 </div>
 

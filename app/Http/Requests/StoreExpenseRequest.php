@@ -26,7 +26,7 @@ class StoreExpenseRequest extends FormRequest
             'descripcion' => 'required|string|max:255',
             'fecha' => 'required|date',
             'estado' => 'nullable|string',
-            'idPlanificacion' => 'nullable|integer',
+            'idplanificacion' => 'nullable|integer',
             'cuentacontable_id' => 'required',
         ];
     }

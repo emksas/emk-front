@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\services;
 
 use App\Http\Requests\StoreExpenseRequest;
 use App\Models\Expense;
@@ -95,6 +95,7 @@ class ExpensesService
             ->orderByDesc('total')
             ->get()
             ->toArray();
+
     }
 
     public function getSumOfExpensesByMonth($month, $year)

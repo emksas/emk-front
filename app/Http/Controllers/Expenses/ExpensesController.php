@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreExpenseRequest;
 use App\Http\Requests\UpdateExpenseRequest;
 use App\Models\Expense;
-use App\Services\AccountingAccountService;
-use App\Services\ExpensesService;
+use App\services\AccountingAccountService;
+use App\services\ExpensesService;
 
 class ExpensesController extends Controller
 {
