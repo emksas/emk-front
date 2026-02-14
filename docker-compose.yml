@@ -22,14 +22,14 @@ services:
   # Laravel (PHP-FPM)
   # -------------------------
   laravel:
-    image: "ghcr.io/emksas/emk-laravel:${LARAVEL_TAG:-develop-latest}"
+    image: "ghcr.io/emksas/emk-front:prod-latest"
     container_name: emk_laravel
     env_file:
       - ./.env
     environment:
       APP_ENV: "${APP_ENV:-production}"
       # Si tu Laravel necesita saber dónde está Spring:
-      SPRING_BASE_URL: "http://spring:8080"
+      # SPRING_BASE_URL: "http://spring:8080"
     networks:
       - emk_net
     restart: unless-stopped
