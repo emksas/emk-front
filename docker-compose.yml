@@ -8,8 +8,7 @@ services:
     depends_on:
       - laravel
     ports:
-      - "8080:80"
-      - "8080:443"  # si luego montas TLS acá
+      - "127.0.0.1:8081:80"
     volumes:
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
       # Si sirves assets desde Laravel, puedes montar un volumen compartido (opcional)
@@ -17,7 +16,6 @@ services:
     networks:
       - emk_net
     restart: unless-stopped
-
   # -------------------------
   # Laravel (PHP-FPM)
   # -------------------------
