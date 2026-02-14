@@ -4,13 +4,14 @@ on:
   push: 
     branches:
       - main
-      
+
   repository_dispatch:
     types: [deploy]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: production
 
     steps:
       - name: Decide environment
@@ -27,7 +28,6 @@ jobs:
           fi
 
       - name: Deploy via SSH
-        environment: ${{ steps.env.outputs.environment }}
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.SSH_HOST }}
