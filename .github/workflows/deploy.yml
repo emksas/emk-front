@@ -23,7 +23,7 @@ jobs:
           fi
 
       - name: Deploy via SSH
-        environtment: ${{ steps.env.outputs.environment }}
+        environment: ${{ steps.env.outputs.environment }}
         uses: appleboy/ssh.action@v1.2
         with:
           host: ${{ secrets.SSH_HOST }}
