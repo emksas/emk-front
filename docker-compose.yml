@@ -1,4 +1,27 @@
 services:
+
+  # -------------------------
+  # Laravel (PHP-FPM)
+  # -------------------------
+  laravel:
+    image: "ghcr.io/emksas/emk-front:prod-latest"
+    container_name: emk_laravel
+    working_dir: /var/www
+    env_file:
+      - ./.env
+    environment:
+      APP_ENV: "${APP_ENV:-production}"
+      # Si tu Laravel necesita saber dónde está Spring:
+      # SPRING_BASE_URL: "http://spring:8080"
+    volumes:
+      - ./:/var/www
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - emk_net
+    restart: unless-stopped
+
+
   # -------------------------
   # Reverse proxy / Web (Nginx)
   # -------------------------
@@ -10,27 +33,14 @@ services:
     ports:
       - "127.0.0.1:8081:80"
     volumes:
+      - ./:/var/www:ro
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
       # Si sirves assets desde Laravel, puedes montar un volumen compartido (opcional)
       # - laravel_public:/var/www/public:ro
     networks:
       - emk_net
     restart: unless-stopped
-  # -------------------------
-  # Laravel (PHP-FPM)
-  # -------------------------
-  laravel:
-    image: "ghcr.io/emksas/emk-front:prod-latest"
-    container_name: emk_laravel
-    env_file:
-      - ./.env
-    environment:
-      APP_ENV: "${APP_ENV:-production}"
-      # Si tu Laravel necesita saber dónde está Spring:
-      # SPRING_BASE_URL: "http://spring:8080"
-    networks:
-      - emk_net
-    restart: unless-stopped
+  
 
   # -------------------------
   # Spring Boot
