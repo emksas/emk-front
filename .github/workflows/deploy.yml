@@ -6,7 +6,7 @@ on:
       - feat/auto-deploy-actions
 
   repository_dispatch:
-    types: [deploy]
+    types: [ deploy ]
 
 jobs:
   deploy:
