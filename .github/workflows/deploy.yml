@@ -3,7 +3,7 @@ name: Deploy (docker compose)
 on:
   push: 
     branches:
-      - main
+      - feat/auto-deploy-actions
 
   repository_dispatch:
     types: [deploy]
