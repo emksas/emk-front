@@ -2,7 +2,7 @@ name: Build & Push Image
 
 on:
   push:
-    branches: [ "develop", "main", "feat/auto-deploy-actions" ]
+    branches: ["develop", "main", "feat/auto-deploy-actions"]
 
 permissions:
   contents: read
@@ -47,3 +47,37 @@ jobs:
           event-type: deploy
           client-payload: |
             {"branch":"${{ github.ref_name }}","service":"${{ github.repository }}"}
+
+  deploy:
+    runs-on: ubuntu-latest
+    environment: dev
+    needs: build
+    steps:
+      - name: Decide environment
+        id: env
+        run: |
+          run: |
+          BRANCH='${{ github.event.client_payload.branch }}'
+          if [ "$BRANCH" = "main" ]; then
+            echo "environment=production" >> $GITHUB_OUTPUT
+            echo "branch=main" >> $GITHUB_OUTPUT
+          else
+            echo "environment=dev" >> $GITHUB_OUTPUT
+            echo "branch=${{ github.event.client_payload.branch }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            set -e
+            cd ${{ secrets.DEPLOY_PATH }}
+            git fetch --all
+            git checkout ${{ github.event.client_payload.branch }}
+            git pull origin ${{ github.event.client_payload.branch }}
+            docker compose pull
+            docker compose up -d --remove-orphans
+            docker image prune -f
