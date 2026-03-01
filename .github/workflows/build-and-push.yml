@@ -1,4 +1,4 @@
-name: Build & Push Image
+name: Build & Deploy
 
 on:
   push:
@@ -11,6 +11,8 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.vars.outputs.tag }}
 
     steps:
       - uses: actions/checkout@v4
@@ -39,33 +41,14 @@ jobs:
           push: true
           tags: ghcr.io/emksas/emk-front:${{ steps.vars.outputs.tag }}
 
-      - name: Trigger deploy (compose repo)
-        uses: peter-evans/repository-dispatch@v3
-        with:
-          token: ${{ secrets.DEPLOY_TRIGGER_TOKEN }}
-          repository: emksas/emk-front
-          event-type: deploy
-          client-payload: |
-            {"branch":"${{ github.ref_name }}","service":"${{ github.repository }}"}
-
   deploy:
     runs-on: ubuntu-latest
-    environment: dev
     needs: build
-    steps:
-      - name: Decide environment
-        id: env
-        run: |
-          run: |
-          BRANCH='${{ github.event.client_payload.branch }}'
-          if [ "$BRANCH" = "main" ]; then
-            echo "environment=production" >> $GITHUB_OUTPUT
-            echo "branch=main" >> $GITHUB_OUTPUT
-          else
-            echo "environment=dev" >> $GITHUB_OUTPUT
-            echo "branch=${{ github.event.client_payload.branch }}" >> $GITHUB_OUTPUT
-          fi
 
+    # main => production, todo lo demás => dev (o staging)
+    environment: ${{ github.ref_name == 'main' && 'production' || 'dev' }}
+
+    steps:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -75,9 +58,14 @@ jobs:
           script: |
             set -e
             cd ${{ secrets.DEPLOY_PATH }}
-            git fetch --all
-            git checkout ${{ github.event.client_payload.branch }}
-            git pull origin ${{ github.event.client_payload.branch }}
+
+            echo "Deploying branch: ${{ github.ref_name }}"
+            git fetch --all --prune
+
+            git checkout "${{ github.ref_name }}"
+            git reset --hard "origin/${{ github.ref_name }}"
+            git clean -fd
+
             docker compose pull
             docker compose up -d --remove-orphans
             docker image prune -f
