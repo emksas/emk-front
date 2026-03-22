@@ -41,11 +41,20 @@ class PlannedOperationController extends Controller
 
     }
 
-    public function store(Request $request, string $planId)
+    public function store(Request $request)
     {
+        echo "Received request to store planned operation:\n";
+        print_r($request->all());
 
+        return;
+
+        /*
         $user = $request->user();
         $baseUrl = config('services.spring_financial.base_url');
+
+        print_r($request->all());
+
+        return; 
 
         $validated = $request->validate([
             'description' => ['required', 'string', 'max:255'],
@@ -77,6 +86,7 @@ class PlannedOperationController extends Controller
             return redirect()->route('planning-operation.index')
                 ->with('error', 'Error creating operation: ' . $response->status());
         }
+                */
     }
 
     /**

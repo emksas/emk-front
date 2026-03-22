@@ -31,7 +31,7 @@
 
                 <div class="p-6 lg:p-8 bg-white border-b border-gray-200">
                     <div id="accordion-card" data-accordion="collapse" class="mx-4">
-                        @foreach ($financialPlannings as $financialPlanning)
+                        @foreach ($financialPlannings ?? [] as $financialPlanning)
                             <h2 id="accordion-card-heading-1">
                                 <button type="button"
                                     class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-body rounded-base shadow-xs border border-default hover:text-heading hover:bg-neutral-secondary-medium gap-3 [&[aria-expanded='true']]:rounded-b-none [&[aria-expanded='true']]:shadow-none"

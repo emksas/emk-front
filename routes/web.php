@@ -3,10 +3,11 @@
 use App\Http\Controllers\Employee\EmployeeController;
 use App\Http\Controllers\Expenses\ExpensesController;
 use App\Http\Controllers\AccountingAccount\AccountingAccountController;
+use App\Http\Controllers\FinancialPlaning\FinancialPlanningController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PlannedOperationController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\FinancialPlanningController;
+
 
 Route::get('/', function () {
     return view('welcome');
