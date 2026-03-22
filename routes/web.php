@@ -13,11 +13,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-/*
-Route::middleware('auth')->get('/financial-planning', [FinancialPlanningController::class, 'viewPage'])
-    ->name('financial-planning.page');
-*/
-
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),

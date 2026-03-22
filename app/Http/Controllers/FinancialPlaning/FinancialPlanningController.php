@@ -27,7 +27,7 @@ class FinancialPlanningController extends Controller
 
         $response = Http::get($baseUrl . '/api/financial-planning/user/' . $user->id);
 
-        
+
 
         if ($response->failed()) {
             return view('financial-planning.index', [
@@ -58,54 +58,66 @@ class FinancialPlanningController extends Controller
     {
 
         $accountingAccounts = $this->accountingAccountService->getAllAccountingAccounts();
-        return view('financial-planning.create', ['accountingAccounts' => $accountingAccounts ?? [] ]);
+        return view('financial-planning.create', ['accountingAccounts' => $accountingAccounts ?? []]);
 
     }
 
     public function store(Request $request)
-{
-    $user = $request->user();
-    $baseUrl = config('services.spring_financial.base_url');
+    {
+        $request->validate([
+            'valor' => 'required|numeric',
+            'descripcion' => 'required|string|max:255',
+            'fecha' => 'required|date',
+            'cuentacontable_id' => 'nullable|integer',
+        ]);
 
-    $validated = $request->validate([
-        'valor'             => 'required|numeric',
-        'descripcion'       => 'required|string|max:255',
-        'fecha'             => 'required|date',
-        'cuentacontable_id' => 'required|integer',
-    ]);
+        $user = $request->user();
+        $baseUrl = config('services.spring_financial.base_url');
 
-    /*$payload = [
-        'valor'             => $validated['valor'],
-        'descripcion'       => $validated['descripcion'],
-        'fecha'             => $validated['fecha'],
-        'cuentacontable_id' => $validated['cuentacontable_id'],
-        'userId'            => $user->id,
-    ];*/
 
-    $payload = [
-    'userId' => $user->id,
-    'planName' => $validated['descripcion'], // o otro campo
-    'description' => $validated['descripcion'],
-    'projectedValue' => $validated['valor'],
-    'projectedDate' => $validated['fecha'] . 'T00:00:00',
-    'personalProject' => true
-];
+        print_r($baseUrl);
+        print_r($user);
 
- print_r ($payload);}
+        return;
 
- /*   $response = Http::acceptJson()
-        ->asJson()
-        ->post("{$baseUrl}/api/financial-planning", $payload);
+        /*
 
-    if ($response->successful()) {
-        return redirect()->route('financial-planning.index')
-            ->with('success', 'Registro creado exitosamente.');
+       
+
+        /*$payload = [
+            'valor'             => $validated['valor'],
+            'descripcion'       => $validated['descripcion'],
+            'fecha'             => $validated['fecha'],
+            'cuentacontable_id' => $validated['cuentacontable_id'],
+            'userId'            => $user->id,
+        ];
+
+        $payload = [
+            'userId' => $user->id,
+            'planName' => $validated['descripcion'], // o otro campo
+            'description' => $validated['descripcion'],
+            'projectedValue' => $validated['valor'],
+            'projectedDate' => $validated['fecha'] . 'T00:00:00',
+            'personalProject' => true
+        ];
+
+        print_r($payload);
+        */
     }
 
-    return redirect()->back()
-        ->with('error', 'Error al crear el registro: ' . $response->status())
-        ->withInput();
-}*/
+    /*   $response = Http::acceptJson()
+           ->asJson()
+           ->post("{$baseUrl}/api/financial-planning", $payload);
+
+       if ($response->successful()) {
+           return redirect()->route('financial-planning.index')
+               ->with('success', 'Registro creado exitosamente.');
+       }
+
+       return redirect()->back()
+           ->with('error', 'Error al crear el registro: ' . $response->status())
+           ->withInput();
+   }*/
 
     public function update(Request $request, $planId)
     {
