@@ -64,7 +64,7 @@ class FinancialPlanningController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'valor' => 'required|numeric',
             'descripcion' => 'required|string|max:255',
             'fecha' => 'required|date',
@@ -73,24 +73,6 @@ class FinancialPlanningController extends Controller
 
         $user = $request->user();
         $baseUrl = config('services.spring_financial.base_url');
-
-
-        print_r($baseUrl);
-        print_r($user);
-
-        return;
-
-        /*
-
-       
-
-        /*$payload = [
-            'valor'             => $validated['valor'],
-            'descripcion'       => $validated['descripcion'],
-            'fecha'             => $validated['fecha'],
-            'cuentacontable_id' => $validated['cuentacontable_id'],
-            'userId'            => $user->id,
-        ];
 
         $payload = [
             'userId' => $user->id,
@@ -101,23 +83,21 @@ class FinancialPlanningController extends Controller
             'personalProject' => true
         ];
 
-        print_r($payload);
-        */
+        $response = Http::acceptJson()
+            ->asJson()
+            ->post("{$baseUrl}/api/financial-planning", $payload);
+
+        if ($response->successful()) {
+            return redirect()->route('financial-planning.index')
+                ->with('success', 'Registro creado exitosamente.');
+        }
+
+        return redirect()->back()
+            ->with('error', 'Error al crear el registro: ' . $response->status())
+            ->withInput();
+
     }
 
-    /*   $response = Http::acceptJson()
-           ->asJson()
-           ->post("{$baseUrl}/api/financial-planning", $payload);
-
-       if ($response->successful()) {
-           return redirect()->route('financial-planning.index')
-               ->with('success', 'Registro creado exitosamente.');
-       }
-
-       return redirect()->back()
-           ->with('error', 'Error al crear el registro: ' . $response->status())
-           ->withInput();
-   }*/
 
     public function update(Request $request, $planId)
     {
