@@ -34,7 +34,7 @@ class AccountingAccountIncomesController extends Controller
      */
     public function create()
     {
-        return view('accountingAccountIncome.create');
+        return view('accountingAccountIncomes.create');
     }
 
     /**
@@ -68,7 +68,7 @@ class AccountingAccountIncomesController extends Controller
     public function update(UpdateAccountingAccountRequest $request, AccountingAccount $accountingAccount)
     {
         $accountingAccount->update($request->validated());
-        return redirect()->route('accountingAccount.index')->with('success', 'Accounting Account updated');
+        return redirect()->route('accountingAccountIncomes.index')->with('success', 'Accounting Account updated');
     }
 
     /**
@@ -78,9 +78,9 @@ class AccountingAccountIncomesController extends Controller
     {
         try {
             $this->accountingAccountService->deleteAccountingAccount($accountingAccount);
-            return redirect()->route('accountingAccount.index')->with('success', 'Accounting Account deleted');
+            return redirect()->route('accountingAccountIncomes.index')->with('success', 'Accounting Account deleted');
         } catch (\Exception $e) {
-            return redirect()->route('accountingAccount.index')->with('error', 'Error deleting Accounting Account: ' . $e->getMessage());
+            return redirect()->route('accountingAccountIncomes.index')->with('error', 'Error deleting Accounting Account: ' . $e->getMessage());
         }
     }
 }

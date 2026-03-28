@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountingAccountIncomes\AccountingAccountIncomesController;
 use App\Http\Controllers\Employee\EmployeeController;
 use App\Http\Controllers\Expenses\ExpensesController;
 use App\Http\Controllers\AccountingAccount\AccountingAccountController;
@@ -55,6 +56,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])
     ->resource('accountingAccount', AccountingAccountController::class)
     ->names('accountingAccount');
+
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])
+    ->resource('accountingAccountIncomes', AccountingAccountIncomesController::class)
+    ->names('accountingAccountIncomes');
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])
     ->resource('financial-planning', FinancialPlanningController::class)
