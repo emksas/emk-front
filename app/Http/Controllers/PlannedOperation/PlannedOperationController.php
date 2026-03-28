@@ -122,6 +122,10 @@ class PlannedOperationController extends Controller
 
         $accountingAccounts = $responseAccountingAccount->json();
 
+        if (empty($accountingAccounts) ) {
+            return redirect()->route('accountingAccountIncomes.create')
+                ->with('error', 'Please create an accounting account before adding a planned operation.');
+        }
 
         return view('plannedOperation.edit', ['plannedOperation' => $response->json(), 'accountingAccounts' => $accountingAccounts]);
     }
