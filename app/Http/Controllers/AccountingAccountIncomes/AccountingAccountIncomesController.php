@@ -83,4 +83,37 @@ class AccountingAccountIncomesController extends Controller
             return redirect()->route('accountingAccountIncomes.index')->with('error', 'Error deleting Accounting Account: ' . $e->getMessage());
         }
     }
+
+    public function store(Request $request)
+    {
+        $user = $request->user();
+        $baseUrl = config('services.spring_financial.base_url');
+
+        $validated = $request->validate([
+            'valor' => 'required|numeric',
+            'descripcion' => 'required|string|max:255',
+            'fecha' => 'required|date',
+            'cuentacontable_id' => 'required|integer',
+        ]);
+
+        /*$payload = [
+            'valor'             => $validated['valor'],
+            'descripcion'       => $validated['descripcion'],
+            'fecha'             => $validated['fecha'],
+            'cuentacontable_id' => $validated['cuentacontable_id'],
+            'userId'            => $user->id,
+        ];*/
+
+        $payload = [
+            'userId' => $user->id,
+            'planName' => $validated['descripcion'], // o otro campo
+            'description' => $validated['descripcion'],
+            'projectedValue' => $validated['valor'],
+            'projectedDate' => $validated['fecha'] . 'T00:00:00',
+            'personalProject' => true
+        ];
+
+        print_r($payload);
+    }
 }
+
