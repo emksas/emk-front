@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\PlannedOperation;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -27,34 +27,38 @@ class PlannedOperationController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(string $planId)
+    public function create(Request $request, string $planId)
     {
 
-        $accountingAccounts = $this->accountingAccountService->getAllAccountingAccounts();
+        $user = $request->user();
+        $baseUrl = config('services.spring_financial.base_url');
+
+        $response = Http::get($baseUrl . '/api/accounting-account/user/' . $user->id);
+
+        if ($response->failed()) {
+            return view('financial-planning.index', [
+                'financialPlannings' => [],
+                'error' => 'Error fetching data from financial planning service',
+                'spring_status' => $response->status(),
+            ]);
+        }
+
+        $accountingAccounts = $response->json();
 
         if (empty($accountingAccounts)) {
-            return redirect()->route('accountingAccount.create')
+            return redirect()->route('accountingAccountIncomes.create')
                 ->with('error', 'Please create an accounting account before adding a planned operation.');
         } else {
             return view('plannedOperation.create', ['accountingAccounts' => $accountingAccounts, 'planId' => $planId]);
         }
 
+
     }
 
-    public function store(Request $request)
+    public function store(Request $request, $planId)
     {
-        echo "Received request to store planned operation:\n";
-        print_r($request->all());
-
-        return;
-
-        /*
         $user = $request->user();
         $baseUrl = config('services.spring_financial.base_url');
-
-        print_r($request->all());
-
-        return; 
 
         $validated = $request->validate([
             'description' => ['required', 'string', 'max:255'],
@@ -62,18 +66,15 @@ class PlannedOperationController extends Controller
             'projectedValue' => ['nullable', 'numeric'],
             'amount' => ['nullable', 'numeric'],
             'totalProjectedValue' => ['nullable', 'numeric'],
-            // 'dueDate'            => ['nullable', 'date'], // si luego lo habilitas en Java
         ]);
 
         $payload = [
             'description' => $validated['description'],
             'accountId' => $validated['accountId'],
-            // 'dueDate'           => $validated['dueDate'] ?? null,
             'projectedValue' => $validated['projectedValue'] ?? null,
             'amount' => $validated['amount'] ?? null,
             'totalProjectedValue' => $validated['totalProjectedValue'] ?? null,
         ];
-
 
         $response = Http::acceptJson()
             ->asJson()
@@ -86,7 +87,6 @@ class PlannedOperationController extends Controller
             return redirect()->route('planning-operation.index')
                 ->with('error', 'Error creating operation: ' . $response->status());
         }
-                */
     }
 
     /**
@@ -109,11 +109,21 @@ class PlannedOperationController extends Controller
 
         $response = Http::get($baseUrl . '/api/planned-operations/user/' . $user->id . '/plan/' . $planningId . '/operation/' . $transactionId);
 
-        if ($response->failed()) {
-            return redirect()->route('financial-planning.index')->with('error', 'Error getting planned operation ');
+        $responseAccountingAccount = Http::get($baseUrl . '/api/accounting-account/user/' . $user->id);
+
+
+        if ($response->failed() || $responseAccountingAccount->failed() ) {
+            return view('financial-planning.index', [
+                'financialPlannings' => [],
+                'error' => 'Error fetching data from financial planning service',
+                'spring_status' => $response->status(),
+            ]);
         }
 
-        return view('plannedOperation.edit', ['plannedOperation' => $response->json(), 'accountingAccounts' => $this->accountingAccountService->getAllAccountingAccounts()]);
+        $accountingAccounts = $responseAccountingAccount->json();
+
+
+        return view('plannedOperation.edit', ['plannedOperation' => $response->json(), 'accountingAccounts' => $accountingAccounts]);
     }
 
     /**
@@ -131,13 +141,11 @@ class PlannedOperationController extends Controller
             'projectedValue' => ['nullable', 'numeric'],
             'amount' => ['nullable', 'numeric'],
             'totalProjectedValue' => ['nullable', 'numeric'],
-            // 'dueDate'            => ['nullable', 'date'], // si luego lo habilitas en Java
         ]);
 
         $payload = [
             'description' => $validated['description'],
             'accountId' => $validated['accountId'],
-            // 'dueDate'           => $validated['dueDate'] ?? null,
             'projectedValue' => $validated['projectedValue'] ?? null,
             'amount' => $validated['amount'] ?? null,
             'totalProjectedValue' => $validated['totalProjectedValue'] ?? null,

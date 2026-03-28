@@ -6,7 +6,7 @@ use App\Http\Controllers\Expenses\ExpensesController;
 use App\Http\Controllers\AccountingAccount\AccountingAccountController;
 use App\Http\Controllers\FinancialPlaning\FinancialPlanningController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\PlannedOperationController;
+use App\Http\Controllers\PlannedOperation\PlannedOperationController;
 use Illuminate\Support\Facades\Route;
 
 
