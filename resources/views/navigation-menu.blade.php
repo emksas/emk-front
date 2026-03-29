@@ -23,6 +23,10 @@
                         :active="request()->routeIs('financial-planning.*')">
                         {{ __('Financial Planning') }}
                     </x-nav-link>
+                    <x-nav-link href="{{ route('incomes.index') }}" 
+                        :active="request()->routeIs('incomes.*')">
+                        {{ __('Incomes') }}
+                    </x-nav-link>
                 </div>
             </div>
 

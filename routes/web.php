@@ -8,6 +8,7 @@ use App\Http\Controllers\FinancialPlaning\FinancialPlanningController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PlannedOperation\PlannedOperationController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Incomes\IncomesController;
 
 
 Route::get('/', function () {
@@ -64,3 +65,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])
     ->resource('financial-planning', FinancialPlanningController::class)
     ->names('financial-planning');
+
+
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])
+    ->resource('incomes', IncomesController::class)
+    ->names('incomes');
