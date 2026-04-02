@@ -16,12 +16,13 @@ class IncomesController extends Controller
     ) {
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $incomes = $this->incomesService->getAllIncomes();
-        $error = null;
 
-        return view('incomes.index', compact('incomes', 'error'));
+        $incomes = $this->incomesService->getIncomes( $request->user() );
+        print_r($incomes);
+        //return view('incomes.index', compact('incomes', 'error'));
+
     }
 
     public function create()
