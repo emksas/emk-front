@@ -19,19 +19,6 @@ class IncomesService
         $this->baseUrl = config('services.python_incomes.base_url');
         $response = Http::get($this->baseUrl . '/api/incomes/?user_id=' . $user);
 
-        return $response;
-
-        if ($response->failed()) {
-            return [
-                'incomes' => [],
-                'error' => 'Error fetching data from income service',
-                'spring_status' => $response->status(),
-            ];
-        } else {
-            $incomes = $response->json();
-        }
-
-        /*
         try {
             $this->baseUrl = config('services.spring_financial.base_url');
             $response = Http::get($this->baseUrl.'/api/incomes/?user_id='.$user);
@@ -42,7 +29,7 @@ class IncomesService
                 return [
                     'incomes' => [],
                     'error' => 'Error fetching data from income service',
-                    'spring_status' => $response->status(),
+                    'status' => $response->status(),
                 ];
             } else {
                 $incomes = $response->json();
@@ -51,8 +38,6 @@ class IncomesService
         } catch (\Exception $e) {
             return "exception in the http request";
         }
-    */
-
     }
 
     public function create($payload)

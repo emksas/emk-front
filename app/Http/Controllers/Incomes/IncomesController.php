@@ -18,35 +18,27 @@ class IncomesController extends Controller
 
     public function index(Request $request)
     {
-        print_r("prueba url python service: ");
-        $base_url = config('services.python_incomes.base_url');
-        print_r($base_url);
-        /*
         $incomes = $this->incomesService->getIncomes( $request->user() );
 
-        dd($incomes);
-
-        
-        if($incomes['spring_status'] == 404){
+        if($incomes['status'] == 404){
             return view('incomes.index', [
                 'incomes' => [],
                 'error' => 'No incomes found for the user',
-                'spring_status' => $incomes['spring_status'],
+                'status' => $incomes['status'],
             ]);
         } else if (isset($incomes['error'])) {
             return view('incomes.index', [
                 'incomes' => [],
                 'error' => $incomes['error'],
-                'spring_status' => $incomes['spring_status'],
+                'status' => $incomes['status'],
             ]);
         } else {
             return view('incomes.index', [
                 'incomes' => $incomes,
                 'error' => null,
-                'spring_status' => 200,
+                'status' => 200,
             ]);
         }
-            */
     }
 
     public function create()
