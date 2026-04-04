@@ -10,35 +10,58 @@ use Illuminate\Support\Facades\DB;
 
 class IncomesService
 {
-    private $baseUrl = config('services.python_incomes.base_url');
+    private $baseUrl;
 
-    public function getIncomes( $user )
+    public function getIncomes($user)
     {
-        $incomes = [];
+        $response = null;
 
+        $this->baseUrl = config('services.python_incomes.base_url');
+        $response = Http::get($this->baseUrl . '/api/incomes/?user_id=' . $user);
+
+        return $response;
+
+        if ($response->failed()) {
+            return [
+                'incomes' => [],
+                'error' => 'Error fetching data from income service',
+                'spring_status' => $response->status(),
+            ];
+        } else {
+            $incomes = $response->json();
+        }
+
+        /*
         try {
-
+            $this->baseUrl = config('services.spring_financial.base_url');
             $response = Http::get($this->baseUrl.'/api/incomes/?user_id='.$user);
 
-            dd( $response );
+            return $response;
 
-            $incomes = $response['data'] ?? $response;
+            if ($response->failed()) {
+                return [
+                    'incomes' => [],
+                    'error' => 'Error fetching data from income service',
+                    'spring_status' => $response->status(),
+                ];
+            } else {
+                $incomes = $response->json();
+            }
+
         } catch (\Exception $e) {
             return "exception in the http request";
         }
+    */
 
-        print_r("incomes responde from pyhton ");
-        print_r($incomes);
-
-        return $incomes;
     }
 
-    public function create($payload){
-        $response = Http::acceptJson()->asJson()->post($this->baseUrl.'/api/incomes/', $payload);
+    public function create($payload)
+    {
+        $response = Http::acceptJson()->asJson()->post($this->baseUrl . '/api/incomes/', $payload);
         return $response;
     }
 
-    
+
 
 
 }
