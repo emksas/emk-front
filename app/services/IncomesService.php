@@ -57,7 +57,7 @@ class IncomesService
 
         $newIncome = [
             'value' => $payload['valor'],
-            'source' => $payload['descripcion'],
+            'source' => $payload['fuente'],
             'accounting_account_id' => $payload['cuentacontable_id'],
             'date' => Carbon::parse($payload['fecha'])->toDateString(),
             'user_id' => intval($userId),
@@ -82,7 +82,7 @@ class IncomesService
 
         $updatedIncome = [
             'value' => $payload['valor'],
-            'source' => $payload['descripcion'],
+            'source' => $payload['fuente'],
             'accounting_account_id' => $payload['cuentacontable_id'],
             'date' => Carbon::parse($payload['fecha'])->toDateString(),
             'financial_planning_id' => 1,

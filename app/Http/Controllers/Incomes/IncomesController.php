@@ -65,9 +65,15 @@ class IncomesController extends Controller
 
     public function update(Request $request, Income $income)
     {
-        
-        $income->update($request->all());
+        $data = $request->input();
+        print_r($data);
+
+
+
+        /*
+        $this->incomesService->updateIncome($data, $request->input());
         return redirect()->route('incomes.index')->with('success', 'Income updated successfully.');
+        */
     }
 
     public function destroy(Income $income)
