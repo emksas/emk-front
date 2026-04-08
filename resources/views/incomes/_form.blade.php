@@ -23,7 +23,7 @@
 
         <div>
             <label class="block text-sm font-medium mb-1">Fuente *</label>
-            <input type="text" name="fuente" value="{{ $val('fuente') }}"
+            <input type="text" name="descripcion" value="{{ $val('descripcion') }}"
                 class="w-full border rounded px-3 py-2" required>
             @error('descripcion')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
         </div>

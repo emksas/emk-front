@@ -16,14 +16,9 @@ class IncomesService
     {
         $response = null;
 
-        $this->baseUrl = config('services.python_incomes.base_url');
-        $response = Http::get($this->baseUrl . '/api/incomes/?user_id=' . $user);
-
         try {
-            $this->baseUrl = config('services.spring_financial.base_url');
-            $response = Http::get($this->baseUrl.'/api/incomes/?user_id='.$user);
-
-            return $response;
+            $this->baseUrl = config('services.python_incomes.base_url');
+            $response = Http::get($this->baseUrl . '/api/incomes/?user_id=' . $user);
 
             if ($response->failed()) {
                 return [
@@ -31,22 +26,70 @@ class IncomesService
                     'error' => 'Error fetching data from income service',
                     'status' => $response->status(),
                 ];
-            } else {
-                $incomes = $response->json();
             }
 
+            $data = $response->json();
+            if (!is_array($data) || empty($data)) {
+                return [
+                    'incomes' => [],
+                    'error' => 'Invalid response format',
+                    'status' => 500,
+                ];
+            }
+
+            return [
+                'incomes' => $data,
+                'status' => 200,
+            ];
+
         } catch (\Exception $e) {
-            return "exception in the http request";
+            return [
+                'incomes' => [],
+                'error' => 'Exception occurred: ' . $e->getMessage(),
+                'status' => 500,
+            ];
         }
     }
 
-    public function create($payload)
+    public function create($payload, $userId)
     {
-        $response = Http::acceptJson()->asJson()->post($this->baseUrl . '/api/incomes/', $payload);
+        $this->baseUrl = config('services.python_incomes.base_url');
+
+        $newIncome = [
+            'value' => $payload['valor'],
+            'source' => $payload['descripcion'],
+            'accounting_account_id' => $payload['cuentacontable_id'],
+            'date' => Carbon::parse($payload['fecha'])->toDateString(),
+            'user_id' => intval($userId),
+            'financial_planning_id' => 1,
+        ];
+
+
+        $response = Http::acceptJson()->asJson()->post($this->baseUrl . '/api/incomes/', $newIncome);
         return $response;
     }
 
+    public function deleteIncome($incomeId)
+    {
+        $this->baseUrl = config('services.python_incomes.base_url');
+        $response = Http::delete($this->baseUrl . '/api/incomes/' . $incomeId);
+        return $response;
+    }
 
+    public function updateIncome($incomeId, $payload)
+    {
+        $this->baseUrl = config('services.python_incomes.base_url');
 
+        $updatedIncome = [
+            'value' => $payload['valor'],
+            'source' => $payload['descripcion'],
+            'accounting_account_id' => $payload['cuentacontable_id'],
+            'date' => Carbon::parse($payload['fecha'])->toDateString(),
+            'financial_planning_id' => 1,
+        ];
+
+        $response = Http::acceptJson()->asJson()->put($this->baseUrl . '/api/incomes/' . $incomeId, $updatedIncome);
+        return $response;
+    }
 
 }

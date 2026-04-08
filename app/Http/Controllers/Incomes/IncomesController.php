@@ -34,7 +34,7 @@ class IncomesController extends Controller
             ]);
         } else {
             return view('incomes.index', [
-                'incomes' => $incomes,
+                'incomes' => $incomes['incomes'],
                 'error' => null,
                 'status' => 200,
             ]);
@@ -49,7 +49,8 @@ class IncomesController extends Controller
 
     public function store(Request $request)
     {
-        $this->incomesService->createIncome($request);
+        $data = $request->input();
+        $this->incomesService->create($data, $request->user()->id);
         return redirect()->route('incomes.index')->with('success', 'Income created successfully.');
     }
 
@@ -64,6 +65,7 @@ class IncomesController extends Controller
 
     public function update(Request $request, Income $income)
     {
+        
         $income->update($request->all());
         return redirect()->route('incomes.index')->with('success', 'Income updated successfully.');
     }

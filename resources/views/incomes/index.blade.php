@@ -41,16 +41,16 @@
 
                         <tbody>
                             @foreach ($incomes as $income)
-                                @if ($income['fuente'] != null)
+                                @if ($income['source'] != null)
                                     <tr>
                                         <td>
-                                            {{ $income['valor'] }}
+                                            {{ $income['value'] }}
                                         </td>
                                         <td>
-                                            {{ $income['fuente'] }}
+                                            {{ $income['source'] }}
                                         </td>
                                         <td>
-                                            {{ $income['fecha'] }}
+                                            {{ $income['date'] }}
                                         </td>
                                         <td class="px-4 py-2">
                                             <div class="flex justify-center items-center gap-2">
