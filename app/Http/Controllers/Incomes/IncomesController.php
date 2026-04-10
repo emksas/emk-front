@@ -65,21 +65,16 @@ class IncomesController extends Controller
 
     public function update(Request $request, Income $income)
     {
-        $data = $request->input();
-        print_r($data);
-
-
-
-        /*
-        $this->incomesService->updateIncome($data, $request->input());
+        $incomeInformation = $income->toArray();
+        $this->incomesService->updateIncome($incomeInformation, $request->input());
         return redirect()->route('incomes.index')->with('success', 'Income updated successfully.');
-        */
+
     }
 
-    public function destroy(Income $income)
+    public function destroy(Request $request, Income $income)
     {
         try {
-            $this->incomesService->deleteIncome($income);
+            $this->incomesService->deleteIncome($income['id']);
             return redirect()->route('incomes.index')->with('success', 'Income deleted successfully.');
         } catch (\Exception $e) {
             return redirect()->route('incomes.index')->with('error', 'Failed to delete income: ' . $e->getMessage());

@@ -72,11 +72,11 @@ class IncomesService
     public function deleteIncome($incomeId)
     {
         $this->baseUrl = config('services.python_incomes.base_url');
-        $response = Http::delete($this->baseUrl . '/api/incomes/' . $incomeId);
+        $response = Http::delete($this->baseUrl . '/api/incomes/' . $incomeId.'/');
         return $response;
     }
 
-    public function updateIncome($incomeId, $payload)
+    public function updateIncome($income, $payload)
     {
         $this->baseUrl = config('services.python_incomes.base_url');
 
@@ -85,10 +85,11 @@ class IncomesService
             'source' => $payload['fuente'],
             'accounting_account_id' => $payload['cuentacontable_id'],
             'date' => Carbon::parse($payload['fecha'])->toDateString(),
+            'user_id' => intval($income['user_id']),
             'financial_planning_id' => 1,
         ];
 
-        $response = Http::acceptJson()->asJson()->put($this->baseUrl . '/api/incomes/' . $incomeId, $updatedIncome);
+        $response = Http::acceptJson()->asJson()->put($this->baseUrl . '/api/incomes/' . $income['id'] . '/', $updatedIncome);
         return $response;
     }
 
