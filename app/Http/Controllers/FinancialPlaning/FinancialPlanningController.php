@@ -1,7 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\FinancialPlaning;
 
+
+use App\Http\Requests\StoreFinancialPlanningRequest;
+use App\Http\Requests\UpdateFinancialPlanningRequest;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\services\AccountingAccountService;
@@ -17,19 +22,21 @@ class FinancialPlanningController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-
         $baseUrl = config('services.spring_financial.base_url');
 
         $response = Http::get($baseUrl . '/api/financial-planning/user/' . $user->id);
 
-        $financialPlannings = $response->json();
+
 
         if ($response->failed()) {
             return view('financial-planning.index', [
+                'financialPlannings' => [],
                 'error' => 'Error fetching data from financial planning service',
                 'spring_status' => $response->status(),
             ]);
         }
+
+        $financialPlannings = $response->json();
 
         foreach ($financialPlannings as $key => $financialPlanning) {
             $operationsResponse = Http::get($baseUrl . '/api/planned-operations/user/' . $user->id . '/plan/' . $financialPlanning['planId']);
@@ -50,14 +57,46 @@ class FinancialPlanningController extends Controller
     {
 
         $accountingAccounts = $this->accountingAccountService->getAllAccountingAccounts();
+        return view('financial-planning.create', ['accountingAccounts' => $accountingAccounts ?? []]);
 
-        if (empty($accountingAccounts)) {
-            return redirect()->route('financial-planning.index')
-                ->with('error', 'You need to have accounting accounts before creating a planned operation.');
-        } else {
-            return view('financial-planning.create', ['accountingAccounts' => $accountingAccounts]);
-        }
     }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'valor' => 'required|numeric',
+            'descripcion' => 'required|string|max:255',
+            'fecha' => 'required|date',
+            'cuentacontable_id' => 'nullable|integer',
+        ]);
+
+        $user = $request->user();
+        $baseUrl = config('services.spring_financial.base_url');
+
+        $payload = [
+            'userId' => $user->id,
+            'planName' => $validated['descripcion'], // o otro campo
+            'description' => $validated['descripcion'],
+            'projectedValue' => $validated['valor'],
+            'projectedDate' => $validated['fecha'] . 'T00:00:00',
+            'personalProject' => true
+        ];
+
+        $response = Http::acceptJson()
+            ->asJson()
+            ->post("{$baseUrl}/api/financial-planning", $payload);
+
+        if ($response->successful()) {
+            return redirect()->route('financial-planning.index')
+                ->with('success', 'Registro creado exitosamente.');
+        }
+
+        return redirect()->back()
+            ->with('error', 'Error al crear el registro: ' . $response->status())
+            ->withInput();
+
+    }
+
 
     public function update(Request $request, $planId)
     {
@@ -95,7 +134,7 @@ class FinancialPlanningController extends Controller
 
     public function showUpdateForm($planId)
     {
-        $user = auth()->user();
+        $user = auth::user();
         $baseUrl = config('services.spring_financial.base_url');
 
         $response = Http::get($baseUrl . '/api/financial-planning/plan/' . $planId . '/user/' . $user->id);
@@ -115,7 +154,7 @@ class FinancialPlanningController extends Controller
 
     public function deletePlan($planId)
     {
-        $user = auth()->user();
+        $user = auth::user();
         $baseUrl = config('services.spring_financial.base_url');
 
         $response = Http::delete($baseUrl . '/api/financial-planning/plan/' . $planId . '/user/' . $user->id);

@@ -5,6 +5,14 @@
         </h2>
 
         <div class="sm:ml-auto flex items-center gap-2">
+
+            <a href="{{ route('accountingAccountIncomes.create') }}" class="inline-flex items-center gap-2 rounded-lg border border-blue-600
+             bg-transparent px-4 py-2 text-sm font-medium text-blue-600
+             hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-600/40
+             disabled:opacity-50 disabled:pointer-events-none">
+                Add Accounting Account
+            </a>
+            
             <a href="{{ route('financial-planning.create') }}" class="inline-flex items-center gap-2 rounded-lg border border-blue-600
              bg-transparent px-4 py-2 text-sm font-medium text-blue-600
              hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-600/40
@@ -31,12 +39,12 @@
 
                 <div class="p-6 lg:p-8 bg-white border-b border-gray-200">
                     <div id="accordion-card" data-accordion="collapse" class="mx-4">
-                        @foreach ($financialPlannings as $financialPlanning)
-                            <h2 id="accordion-card-heading-1">
+                        @foreach ($financialPlannings ?? [] as $financialPlanning)
+                            <h2 id="accordion-card-heading-{{ $loop->iteration }}" class="mb-0">
                                 <button type="button"
                                     class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-body rounded-base shadow-xs border border-default hover:text-heading hover:bg-neutral-secondary-medium gap-3 [&[aria-expanded='true']]:rounded-b-none [&[aria-expanded='true']]:shadow-none"
-                                    data-accordion-target="#accordion-card-body-1" aria-expanded="true"
-                                    aria-controls="accordion-card-body-1">
+                                    data-accordion-target="#accordion-card-body-{{ $loop->iteration }}" aria-expanded="false"
+                                    aria-controls="accordion-card-body-{{ $loop->iteration }}">
                                     <span> {{ $financialPlanning['planName'] }} - Total projected value:
                                         {{ $financialPlanning['projectedValue'] }} </span>
                                     <svg data-accordion-icon class="w-5 h-5 rotate-180 shrink-0" aria-hidden="true"
@@ -47,9 +55,9 @@
                                     </svg>
                                 </button>
                             </h2>
-                            <div id="accordion-card-body-1"
+                            <div id="accordion-card-body-{{ $loop->iteration }}"
                                 class="hidden border border-t-0 border-default rounded-b-base shadow-xs"
-                                aria-labelledby="accordion-card-heading-1">
+                                aria-labelledby="accordion-card-heading-{{ $loop->iteration }}">
                                 <div class="flex justify-between items-center mb-4 p-4 md:p-5">
                                     <p class="text-xl font-bold mb-2">
                                         {{ $financialPlanning['description'] }}
@@ -66,7 +74,7 @@
 
                                 <div class="p-4 md:p-5">
 
-                                    <table id="expenses" class="display" style="width:100%">
+                                    <table class="display expenses-table" style="width:100%">
                                         <thead>
                                             <tr>
                                                 <th>
@@ -152,13 +160,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
     <script>
-        $(function () {
-            $('#expenses').DataTable({
-                pageLength: 20,
-                dom: 'Bfrtip',
-                buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
-            });
+
+        $('[data-accordion-target]').on('click', function () {
+            const target = $(this).data('accordion-target');
+            const table = $(target).find('.expenses-table');
+
+            if (!$.fn.DataTable.isDataTable(table)) {
+                table.DataTable({
+                    pageLength: 20,
+                    dom: 'Bfrtip',
+                    buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+                });
+            }
         });
+
     </script>
 
 
