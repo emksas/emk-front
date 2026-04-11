@@ -22,7 +22,6 @@ class FinancialPlanningController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-
         $baseUrl = config('services.spring_financial.base_url');
 
         $response = Http::get($baseUrl . '/api/financial-planning/user/' . $user->id);

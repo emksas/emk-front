@@ -7,7 +7,7 @@
         ? Carbon::parse($financialPlanning->fecha)->format('Y-m-d')
         : ''
     );
-    // Para edición, $employee llega definido; en creación es null.
+
     $val = fn($key, $default = '') => old($key, isset($financialPlanning) ? ($financialPlanning->{$key} ?? $default) : $default);
 @endphp
 
@@ -29,7 +29,7 @@
         </div>
 
         <div class="md:col-span-2 flex justify-center">
-            <div class="w-full md:w-1/2">
+            <div class="w-full">
                 <label class="block text-sm font-medium mb-1">Date *</label>
                 <input type="date" name="fecha"
             class="w-full border rounded px-3 py-2"
