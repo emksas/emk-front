@@ -11,8 +11,9 @@ services:
       - ./.env
     environment:
       APP_ENV: "${APP_ENV:-production}"
-      # Si tu Laravel necesita saber dónde está Spring:
-      # SPRING_BASE_URL: "http://spring:8080"
+      SPRING_BASE_URL: "http://spring:8085"
+      DJANGO_BASE_URL: "http://django:8084"
+      NODE_BASE_URL: "http://node:8086"
     volumes:
       - ./:/var/www
     extra_hosts:
@@ -34,66 +35,68 @@ services:
     volumes:
       - ./:/var/www:ro
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-      # Si sirves assets desde Laravel, puedes montar un volumen compartido (opcional)
-      # - laravel_public:/var/www/public:ro
     networks:
       - emk_net
     restart: unless-stopped
 
+  # -------------------------
+  # Django (AHORA 8084)
+  # -------------------------
   django:
     build:
       context: ./django
-      container_name: emk_django
-      command: python manage.py runserver 0.0.0.0:9000
-      volumes:
-        - ./django:/app
-      working_dir: /app
-      ports:
-        - "9000:9000"
-      networks:
-        - emk_net
-      restart: unless-stopped
-  
-  
-  # -------------------------
-  # Spring Boot
-  # -------------------------
-  #spring:
-  #  image: "ghcr.io/emksas/financial-planning:${SPRING_TAG:-develop-latest}"
-  #  container_name: emk_spring
-  #  env_file:
-  #    - ./.env
-  #  environment:
-  #    SPRING_PROFILES_ACTIVE: "${SPRING_PROFILES_ACTIVE:-prod}"
-  # Ejemplo si usa DB:
-  # SPRING_DATASOURCE_URL: "${SPRING_DATASOURCE_URL}"
-  # SPRING_DATASOURCE_USERNAME: "${SPRING_DATASOURCE_USERNAME}"
-  # SPRING_DATASOURCE_PASSWORD: "${SPRING_DATASOURCE_PASSWORD}"
-  #  ports:
-  #    - "${SPRING_HOST_PORT:-8082}:8080"
-  #  networks:
-  #    - emk_net
-  #  restart: unless-stopped
+      dockerfile: Dockerfile
+    container_name: emk_django
+    working_dir: /app
+    command: python manage.py runserver 0.0.0.0:8084
+    volumes:
+      - ./django:/app
+    ports:
+      - "8084:8084"
+    networks:
+      - emk_net
+    restart: unless-stopped
 
   # -------------------------
-  # Node (opcional)
+  # Spring Boot (8085)
   # -------------------------
-  #node:
-  #  image: "ghcr.io/emksas/emk-node:${NODE_TAG:-develop-latest}"
-  #  container_name: emk_node
-  #  env_file:
-  #    - ./.env
-  #  ports:
-  #    - "${NODE_HOST_PORT:-3000}:3000"
-  #  networks:
-  #    - emk_net
-  #  restart: unless-stopped
-  #  profiles: ["node"]  # para prenderlo solo cuando quieras: docker compose --profile node up -d
+  spring:
+    build:
+      context: ./spring
+      dockerfile: Dockerfile
+    container_name: emk_spring
+    ports:
+      - "8085:8085"
+    environment:
+      SERVER_PORT: 8085
+    networks:
+      - emk_net
+    restart: unless-stopped
 
+  # -------------------------
+  # Node.js (8086)
+  # -------------------------
+  node:
+    build:
+      context: ./node
+      dockerfile: Dockerfile
+    container_name: emk_node
+    working_dir: /app
+    ports:
+      - "8086:8086"
+    environment:
+      PORT: 8086
+    volumes:
+      - ./node:/app
+      - /app/node_modules
+    command: npm start
+    networks:
+      - emk_net
+    restart: unless-stopped
 
 networks:
   emk_net:
     driver: bridge
 
 volumes:
-  laravel_public: # si decides compartir public con nginx
+  laravel_public:
