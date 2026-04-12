@@ -21,7 +21,6 @@ services:
       - emk_net
     restart: unless-stopped
 
-
   # -------------------------
   # Reverse proxy / Web (Nginx)
   # -------------------------
@@ -40,8 +39,22 @@ services:
     networks:
       - emk_net
     restart: unless-stopped
-  
 
+  django:
+    build:
+      context: ./django
+      container_name: emk_django
+      command: python manage.py runserver 0.0.0.0:9000
+      volumes:
+        - ./django:/app
+      working_dir: /app
+      ports:
+        - "9000:9000"
+      networks:
+        - emk_net
+      restart: unless-stopped
+  
+  
   # -------------------------
   # Spring Boot
   # -------------------------
@@ -52,10 +65,10 @@ services:
   #    - ./.env
   #  environment:
   #    SPRING_PROFILES_ACTIVE: "${SPRING_PROFILES_ACTIVE:-prod}"
-      # Ejemplo si usa DB:
-      # SPRING_DATASOURCE_URL: "${SPRING_DATASOURCE_URL}"
-      # SPRING_DATASOURCE_USERNAME: "${SPRING_DATASOURCE_USERNAME}"
-      # SPRING_DATASOURCE_PASSWORD: "${SPRING_DATASOURCE_PASSWORD}"
+  # Ejemplo si usa DB:
+  # SPRING_DATASOURCE_URL: "${SPRING_DATASOURCE_URL}"
+  # SPRING_DATASOURCE_USERNAME: "${SPRING_DATASOURCE_USERNAME}"
+  # SPRING_DATASOURCE_PASSWORD: "${SPRING_DATASOURCE_PASSWORD}"
   #  ports:
   #    - "${SPRING_HOST_PORT:-8082}:8080"
   #  networks:
@@ -83,4 +96,4 @@ networks:
     driver: bridge
 
 volumes:
-  laravel_public:  # si decides compartir public con nginx
+  laravel_public: # si decides compartir public con nginx
