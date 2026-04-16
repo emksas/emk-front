@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AccountingAccountIncomes;
 
+use Illuminate\Support\Facades\Http; 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAccountingAccountRequest;
 use App\Http\Requests\UpdateAccountingAccountRequest;
@@ -40,15 +41,38 @@ class AccountingAccountIncomesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreAccountingAccountRequest $request)
+    public function store(Request $request)
     {
-        $this->accountingAccountService->createAccountingAccount($request);
-        return redirect()->route('accountingAccountIncomes.index')->with('success', 'Accounting Account created successfully.');
+        $user = $request->user();
+        $baseUrl = config('services.spring_financial.base_url');
+        print_r($request->all());
+
+        $validated = $request->validate([
+
+            'descripcion' => 'required|string|max:255',
+
+        ]);
+
+        $payload = [
+            'userId' => $user,
+            'description' => $validated['descripcion'],
+            'isProjection' => true,
+        ];
+
+
+        $response = Http::acceptJson()
+            ->asJson()
+            ->put("{$baseUrl}/api/accounting-account/", $payload);
+
+        print_r($response);
+        /*
+                if ($response->successful()) {
+                    return print("Conexión establecida con el servicio de planificación financiera. Respuesta: " . $response->body());
+                } else {
+                    return print("Error al conectar con el servicio de planificación financiera. Código de estado: " . $response->status() . ". Respuesta: " . $response->body());
+                }*/
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(AccountingAccount $accountingAccount)
     {
         //
@@ -84,36 +108,5 @@ class AccountingAccountIncomesController extends Controller
         }
     }
 
-    public function store(Request $request)
-    {
-        $user = $request->user();
-        $baseUrl = config('services.spring_financial.base_url');
-
-        $validated = $request->validate([
-            'valor' => 'required|numeric',
-            'descripcion' => 'required|string|max:255',
-            'fecha' => 'required|date',
-            'cuentacontable_id' => 'required|integer',
-        ]);
-
-        /*$payload = [
-            'valor'             => $validated['valor'],
-            'descripcion'       => $validated['descripcion'],
-            'fecha'             => $validated['fecha'],
-            'cuentacontable_id' => $validated['cuentacontable_id'],
-            'userId'            => $user->id,
-        ];*/
-
-        $payload = [
-            'userId' => $user->id,
-            'planName' => $validated['descripcion'], // o otro campo
-            'description' => $validated['descripcion'],
-            'projectedValue' => $validated['valor'],
-            'projectedDate' => $validated['fecha'] . 'T00:00:00',
-            'personalProject' => true
-        ];
-
-        print_r($payload);
-    }
 }
 
