@@ -2,7 +2,7 @@
     <div class="flex h-screen w-full overflow-hidden bg-white">
         
         <div class="hidden lg:flex lg:w-1/2 p-4 h-full"> 
-            <div class="w-full h-full bg-[#F1F8E9] rounded-[2.5rem] flex items-center justify-center p-8">
+            <div class="w-full h-full bg-[#16465B] rounded-[2.5rem] flex items-center justify-center p-8">
                 <div class="image-wrapper flex items-center justify-center w-full h-full">
                     <img src="{{ asset('img/image.png') }}" 
                          class="scaled-image max-h-[80vh] w-auto object-contain" 
@@ -31,17 +31,17 @@
                     @csrf
                     <div>
                         <x-label for="email" value="{{ __('Email') }}" />
-                        <x-input id="email" class="block mt-1 w-full border-none bg-[#F1F8E9] focus:bg-gray-200 focus:ring-0" type="email" name="email" required autofocus />
+                        <x-input id="email" class="block mt-1 w-full border-none bg-[#F9EABC] focus:bg-gray-200 focus:ring-0" type="email" name="email" required autofocus />
                     </div>
 
                     <div class="mt-4">
                         <x-label for="password" value="{{ __('Password') }}" />
-                        <x-input id="password" class="block mt-1 w-full border-none bg-[#F1F8E9] focus:bg-gray-200 focus:ring-0 " type="password" name="password" required />
+                        <x-input id="password" class="block mt-1 w-full border-none bg-[#F9EABC] focus:bg-gray-200 focus:ring-0 " type="password" name="password" required />
                     </div>
 
                     <div class="flex items-center justify-between mt-6">
                         <label class="flex items-center">
-                            <x-checkbox name="remember" style="background-color: #d1f5a7;" />
+                            <x-checkbox name="remember" style="background-color: #F9EABC;" />
                             <span class="ms-2 text-sm text-gray-600">Remember me</span>
                         </label>
                         <a class="text-sm text-gray-900 font-semibold" href="{{ route('password.request') }}">Forgot?</a>
