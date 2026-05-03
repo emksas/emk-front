@@ -5,3 +5,21 @@
 [x-cloak] {
     display: none;
 }
+
+/* --- TUS ESTILOS PERSONALIZADOS PARA EL LOGIN --- */
+
+.image-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    max-width: 90%; 
+    max-height: 85vh; /* Ajustado para dar un poco más de aire */
+}
+
+.scaled-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Esto evita que la imagen se estire o se corte */
+}
