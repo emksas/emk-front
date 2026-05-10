@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateAccountingAccountRequest;
 use App\Models\AccountingAccount;
 use Illuminate\Http\Request;
 use App\services\AccountingAccountService;
+use Illuminate\Support\Facades\Http;
 
 class AccountingAccountController extends Controller
 {
@@ -21,12 +22,18 @@ class AccountingAccountController extends Controller
     /**
      * Display a listing of the resource.
      */
+
     public function index()
     {
-        $accountingAccounts = $this->accountingAccountService->getAllAccountingAccounts();
-        $error = null;
+        // Hacemos el "grito" hacia Java
+        try {
+            \Illuminate\Support\Facades\Http::get('http://localhost:8082/conexion-laravel');
+        } catch (\Exception $e) {
+            // Si Java está apagado, no pasa nada, el programa sigue
+        }
 
-        return view('accountingAccount.index', compact('accountingAccounts', 'error'));
+        $accountingAccounts = $this->accountingAccountService->getAllAccountingAccounts();
+        return view('accountingAccount.index', compact('accountingAccounts'));
     }
 
     /**

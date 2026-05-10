@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AccountingAccountIncomes;
 
+use Illuminate\Support\Facades\Http; 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAccountingAccountRequest;
 use App\Http\Requests\UpdateAccountingAccountRequest;
@@ -40,15 +41,38 @@ class AccountingAccountIncomesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreAccountingAccountRequest $request)
+    public function store(Request $request)
     {
-        $this->accountingAccountService->createAccountingAccount($request);
-        return redirect()->route('accountingAccountIncomes.index')->with('success', 'Accounting Account created successfully.');
+        $user = $request->user();
+        $baseUrl = config('services.spring_financial.base_url');
+        print_r($request->all());
+
+        $validated = $request->validate([
+
+            'descripcion' => 'required|string|max:255',
+
+        ]);
+
+        $payload = [
+            'userId' => $user,
+            'description' => $validated['descripcion'],
+            'isProjection' => true,
+        ];
+
+
+        $response = Http::acceptJson()
+            ->asJson()
+            ->put("{$baseUrl}/api/accounting-account/", $payload);
+
+        print_r($response);
+        /*
+                if ($response->successful()) {
+                    return print("Conexión establecida con el servicio de planificación financiera. Respuesta: " . $response->body());
+                } else {
+                    return print("Error al conectar con el servicio de planificación financiera. Código de estado: " . $response->status() . ". Respuesta: " . $response->body());
+                }*/
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(AccountingAccount $accountingAccount)
     {
         //
@@ -83,4 +107,6 @@ class AccountingAccountIncomesController extends Controller
             return redirect()->route('accountingAccountIncomes.index')->with('error', 'Error deleting Accounting Account: ' . $e->getMessage());
         }
     }
+
 }
+
