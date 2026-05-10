@@ -78,7 +78,7 @@ services:
   # -------------------------
   node:
     build:
-      context: ./node
+      context: ./emk-sena-rsr-expenses-back
       dockerfile: Dockerfile
     container_name: emk_node
     working_dir: /app
