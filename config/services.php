@@ -39,4 +39,8 @@ return [
         'base_url' => env('PYTHON_INCOMES_BASE_URL', 'http://localhost:9000/api'),
     ],
 
+    'node_expenses' => [
+        'base_url' => env('NODE_EXPENSES_BASE_URL', 'http://localhost:9000/api'),
+    ],
+
 ];

@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateExpenseRequest;
 use App\Models\Expense;
 use App\services\AccountingAccountService;
 use App\services\ExpensesService;
+use Illuminate\Support\Facades\Auth;
 
 class ExpensesController extends Controller
 {
@@ -87,7 +88,8 @@ class ExpensesController extends Controller
 
     public function getExpensesFromMail()
     {
-        $this->expensesService->fromMail();
+        $userId = Auth::id();
+        $this->expensesService->fromMail($userId);
         return redirect()->route('expenses.index')->with('success', 'Expense deleted successfully.');
     }
 
