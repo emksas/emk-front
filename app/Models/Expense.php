@@ -8,7 +8,7 @@ class Expense extends Model
 {
     protected $table = 'egreso';
      public $timestamps = false;
-    protected $primaryKey = 'idegreso';
+    protected $primaryKey = 'id';
 
     protected $fillable = [
         
