@@ -37,7 +37,6 @@ class ExpensesService
     public function createExpense(StoreExpenseRequest $data)
     {
         $isValidated = $data->validated();
-        print_r($isValidated);
         if (!$isValidated) {
             throw new \InvalidArgumentException('Invalid data provided for creating an expense.');
         } else {

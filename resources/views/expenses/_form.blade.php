@@ -47,6 +47,21 @@
             @error('cuentacontable_id')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
 
         </div>
+
+         <div class="md:col-span-2">
+            <label class="block text-sm font-medium mb-1">Financial Planning*</label>
+            <select id="financialPlanning" name="planificacion_financiera_id" class="w-full border rounded px-3 py-2" required>
+                @foreach ($financialPlannings as $financialPlanning)
+                    <option value="{{ $financialPlanning['planId'] }}" {{ (isset($expense) && $expense['planificacion_financiera_id'] == $financialPlanning['planId']) ? 'selected' : '' }}>
+                        {{ $financialPlanning['description'] }}
+                    </option>
+
+                @endforeach
+            </select>
+            @error('planificacion_financiera_id')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
+
+        </div>
+
     </div>
 
 </div>

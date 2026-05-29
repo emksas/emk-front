@@ -118,14 +118,14 @@
                                 </td>
                                 <td class="px-4 py-2">
                                     <div class="flex justify-center items-center gap-2">
-                                        <a href="{{ route('expenses.edit', $expense['idegreso']) }}"
+                                        <a href="{{ route('expenses.edit', $expense['id']) }}"
                                             class="inline-flex items-center gap-2 rounded-lg border border-yellow-600
                                                                                                  bg-transparent px-4 py-2 text-sm font-medium text-yellow-600
                                                                                                  hover:bg-yellow-50 focus:outline-none focus:ring-2 focus:ring-yellow-600/40
                                                                                                  disabled:opacity-50 disabled:pointer-events-none">
                                             Edit
                                         </a>
-                                        <form action="{{ route('expenses.destroy', $expense['idegreso']) }}" method="POST"
+                                        <form action="{{ route('expenses.destroy', $expense['id']) }}" method="POST"
                                             style="display:inline;">
                                             @csrf
                                             @method('DELETE')
