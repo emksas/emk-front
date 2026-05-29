@@ -8,14 +8,21 @@ use App\Http\Requests\UpdateExpenseRequest;
 use App\Models\Expense;
 use App\services\AccountingAccountService;
 use App\services\ExpensesService;
+use App\Services\FinancialPlanningService;
 use Illuminate\Support\Facades\Auth;
 
 class ExpensesController extends Controller
 {
+
+    private string $userId;
+
     public function __construct(
         private ExpensesService $expensesService,
-        private AccountingAccountService $accountingAccountService
+        private AccountingAccountService $accountingAccountService,
+        private FinancialPlanningService $financialPlanningService
     ) {
+        $this->userId = Auth::id();
+
     }
 
     /**
@@ -34,8 +41,9 @@ class ExpensesController extends Controller
      */
     public function create()
     {
+        $financialPlannings = $this->financialPlanningService->getByUserId($this->userId);
         $accountingAccounts = $this->accountingAccountService->getAllAccountingAccounts();
-        return view('expenses.create', ['accountingAccounts' => $accountingAccounts]);
+        return view('expenses.create', ['accountingAccounts' => $accountingAccounts, 'financialPlannings' => $financialPlannings]);
     }
 
     /**
@@ -60,8 +68,9 @@ class ExpensesController extends Controller
      */
     public function edit(Expense $expense)
     {
+        $financialPlannings = $this->financialPlanningService->getByUserId($this->userId);
         $accountingAccounts = $this->accountingAccountService->getAllAccountingAccounts();
-        return view('expenses.edit', ['expense' => $expense, 'accountingAccounts' => $accountingAccounts]);
+        return view('expenses.edit', ['expense' => $expense, 'accountingAccounts' => $accountingAccounts, 'financialPlannings' => $financialPlannings]);
     }
 
     /**
