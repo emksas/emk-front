@@ -8,7 +8,7 @@ use App\Http\Requests\UpdateExpenseRequest;
 use App\Models\Expense;
 use App\services\AccountingAccountService;
 use App\services\ExpensesService;
-use App\Services\FinancialPlanningService;
+use App\services\FinancialPlanningService;
 use Illuminate\Support\Facades\Auth;
 
 class ExpensesController extends Controller
