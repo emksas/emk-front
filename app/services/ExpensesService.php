@@ -11,14 +11,16 @@ use Illuminate\Support\Facades\DB;
 class ExpensesService
 {
 
+    private $baseUrl;
 
-    public function fetchExpenses()
+    public function fetchExpenses($user)
     {
+        $this->baseUrl = config('services.nose_expenses.base_url');
         $expenses = [];
 
         try {
             $res = Http::timeout(10)->retry(3, 200)
-                ->baseUrl('http://localhost:3000/api')
+                ->baseUrl($this->baseUrl.'/expenses/'.$user.'?folderPath=/Finanzas/rappi&numberElements=5')
                 ->get('/expenses')
                 ->throw()
                 ->json();
@@ -45,9 +47,9 @@ class ExpensesService
 
     }
 
-    public function fromMail()
+    public function fromMail($user)
     {
-        $expensesFromMail = $this->fetchExpenses();
+        $expensesFromMail = $this->fetchExpenses($user);
         foreach ($expensesFromMail as $expenseData) {
             if ($expenseData['paymentMethod'] != null) {
 

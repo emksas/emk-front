@@ -97,7 +97,8 @@ class ExpensesController extends Controller
 
     public function getExpensesFromMail()
     {
-        $this->expensesService->fromMail();
+        $userId = Auth::id();
+        $this->expensesService->fromMail($userId);
         return redirect()->route('expenses.index')->with('success', 'Expense deleted successfully.');
     }
 
