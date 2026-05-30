@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ExpensesController extends Controller
 {
@@ -40,7 +41,8 @@ class ExpensesController extends Controller
     public function fetchExpensesFromMail()
     {
         $expensesService = app(\App\services\ExpensesService::class);
-        $result = $expensesService->fromMail();
+        $userId = Auth::id();
+        $result = $expensesService->fromMail($userId);
         if ($result === false) {
             return response()->json(['error' => 'Failed to fetch expenses from mail.'], 500);
         }

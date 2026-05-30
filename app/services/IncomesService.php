@@ -18,7 +18,7 @@ class IncomesService
 
         try {
             $this->baseUrl = config('services.python_incomes.base_url');
-            $response = Http::get($this->baseUrl . '/api/incomes/?user_id=' . $user);
+            $response = Http::get($this->baseUrl . '/incomes/?user_id=' . $user);
 
             if ($response->failed()) {
                 return [
