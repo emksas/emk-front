@@ -22,8 +22,6 @@ class FinancialPlanningController extends Controller
     public function index(Request $request)
     {
 
-    
-        /*
         $user = $request->user();
         $baseUrl = config('services.spring_financial.base_url');
 
@@ -49,9 +47,9 @@ class FinancialPlanningController extends Controller
                 $financialPlannings[$key]['operations'] = [];
             }
         }
-        */
+        
         return view('financial-planning.index', [
-            'financialPlannings' => []
+            'financialPlannings' => $financialPlannings
         ]);
 
     }

@@ -11,9 +11,9 @@ services:
       - ./.env
     environment:
       APP_ENV: "${APP_ENV:-production}"
-      SPRING_BASE_URL: "http://spring:8085"
+      SPRING_BASE_URL: "http://spring:8082"
       DJANGO_BASE_URL: "http://django:8084"
-      NODE_BASE_URL: "http://node:8086"
+      NODE_BASE_URL: "http://node:3000"
     volumes:
       - ./:/var/www
     extra_hosts:
@@ -62,13 +62,13 @@ services:
   # -------------------------
   spring:
     build:
-      context: ../financialPlaning
+      context: ../financial-planing
       dockerfile: Dockerfile
     container_name: emk_spring
     ports:
-      - "8085:8085"
+      - "8082:8082"
     environment:
-      SERVER_PORT: 8085
+      SERVER_PORT: 8082
     networks:
       - emk_net
     restart: unless-stopped
