@@ -54,9 +54,9 @@
                         <option value="" disabled {{ old('role') ? '' : 'selected' }}>
                             {{ __('Seleccione un rol...') }}
                         </option>
-                        <option value="rol1" {{ old('role') == 'rol1' ? 'selected' : '' }}>rol1</option>
-                        <option value="rol2" {{ old('role') == 'rol2' ? 'selected' : '' }}>rol2</option>
-                        <option value="rol3" {{ old('role') == 'rol3' ? 'selected' : '' }}>rol3</option>
+                        <option value="rol1" {{ old('role') == 'rol1' ? 'selected' : '' }}>Bussines</option>
+                        <option value="rol2" {{ old('role') == 'rol2' ? 'selected' : '' }}>Personal</option>
+                        <option value="rol3" {{ old('role') == 'rol3' ? 'selected' : '' }}>Family</option>
                     </select>
                 </div>
 
