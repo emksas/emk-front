@@ -1,22 +1,16 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Expenses') }}
+            {{ __('Incomes') }}
         </h2>
 
 
         <div class="sm:ml-auto flex items-center gap-2">
-            <a href="{{ route('expenses.create') }}" class="inline-flex items-center gap-2 rounded-lg border border-blue-600
+            <a href="{{ route('incomes.create') }}" class="inline-flex items-center gap-2 rounded-lg border border-blue-600
              bg-transparent px-4 py-2 text-sm font-medium text-blue-600
              hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-600/40
              disabled:opacity-50 disabled:pointer-events-none">
-                Add Expense
-            </a>
-            <a href="{{ route('expenses.fromMail') }}" class="inline-flex items-center gap-2 rounded-lg border border-blue-600
-             bg-transparent px-4 py-2 text-sm font-medium text-blue-600
-             hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-600/40
-             disabled:opacity-50 disabled:pointer-events-none">
-                From Mail
+                Add Income
             </a>
         </div>
     </x-slot>
@@ -46,27 +40,27 @@
                         </thead>
 
                         <tbody>
-                            @foreach ($expenses as $expense)
-                                @if ($expense['descripcion'] != null)
+                            @foreach ($incomes as $income)
+                                @if ($income['source'] != null)
                                     <tr>
                                         <td>
-                                            {{ $expense['valor'] }}
+                                            {{ $income['value'] }}
                                         </td>
                                         <td>
-                                            {{ $expense['descripcion'] }}
+                                            {{ $income['source'] }}
                                         </td>
                                         <td>
-                                            {{ $expense['fecha'] }}
+                                            {{ $income['date'] }}
                                         </td>
                                         <td class="px-4 py-2">
                                             <div class="flex justify-center items-center gap-2">
-                                                <a href="{{ route('expenses.edit', $expense['id']) }}" class="inline-flex items-center gap-2 rounded-lg border border-yellow-600
+                                                <a href="{{ route('incomes.edit', $income['id']) }}" class="inline-flex items-center gap-2 rounded-lg border border-yellow-600
                                              bg-transparent px-4 py-2 text-sm font-medium text-yellow-600
                                              hover:bg-yellow-50 focus:outline-none focus:ring-2 focus:ring-yellow-600/40
                                              disabled:opacity-50 disabled:pointer-events-none">
                                                     Edit
                                                 </a>
-                                                <form action="{{ route('expenses.destroy', $expense['id']) }}"
+                                                <form action="{{ route('incomes.destroy', $income['id']) }}"
                                                     method="POST" style="display:inline;">
                                                     @csrf
                                                     @method('DELETE')
