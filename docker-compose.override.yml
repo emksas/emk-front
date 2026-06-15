@@ -1,0 +1,46 @@
+services:
+  laravel:
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+    image: emk_laravel_local
+    volumes:
+      - ./:/var/www
+
+  nginx:
+    volumes:
+      - ./:/var/www:ro
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+
+  django:
+    build:
+      context: ../emk-reports
+      dockerfile: Dockerfile
+    image: emk_django_local
+    command: python manage.py runserver 0.0.0.0:8084
+    volumes:
+      - ../emk-reports:/app
+
+  
+  spring:
+    image: maven:3.9-eclipse-temurin-21
+    working_dir: /app
+    volumes:
+      - ../financialPlaning:/app
+      - ~/.m2:/root/.m2
+    entrypoint: []
+    command: mvn spring-boot:run
+    ports:
+      - "8085:8085"
+    environment:
+      SERVER_PORT: 8085
+  
+  node:
+    build:
+      context: ../emk-sena-rsr-expenses-back
+      dockerfile: Dockerfile
+    image: emk_node_local
+    volumes:
+      - ../emk-sena-rsr-expenses-back:/app
+      - /app/node_modules
+    command: npm start

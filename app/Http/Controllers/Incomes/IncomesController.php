@@ -7,20 +7,20 @@ use App\Models\Income;
 use App\services\AccountingAccountService;
 use App\services\IncomesService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class IncomesController extends Controller
 {
     public function __construct(
         private IncomesService $incomesService,
         private AccountingAccountService $accountingAccountService
-    ) {
-    }
+    ) {}
 
     public function index(Request $request)
     {
-        $incomes = $this->incomesService->getIncomes( $request->user() );
+        $incomes = $this->incomesService->getIncomes($request->user());
 
-        if($incomes['status'] == 404){
+        if ($incomes['status'] == 404) {
             return view('incomes.index', [
                 'incomes' => [],
                 'error' => 'No incomes found for the user',
@@ -68,7 +68,6 @@ class IncomesController extends Controller
         $incomeInformation = $income->toArray();
         $this->incomesService->updateIncome($incomeInformation, $request->input());
         return redirect()->route('incomes.index')->with('success', 'Income updated successfully.');
-
     }
 
     public function destroy(Request $request, Income $income)

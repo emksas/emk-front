@@ -1,4 +1,28 @@
-FROM php:8.2-fpm
+#-----------------------------------
+FROM composer:2 as vendor
+WORKDIR /app
+COPY composer.json composer.lock ./
+RUN composer install \
+    --no-dev \
+    --prefer-dist \
+    --no-interaction \
+    --no-progress \
+    --optimize-autoloader \
+    --ignore-platform-reqs
+
+#-----------------------------------
+
+FROM node:20-alpine as assets
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
+COPY resources ./resources
+COPY vite.config.js postcss.config.js tailwind.config.js ./
+RUN npm run build
+
+#-----------------------------------
+
+FROM php:8.4-fpm
 
 RUN apt-get update && apt-get install -y \
   git curl unzip zip \

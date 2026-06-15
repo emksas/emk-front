@@ -65,7 +65,7 @@ class IncomesService
         ];
 
 
-        $response = Http::acceptJson()->asJson()->post($this->baseUrl . '/api/incomes/', $newIncome);
+        $response = Http::acceptJson()->asJson()->post($this->baseUrl . '/api/incomes', $newIncome);
         return $response;
     }
 

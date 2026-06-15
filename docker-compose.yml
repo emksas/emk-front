@@ -6,7 +6,6 @@ services:
   laravel:
     image: "ghcr.io/emksas/emk-front:prod-latest"
     container_name: emk_laravel
-    working_dir: /var/www
     env_file:
       - ./.env
     environment:
@@ -14,8 +13,6 @@ services:
       SPRING_BASE_URL: "http://spring:8085"
       DJANGO_BASE_URL: "http://django:8084"
       NODE_BASE_URL: "http://node:8086"
-    volumes:
-      - ./:/var/www
     extra_hosts:
       - "host.docker.internal:host-gateway"
     networks:
@@ -50,7 +47,7 @@ services:
     working_dir: /app
     command: python manage.py runserver 0.0.0.0:8084
     volumes:
-      - ./django:/app
+      - ../emk-reports:/app
     ports:
       - "8084:8084"
     networks:
