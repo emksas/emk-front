@@ -61,6 +61,8 @@ services:
     build:
       context: ../financialPlaning
       dockerfile: Dockerfile
+    env_file:
+    - ../financialPlaning/.env
     container_name: emk_spring
     ports:
       - "8085:8085"
