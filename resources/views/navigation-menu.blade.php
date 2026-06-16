@@ -12,21 +12,21 @@
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link href="{{ route('expenses.index') }}" :active="request()->routeIs('expenses.*')">
-                        {{ __('Expenses') }}
-                    </x-nav-link>
-                    <x-nav-link href="{{ route('accountingAccount.index') }}"
-                        :active="request()->routeIs('accountingAccount.*')">
-                        {{ __('Accounting Account') }}
-                    </x-nav-link>
-                    <x-nav-link href="{{ route('financial-planning.index') }}"
-                        :active="request()->routeIs('financial-planning.*')">
-                        {{ __('Financial Planning') }}
-                    </x-nav-link>
-                    <x-nav-link href="{{ route('incomes.index') }}" 
-                        :active="request()->routeIs('incomes.*')">
-                        {{ __('Incomes') }}
-                    </x-nav-link>
+
+                    @if(Auth::user()->isFamiliar() || Auth::user()->isPersonal())
+                        <x-nav-link href="{{ route('expenses.index') }}" :active="request()->routeIs('expenses.*')">
+                            {{ __('Expenses') }}
+                        </x-nav-link>
+                        <x-nav-link href="{{ route('accountingAccount.index') }}" :active="request()->routeIs('accountingAccount.*')">
+                            {{ __('Accounting Account') }}
+                        </x-nav-link>
+                        <x-nav-link href="{{ route('financial-planning.index') }}" :active="request()->routeIs('financial-planning.*')">
+                            {{ __('Financial Planning') }}
+                        </x-nav-link>
+                    @endif
+
+                    @if(Auth::user()->isEmpresarial())
+                        @endif
                 </div>
             </div>
 
@@ -66,7 +66,7 @@
                                 <span class="inline-flex rounded-md">
                                     <button type="button"
                                         class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
-                                        {{ Auth::user()->name }}
+                                        {{ Auth::user()->name }} ({{ Auth::user()->role }})
                                         <svg class="ms-2 -me-0.5 size-4" xmlns="http://www.w3.org/2000/svg" fill="none"
                                             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -117,17 +117,20 @@
             <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('expenses.index') }}" :active="request()->routeIs('expenses.*')">
-                {{ __('Expenses') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('accountingAccount.index') }}"
-                :active="request()->routeIs('accountingAccount.*')">
-                {{ __('Accounting Account') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('financial-planning.index') }}"
-                :active="request()->routeIs('financial-planning.*')">
-                {{ __('Financial Planning') }}
-            </x-responsive-nav-link>
+
+            @if(Auth::user()->isFamiliar() || Auth::user()->isPersonal())
+                <x-responsive-nav-link href="{{ route('expenses.index') }}" :active="request()->routeIs('expenses.*')">
+                    {{ __('Expenses') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link href="{{ route('accountingAccount.index') }}"
+                    :active="request()->routeIs('accountingAccount.*')">
+                    {{ __('Accounting Account') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link href="{{ route('financial-planning.index') }}"
+                    :active="request()->routeIs('financial-planning.*')">
+                    {{ __('Financial Planning') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <div class="pt-4 pb-1 border-t border-gray-200">

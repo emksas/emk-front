@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\services\DashboardServices;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use App\Services\DashboardServices;
+use Carbon\Carbon; // Importamos Carbon para sacar el año/mes actual si no vienen en la URL
 
 class HomeController extends Controller
 {
-
-    public function __construct( private DashboardServices $dashboardServices)
+    public function __construct(private DashboardServices $dashboardServices)
     {
     }
 
@@ -19,18 +22,27 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
+        $user = Auth::user();
 
-        $year = $request->query('year');
-        $month = $request->query('month');
+        switch ($user->role) {
+            case 'FAMILIAR':
+                $usuariosPersonal = User::where('role', 'PERSONAL')->get(['id', 'name']);
+                return view('dashboard.familiar', compact('usuariosPersonal'));
 
-        if ($year === null && $month === null) {
-            $now = now();
-            $year = $now->year;
-            $month = $now->month;
+            case 'EMPRESARIAL':
+                return view('dashboard.empresarial');
+
+            case 'PERSONAL':
+            default:
+                // Capturamos el año y mes del request, o usamos los actuales por defecto
+                $year = $request->query('year', Carbon::now()->year);
+                $month = $request->query('month', Carbon::now()->month);
+
+                // CORRECCIÓN CON EL MÉTODO REAL: Usamos getDashboardData con sus respectivos parámetros
+                $dashboardData = $this->dashboardServices->getDashboardData($year, $month);
+
+                return view('dashboard', compact('dashboardData'));
         }
-
-        $dashboardData = $this->dashboardServices->getDashboardData($year, $month);
-        return view('dashboard', ['dashboardData' => $dashboardData] );
     }
 
     public function years()
@@ -48,11 +60,10 @@ class HomeController extends Controller
 
     public function api()
     {
-
         $year = request()->query('year');
         $month = request()->query('month');
 
-        $dashboardData = $this->dashboardServices->getDashboardData( $year, $month );
+        $dashboardData = $this->dashboardServices->getDashboardData($year, $month);
         return response()->json($dashboardData);
     }
 }
