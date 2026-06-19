@@ -25,7 +25,7 @@ class FinancialPlanningController extends Controller
 
         $baseUrl = config('services.spring_financial.base_url');
 
-        $response = Http::get($baseUrl . '/api/financial-planning/user/' . $user->id);
+        $response = Http::get($baseUrl . '/financial-planning/user/' . $user->id);
 
         $financialPlannings = $response->json();
 
