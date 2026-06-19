@@ -1,15 +1,13 @@
 <?php
 
 use App\Http\Controllers\AccountingAccountIncomes\AccountingAccountIncomesController;
-use App\Http\Controllers\Employee\EmployeeController;
 use App\Http\Controllers\Expenses\ExpensesController;
 use App\Http\Controllers\AccountingAccount\AccountingAccountController;
-use App\Http\Controllers\FinancialPlaning\FinancialPlanningController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PlannedOperation\PlannedOperationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Incomes\IncomesController;
-
+use App\Http\Controllers\FinancialPlanning\FinancialPlanningController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,10 +25,6 @@ Route::middleware([
 
     Route::get('/api/dashboard', [HomeController::class, 'api'])->name('dashboard.api');
 });
-
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])
-    ->resource('employee', EmployeeController::class)
-    ->names('employee');
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])
     ->group(function () {

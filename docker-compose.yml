@@ -59,10 +59,10 @@ services:
   # -------------------------
   spring:
     build:
-      context: ../financialPlaning
+      context: ../financial-planing
       dockerfile: Dockerfile
     env_file:
-    - ../financialPlaning/.env
+    - ../financial-planing/.env
     container_name: emk_spring
     ports:
       - "8085:8085"

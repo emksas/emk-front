@@ -1,5 +1,5 @@
 #-----------------------------------
-FROM composer:2 as vendor
+FROM composer:2 AS vendor
 WORKDIR /app
 COPY composer.json composer.lock ./
 RUN composer install \
@@ -8,16 +8,19 @@ RUN composer install \
     --no-interaction \
     --no-progress \
     --optimize-autoloader \
+    --no-scripts \
     --ignore-platform-reqs
 
 #-----------------------------------
 
-FROM node:20-alpine as assets
+FROM node:20-alpine AS assets
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY resources ./resources
+COPY public ./public
 COPY vite.config.js postcss.config.js tailwind.config.js ./
+COPY --from=vendor /app/vendor ./vendor
 RUN npm run build
 
 #-----------------------------------
@@ -35,3 +38,14 @@ RUN apt-get update && apt-get install -y \
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www
+
+# Copia el código de Laravel a la imagen final.
+COPY . .
+
+# Copia las dependencias PHP y los assets compilados desde las etapas anteriores.
+COPY --from=vendor /app/vendor ./vendor
+COPY --from=assets /app/public/build ./public/build
+
+RUN php artisan package:discover --ansi
+
+CMD ["php-fpm"]
