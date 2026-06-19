@@ -13,7 +13,7 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
-                    @if(Auth::user()->isFamiliar() || Auth::user()->isPersonal())
+                    @if(Auth::user()->role == 1 || Auth::user()->role == 2)
                         <x-nav-link href="{{ route('expenses.index') }}" :active="request()->routeIs('expenses.*')">
                             {{ __('Expenses') }}
                         </x-nav-link>
@@ -25,8 +25,6 @@
                         </x-nav-link>
                     @endif
 
-                    @if(Auth::user()->isEmpresarial())
-                        @endif
                 </div>
             </div>
 
@@ -118,7 +116,7 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
 
-            @if(Auth::user()->isFamiliar() || Auth::user()->isPersonal())
+            @if(Auth::user()->role == 1 || Auth::user()->role == 2)
                 <x-responsive-nav-link href="{{ route('expenses.index') }}" :active="request()->routeIs('expenses.*')">
                     {{ __('Expenses') }}
                 </x-responsive-nav-link>

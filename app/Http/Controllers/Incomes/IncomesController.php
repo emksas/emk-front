@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Incomes;
 use App\Http\Controllers\Controller;
 use App\Models\Income;
 use App\services\AccountingAccountService;
+use App\services\FinancialPlanningService;
 use App\services\IncomesService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,7 +14,8 @@ class IncomesController extends Controller
 {
     public function __construct(
         private IncomesService $incomesService,
-        private AccountingAccountService $accountingAccountService
+        private AccountingAccountService $accountingAccountService,
+        private FinancialPlanningService $financialPlanningService
     ) {}
 
     public function index(Request $request)
@@ -44,7 +46,17 @@ class IncomesController extends Controller
     public function create()
     {
         $accountingAccounts = $this->accountingAccountService->getAllAccountingAccounts();
-        return view('incomes.create', ['accountingAccounts' => $accountingAccounts]);
+        $financialPlannings = $this->financialPlanningService->getByUserId(Auth::id());
+        
+//        print_r($accountingAccounts);
+        print_r($financialPlannings);
+        
+        /*
+        return view('incomes.create', [
+            'accountingAccounts' => $accountingAccounts,
+            'financialPlannings' => $financialPlannings
+        ]);
+        */
     }
 
     public function store(Request $request)
@@ -57,9 +69,12 @@ class IncomesController extends Controller
     public function edit(Income $income)
     {
         $accountingAccounts = $this->accountingAccountService->getAllAccountingAccounts();
+        $financialPlannings = $this->financialPlanningService->getByUserId(Auth::id());
+        
         return view('incomes.edit', [
             'income' => $income,
-            'accountingAccounts' => $accountingAccounts
+            'accountingAccounts' => $accountingAccounts,
+            'financialPlannings' => $financialPlannings
         ]);
     }
 

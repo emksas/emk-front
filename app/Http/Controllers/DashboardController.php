@@ -8,10 +8,14 @@ use App\Models\User; // Asumiendo que usarás esto para listar usuarios en el ro
 
 class DashboardController extends Controller
 {
+
     public function index()
     {
         $user = Auth::user();
 
+        print_r($user->role);
+
+        return; 
         switch ($user->role) {
             case 'FAMILIAR':
                 // Para el rol familiar, necesitamos los usuarios de rol PERSONAL actuales
