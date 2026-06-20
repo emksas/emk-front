@@ -11,31 +11,31 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="bg-white p-6 rounded-lg shadow">
                     <h3 class="text-lg font-bold text-green-600">Ingresos Familiares</h3>
-                    <p class="text-2xl">$0.00</p>
+                    <p class="text-2xl">${{ number_format($dashboardData['total_incomes'] ?? 0, 2) }}</p>
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow">
                     <h3 class="text-lg font-bold text-red-600">Egresos Familiares</h3>
-                    <p class="text-2xl">$0.00</p>
+                    <p class="text-2xl">${{ number_format($dashboardData['total_expenses'] ?? 0, 2) }}</p>
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow">
                     <h3 class="text-lg font-bold text-orange-600">Gastos Totales</h3>
-                    <p class="text-2xl">$0.00</p>
+                    <p class="text-2xl">${{ number_format($dashboardData['balance'] ?? 0, 2) }}</p>
                 </div>
             </div>
 
             <div class="bg-white p-6 rounded-lg shadow">
                 <h3 class="text-lg font-medium text-gray-900 mb-4">Registrar Gasto Familiar</h3>
                 
-                <form action="#" method="POST" class="space-y-4">
+                <form action="{{ route('expenses.store') }}" method="POST" class="space-y-4">
                     @csrf
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Descripción del Gasto</label>
-                        <input type="text" name="descripcion" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                        <input type="text" name="descripcion" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Monto</label>
-                        <input type="number" name="monto" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                        <input type="number" step="0.01" name="monto" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
                     </div>
 
                     <div>
