@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Incomes;
 
 use App\Http\Controllers\Controller;
 use App\Models\Income;
-use App\services\AccountingAccountService;
+use App\services\AccountingAccountIncomesService;
 use App\services\FinancialPlanningService;
 use App\services\IncomesService;
 use Illuminate\Http\Request;
@@ -14,7 +14,7 @@ class IncomesController extends Controller
 {
     public function __construct(
         private IncomesService $incomesService,
-        private AccountingAccountService $accountingAccountService,
+        private AccountingAccountIncomesService $accountingAccountService,
         private FinancialPlanningService $financialPlanningService
     ) {}
 
@@ -45,10 +45,10 @@ class IncomesController extends Controller
 
     public function create()
     {
-        $accountingAccounts = $this->accountingAccountService->getAllAccountingAccounts();
+        $accountingAccounts = $this->accountingAccountService->getAll();
         $financialPlannings = $this->financialPlanningService->getByUserId(Auth::id());
         
-//        print_r($accountingAccounts);
+        print_r($accountingAccounts);
         print_r($financialPlannings);
         
         /*
@@ -68,7 +68,7 @@ class IncomesController extends Controller
 
     public function edit(Income $income)
     {
-        $accountingAccounts = $this->accountingAccountService->getAllAccountingAccounts();
+        $accountingAccounts = $this->accountingAccountService->getAll();
         $financialPlannings = $this->financialPlanningService->getByUserId(Auth::id());
         
         return view('incomes.edit', [
