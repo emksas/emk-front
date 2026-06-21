@@ -29,9 +29,6 @@ class FinancialPlanningController extends Controller
 
         $financialPlannings = $response->json();
 
-        print_r( $financialPlannings );
-
-        /*
         if ($response->failed()) {
             return view('financial-planning.index', [
                 'error' => 'Error fetching data from financial planning service',
@@ -51,7 +48,6 @@ class FinancialPlanningController extends Controller
         return view('financial-planning.index', [
             'financialPlannings' => $financialPlannings
         ]);
-        */
     }
 
     public function create()
@@ -61,7 +57,7 @@ class FinancialPlanningController extends Controller
 
         if (empty($accountingAccounts)) {
             return redirect()->route('financial-planning.index')
-                ->with('error', 'You need to have accounting accounts before creating a planned operation.');
+                ->with('error', 'You need to have accounting accounts before creating a planned operatio5774n.');
         } else {
             return view('financial-planning.create', ['accountingAccounts' => $accountingAccounts]);
         }

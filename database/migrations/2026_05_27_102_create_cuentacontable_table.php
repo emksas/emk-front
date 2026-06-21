@@ -17,6 +17,8 @@ return new class extends Migration {
 
             $table->foreignId('userId')
                 ->constrained('users');
+
+            $table->boolean('esProyeccion');
         });
     }
 

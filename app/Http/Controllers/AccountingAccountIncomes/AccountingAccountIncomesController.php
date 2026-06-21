@@ -2,20 +2,19 @@
 
 namespace App\Http\Controllers\AccountingAccountIncomes;
 
-use Illuminate\Support\Facades\Http; 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreAccountingAccountRequest;
 use App\Http\Requests\UpdateAccountingAccountRequest;
 use App\Models\AccountingAccount;
 use Illuminate\Http\Request;
-use App\services\AccountingAccountService;
+use App\services\AccountingAccountIncomesService;
+use Illuminate\Support\Facades\Auth;
 
 class AccountingAccountIncomesController extends Controller
 {
 
-
-    public function __construct(private AccountingAccountService $accountingAccountService)
-    {
+    public function __construct(
+        private AccountingAccountIncomesService $accountingAccountService
+    ) {
         //
     }
 
@@ -24,10 +23,10 @@ class AccountingAccountIncomesController extends Controller
      */
     public function index()
     {
-        $accountingAccounts = $this->accountingAccountService->getAllAccountingAccounts();
+        $accountingAccounts = $this->accountingAccountService->getAll();
         $error = null;
 
-        return view('accountingAccountIncomes.index', compact('accountingAccounts', 'error'));
+        return view('accountingAccountIncomes.index', [ 'accountingAccounts' => $accountingAccounts, 'error' => $error ]);
     }
 
     /**
@@ -43,39 +42,24 @@ class AccountingAccountIncomesController extends Controller
      */
     public function store(Request $request)
     {
-        $user = $request->user();
-        $baseUrl = config('services.spring_financial.base_url');
-        print_r($request->all());
-
         $validated = $request->validate([
-
             'descripcion' => 'required|string|max:255',
-
         ]);
 
         $payload = [
-            'userId' => $user,
+            'userId' => Auth::id(),
             'description' => $validated['descripcion'],
-            'isProjection' => true,
+            'projection' => true,
         ];
 
 
-        $response = Http::acceptJson()
-            ->asJson()
-            ->put("{$baseUrl}/api/accounting-account/", $payload);
+        $response = $this->accountingAccountService->create($payload);
 
-        print_r($response);
-        /*
-                if ($response->successful()) {
-                    return print("Conexión establecida con el servicio de planificación financiera. Respuesta: " . $response->body());
-                } else {
-                    return print("Error al conectar con el servicio de planificación financiera. Código de estado: " . $response->status() . ". Respuesta: " . $response->body());
-                }*/
-    }
-
-    public function show(AccountingAccount $accountingAccount)
-    {
-        //
+        if ($response) {
+            return redirect()->route('accountingAccountIncomes.index')->with('success', 'Accounting Account created');
+        } else {
+            return redirect()->route('accountingAccountIncomes.index')->with('error', 'We can not created');
+        }
     }
 
     /**
@@ -101,12 +85,10 @@ class AccountingAccountIncomesController extends Controller
     public function destroy(AccountingAccount $accountingAccount)
     {
         try {
-            $this->accountingAccountService->deleteAccountingAccount($accountingAccount);
+            $this->accountingAccountService->delete($accountingAccount);
             return redirect()->route('accountingAccountIncomes.index')->with('success', 'Accounting Account deleted');
         } catch (\Exception $e) {
             return redirect()->route('accountingAccountIncomes.index')->with('error', 'Error deleting Accounting Account: ' . $e->getMessage());
         }
     }
-
 }
-
