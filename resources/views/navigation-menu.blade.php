@@ -128,6 +128,10 @@
                 :active="request()->routeIs('financial-planning.*')">
                 {{ __('Financial Planning') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('incomes.index') }}"
+                :active="request()->routeIs('incomes.*')">
+                {{ __('Incomes') }}
+            </x-responsive-nav-link>
         </div>
 
         <div class="pt-4 pb-1 border-t border-gray-200">
