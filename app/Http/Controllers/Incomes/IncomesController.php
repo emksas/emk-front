@@ -47,21 +47,17 @@ class IncomesController extends Controller
     {
         $accountingAccounts = $this->accountingAccountService->getAll();
         $financialPlannings = $this->financialPlanningService->getByUserId(Auth::id());
-        
-        print_r($accountingAccounts);
-        print_r($financialPlannings);
-        
-        /*
+                
         return view('incomes.create', [
             'accountingAccounts' => $accountingAccounts,
             'financialPlannings' => $financialPlannings
         ]);
-        */
     }
 
     public function store(Request $request)
     {
         $data = $request->input();
+        dump($data);
         $this->incomesService->create($data, $request->user()->id);
         return redirect()->route('incomes.index')->with('success', 'Income created successfully.');
     }

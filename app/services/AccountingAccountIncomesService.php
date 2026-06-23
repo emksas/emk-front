@@ -19,7 +19,9 @@ class AccountingAccountIncomesService
     public function getAll()
     {
         $userId = Auth::id();
-        $response = Http::get("{$this->baseUrl}/accounting-account/user/{$userId}"); 
+        $urlRequest = "{$this->baseUrl}/accounting-account/user/{$userId}";
+        dump($urlRequest);
+        $response = Http::get($urlRequest); 
         return $response->json();
     }
 

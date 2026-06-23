@@ -2,11 +2,8 @@
 
 namespace App\services;
 
-use App\Models\Income;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 
 class IncomesService
 {
@@ -64,16 +61,13 @@ class IncomesService
             'financial_planning_id' => 1,
         ];
 
-
-        $response = Http::acceptJson()->asJson()->post($this->baseUrl . '/api/incomes', $newIncome);
-        return $response;
+        return Http::acceptJson()->asJson()->post($this->baseUrl . '/incomes', $newIncome);
     }
 
     public function deleteIncome($incomeId)
     {
         $this->baseUrl = config('services.python_incomes.base_url');
-        $response = Http::delete($this->baseUrl . '/api/incomes/' . $incomeId.'/');
-        return $response;
+        return Http::delete($this->baseUrl . '/api/incomes/' . $incomeId.'/');
     }
 
     public function updateIncome($income, $payload)
@@ -89,8 +83,7 @@ class IncomesService
             'financial_planning_id' => 1,
         ];
 
-        $response = Http::acceptJson()->asJson()->put($this->baseUrl . '/api/incomes/' . $income['id'] . '/', $updatedIncome);
-        return $response;
+        return Http::acceptJson()->asJson()->put($this->baseUrl . '/api/incomes/' . $income['id'] . '/', $updatedIncome);
     }
 
 }
