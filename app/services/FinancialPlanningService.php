@@ -17,7 +17,7 @@ class FinancialPlanningService
 
     public function getByUserId(string $userId)
     {
-        $response = Http::get($this->baseUrl . '/api/financial-planning/user/' . $userId);
+        $response = Http::get($this->baseUrl . '/financial-planning/user/' . $userId);
         if ($response->failed()) {
             return [
                 'financialPlannings' => [],
@@ -33,7 +33,7 @@ class FinancialPlanningService
     {
         $response = Http::acceptJson()
             ->asJson()
-            ->post("{$this->baseUrl}/api/financial-planning", $payload);
+            ->post("{$this->baseUrl}/financial-planning", $payload);
 
         if ($response->successful()) {
             return [

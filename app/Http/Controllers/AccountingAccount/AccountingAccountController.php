@@ -25,12 +25,6 @@ class AccountingAccountController extends Controller
 
     public function index()
     {
-        // Hacemos el "grito" hacia Java
-        try {
-            \Illuminate\Support\Facades\Http::get('http://localhost:8082/conexion-laravel');
-        } catch (\Exception $e) {
-            // Si Java está apagado, no pasa nada, el programa sigue
-        }
 
         $accountingAccounts = $this->accountingAccountService->getAllAccountingAccounts();
         return view('accountingAccount.index', compact('accountingAccounts'));
