@@ -21,8 +21,8 @@ class CreateNewUser implements CreatesNewUsers
     public function create(array $input): User
     {
         Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'name' => ['required', 'string', 'max:255','regex:/^[\pL\s]+$/u'],
+            'email' => ['required', 'string', 'email:rfc,dns', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
             // VALIDACIÓN: El rol es obligatorio y debe ser estrictamente uno de estos tres
