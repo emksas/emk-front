@@ -17,7 +17,6 @@
                         <p class="text-sm text-gray-600 mb-4">Visualización y gestión de todas las entradas financieras de la empresa.</p>
                         <div class="bg-white p-4 rounded border border-green-300 text-center font-mono text-xl text-green-700">
                             $ 0.00 COP
-                        </div>
                     </div>
 
                     <div class="border p-6 rounded-lg bg-red-50 border-red-200">
