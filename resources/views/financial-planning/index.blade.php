@@ -32,10 +32,117 @@
                         Financial Planning
                     </h1>
                     <p class="mt-6 text-gray-500 leading-relaxed">
-                        Space in construccion
+                        Welcome to your financial planning dashboard. Here you can manage and review your financial
+                        plans and associated operations.
                     </p>
                 </div>
 
+                <div class="p-6 lg:p-8 bg-white border-b border-gray-200">
+                    <div id="accordion-card" data-accordion="collapse" class="mx-4">
+                        @foreach ($financialPlannings ?? [] as $financialPlanning)
+                            <h2 id="accordion-card-heading-{{ $loop->iteration }}" class="mb-0">
+                                <button type="button"
+                                    class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-body rounded-base shadow-xs border border-default hover:text-heading hover:bg-neutral-secondary-medium gap-3 [&[aria-expanded='true']]:rounded-b-none [&[aria-expanded='true']]:shadow-none"
+                                    data-accordion-target="#accordion-card-body-{{ $loop->iteration }}" aria-expanded="false"
+                                    aria-controls="accordion-card-body-{{ $loop->iteration }}">
+                                    <span> {{ $financialPlanning['planName'] }} - Total projected value:
+                                        {{ $financialPlanning['projectedValue'] }} </span>
+                                    <svg data-accordion-icon class="w-5 h-5 rotate-180 shrink-0" aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                        viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2" d="m5 15 7-7 7 7" />
+                                    </svg>
+                                </button>
+                            </h2>
+                            <div id="accordion-card-body-{{ $loop->iteration }}"
+                                class="hidden border border-t-0 border-default rounded-b-base shadow-xs"
+                                aria-labelledby="accordion-card-heading-{{ $loop->iteration }}">
+                                <div class="flex justify-between items-center mb-4 p-4 md:p-5">
+                                    <p class="text-xl font-bold mb-2">
+                                        {{ $financialPlanning['description'] }}
+                                    </p>
+
+                                    <a href="{{ route('planning-operation.create', ['planId' => $financialPlanning['planId'] ]) }}" class="inline-flex items-center gap-2 rounded-lg border border-blue-600
+                                     bg-transparent px-4 py-2 text-sm font-medium text-blue-600
+                                     hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-600/40
+                                     disabled:opacity-50 disabled:pointer-events-none">
+                                        Add Expense
+                                    </a>
+
+                                </div>
+
+                                <div class="p-4 md:p-5">
+
+                                    <table class="display expenses-table" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Description
+                                                </th>
+                                                <th>
+                                                    Projected Value
+                                                </th>
+                                                <th>
+                                                    Amount
+                                                </th>
+                                                <th>
+                                                    Total Projected Value
+                                                </th>
+                                                <th>
+                                                    Actions
+                                                </th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            @foreach ($financialPlanning['operations'] as $planningExpense)
+                                                @if ($planningExpense['description'] != null)
+                                                    <tr>
+                                                        <td>
+                                                            {{ $planningExpense['description'] }}
+                                                        </td>
+                                                        <td>
+                                                            {{ $planningExpense['projectedValue'] }}
+                                                        </td>
+                                                        <td>
+                                                            {{ $planningExpense['amount'] }}
+                                                        </td>
+                                                        <td>
+                                                            {{ $planningExpense['totalProjectedValue'] }}
+                                                        </td>
+                                                        <td class="px-4 py-2">
+                                                            <div class="flex justify-center items-center gap-2">
+                                                                <a href="{{ route('planning-operation.edit', [ 'transactionId' => $planningExpense['id'], 'planningId' => $planningExpense['planificationId'] ]) }}" class="inline-flex items-center gap-2 rounded-lg border border-yellow-600
+                                                         bg-transparent px-4 py-2 text-sm font-medium text-yellow-600
+                                                         hover:bg-yellow-50 focus:outline-none focus:ring-2 focus:ring-yellow-600/40
+                                                         disabled:opacity-50 disabled:pointer-events-none">
+                                                                    Edit
+                                                                </a>
+                                                                <form action="{{ route('planning-operation.destroy',  [ 'transactionId' => $planningExpense['id'], 'planningId' => $planningExpense['planificationId'] ] ) }}"
+                                                                    method="POST" style="display:inline;">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit" class="inline-flex items-center gap-2 rounded-lg border border-red-600
+                                                         bg-transparent px-4 py-2 text-sm font-medium text-red-600
+                                                         hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-600/40
+                                                         disabled:opacity-50 disabled:pointer-events-none"
+                                                                        onclick="return confirm('Are you sure you want to delete this expense?');">
+                                                                        Delete
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                @endif
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
             </div>
         </div>
     </div>

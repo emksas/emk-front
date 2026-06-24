@@ -25,6 +25,9 @@ return new class extends Migration {
 
             $table->foreignId('cuentacontable_id')
                 ->constrained('cuentacontable');
+            
+            $table->foreignId('user_id')
+                ->constrained('users');
         });
     }
 

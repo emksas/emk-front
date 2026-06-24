@@ -15,7 +15,8 @@
                                 @csrf
                                 @include('incomes._form', [
                                     'income' => null, 
-                                    'accountingAccounts' => $accountingAccounts
+                                    'accountingAccounts' => $accountingAccounts,
+                                    'financialPlannings' => $financialPlannings
                                 ])
 
                                 <div class="flex justify-center items-center gap-2">
