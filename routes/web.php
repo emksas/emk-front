@@ -19,7 +19,9 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+    Route::post('/dashboard', [ExpensesController::class, 'store']);
 
+    
     Route::get('/api/filters/years', [HomeController::class, 'years'])->name('filters.years');
     Route::get('/api/filters/months', [HomeController::class, 'months'])->name('filters.months');
 

@@ -93,4 +93,12 @@ class User extends Authenticatable
     {
         return $this->role === 'EMPRESARIAL';
     }
+
+    /**
+     * Comprobar si el usuario tiene rol ADMIN
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role === 'ADMIN';
+    }
 }
