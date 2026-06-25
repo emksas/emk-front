@@ -4,7 +4,7 @@
 
 @if($dashboardData['totalExpenses'] == 0 && $dashboardData['numberOfExpenses'] == 0)
     <div role="status" class="w-full">
-        <div class="mx-auto max-w-xl rounded-2xl border border-dashed bg-white p-8 text-center shadow-sm">
+        <div class="mx-auto max-w-xl rounded-2xl border border-dashed bg-white p-8 text-center shadow-sm dark:border-gray-700 dark:bg-gray-900">
             <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full border">
                 <!-- Heroicon outline: exclamation-triangle -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24"
@@ -14,8 +14,8 @@
                 </svg>
             </div>
 
-            <h3 class="text-2xl font-semibold tracking-tight">No data available</h3>
-            <p class="mt-1 text-sm text-gray-600">Try adjusting filters or the date range.</p>
+            <h3 class="text-2xl font-semibold tracking-tight dark:text-gray-100">No data available</h3>
+            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Try adjusting filters or the date range.</p>
 
 
             <a href="{{ route('expenses.create') }}"
@@ -26,25 +26,25 @@
     </div>
 @else
     <div class="grid grid-cols-2 gap-2">
-        <div class="bg-white rounded-2xl shadow p-6 border flex flex-col items-center text-center m-2">
-            <h2 class="text-xl font-semibold text-gray-900 ">
+        <div class="bg-white rounded-2xl shadow p-6 border flex flex-col items-center text-center m-2 dark:border-gray-800 dark:bg-gray-900">
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
                 Expenses Month
             </h2>
-            <p class="mt-2 text-3xl font-bold text-gray-700"> {{ $dashboardData['totalExpenses'] }} </p>
+            <p class="mt-2 text-3xl font-bold text-gray-700 dark:text-gray-300"> {{ $dashboardData['totalExpenses'] }} </p>
         </div>
 
-        <div class="bg-white rounded-2xl shadow p-6 border flex flex-col items-center text-center m-2">
-            <h2 class="text-xl font-semibold text-gray-900 mt-2">
+        <div class="bg-white rounded-2xl shadow p-6 border flex flex-col items-center text-center m-2 dark:border-gray-800 dark:bg-gray-900">
+            <h2 class="text-xl font-semibold text-gray-900 mt-2 dark:text-gray-100">
                 Total Expenses
             </h2>
-            <p class="mt-2 text-3xl font-bold text-gray-700"> {{ $dashboardData['numberOfExpenses'] }} </p>
+            <p class="mt-2 text-3xl font-bold text-gray-700 dark:text-gray-300"> {{ $dashboardData['numberOfExpenses'] }} </p>
         </div>
 
-        <div class="bg-white rounded-2xl shadow p-6 border flex flex-col items-center text-center m-2">
-            <h2 class="text-xl font-semibold text-gray-900">
+        <div class="bg-white rounded-2xl shadow p-6 border flex flex-col items-center text-center m-2 dark:border-gray-800 dark:bg-gray-900">
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
                 Expenses By Account
             </h2>
-            <div class="mt-2 text-3xl font-bold text-gray-700">
+            <div class="mt-2 text-3xl font-bold text-gray-700 dark:text-gray-300">
                 <table id="expensesByAccount" class="display" style="width:100%">
                     <thead>
                         <tr>
@@ -75,16 +75,16 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-2xl shadow p-6 border flex flex-col items-center text-center m-2">
-            <h2 class="text-xl font-semibold text-gray-900">
+        <div class="bg-white rounded-2xl shadow p-6 border flex flex-col items-center text-center m-2 dark:border-gray-800 dark:bg-gray-900">
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
                 Expenses By Account
             </h2>
-            <div class="mt-2 text-3xl font-bold text-gray-700">
+            <div class="mt-2 text-3xl font-bold text-gray-700 dark:text-gray-300">
                 <div id="chartExpensesByAccount"></div>
             </div>
         </div>
 
-        <div class="col-span-2  p-6 lg:p-8 bg-white border-b border-gray-200 m-2">
+        <div class="col-span-2  p-6 lg:p-8 bg-white border-b border-gray-200 m-2 dark:border-gray-800 dark:bg-gray-900">
             <table id="expenses" class="display" style="width:100%">
                 <thead>
                     <tr>

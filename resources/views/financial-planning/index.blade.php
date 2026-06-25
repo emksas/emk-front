@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight dark:text-gray-100">
             {{ __('Financial Planning') }}
         </h2>
 
@@ -26,18 +26,18 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="p-6 lg:p-8 bg-white border-b border-gray-200">
-                    <h1 class="text-2xl font-medium text-gray-900">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg dark:bg-gray-900 dark:shadow-gray-950/40">
+                <div class="p-6 lg:p-8 bg-white border-b border-gray-200 dark:bg-gray-900 dark:border-gray-800">
+                    <h1 class="text-2xl font-medium text-gray-900 dark:text-gray-100">
                         Financial Planning
                     </h1>
-                    <p class="mt-6 text-gray-500 leading-relaxed">
+                    <p class="mt-6 text-gray-500 leading-relaxed dark:text-gray-400">
                         Welcome to your financial planning dashboard. Here you can manage and review your financial
                         plans and associated operations.
                     </p>
                 </div>
 
-                <div class="p-6 lg:p-8 bg-white border-b border-gray-200">
+                <div class="p-6 lg:p-8 bg-white border-b border-gray-200 dark:bg-gray-900 dark:border-gray-800">
                     <div id="accordion-card" data-accordion="collapse" class="mx-4">
                         @foreach ($financialPlannings ?? [] as $financialPlanning)
                             <h2 id="accordion-card-heading-{{ $loop->iteration }}" class="mb-0">
