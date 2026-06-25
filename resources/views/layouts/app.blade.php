@@ -12,6 +12,17 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+    <script>
+        if (
+            localStorage.theme === 'dark' ||
+            (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+        ) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -19,15 +30,15 @@
     @livewireStyles
 </head>
 
-<body class="font-sans antialiased">
+<body class="font-sans antialiased bg-gray-100 text-gray-900 dark:bg-gray-950 dark:text-gray-100">
     <x-banner />
 
-    <div class="min-h-screen bg-gray-100">
+    <div class="min-h-screen bg-gray-100 dark:bg-gray-950">
         @livewire('navigation-menu')
 
         <!-- Page Heading -->
         @if (isset($header))
-            <header class="bg-white shadow">
+            <header class="bg-white shadow dark:bg-gray-900 dark:shadow-gray-950/40">
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8
                 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     {{ $header }}

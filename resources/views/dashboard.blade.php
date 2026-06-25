@@ -10,20 +10,20 @@
 
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight dark:text-gray-100">
             {{ __('Welcome to EMK') }} - {{ __('Selected Date:') }} {{ $dashboardData['monthName'] }} /
             {{ $dashboardData['year'] }}
         </h2>
         <div class="sm:ml-auto flex items-center gap-2">
             <form method="GET" action="{{ route('dashboard') }}" class="flex gap-2">
-                <select id="selYear" name="year" class="border rounded px-2 py-1 text-sm min-w-32">
+                <select id="selYear" name="year" class="border rounded px-2 py-1 text-sm min-w-32 border-gray-300 bg-white text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100">
                     <option value="">{{ $actualYear }}</option>
                 </select>
-                <select id="selMonth" name="month" class="border rounded px-2 py-1 text-sm min-w-32">
+                <select id="selMonth" name="month" class="border rounded px-2 py-1 text-sm min-w-32 border-gray-300 bg-white text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100">
                     <option value="{{ $actualMonth }}">{{ $actualMonthName }}</option>
                 </select>
                 <button id="btnApply"
-                    class="rounded-lg border border-blue-600 px-3 py-1.5 text-sm text-blue-600 hover:bg-blue-50">
+                    class="rounded-lg border border-blue-600 px-3 py-1.5 text-sm text-blue-600 hover:bg-blue-50 dark:border-blue-400 dark:text-blue-300 dark:hover:bg-blue-950/50">
                     Apply
                 </button>
             </form>
@@ -33,8 +33,8 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <x-welcome :dashboard-data="$dashboardData" class="bg-white" />
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg dark:bg-gray-900 dark:shadow-gray-950/40">
+                <x-welcome :dashboard-data="$dashboardData" />
             </div>
         </div>
     </div>
