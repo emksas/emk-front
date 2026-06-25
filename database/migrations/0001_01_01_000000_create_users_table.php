@@ -16,7 +16,6 @@ return new class extends Migration {
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('role')->default('PERSONAL'); // <--- AGREGA ESTA LÍNEA AQUÍ
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
@@ -33,7 +32,7 @@ return new class extends Migration {
                 ->after('two_factor_recovery_codes')
                 ->nullable();
             
-            $table->integer('role')->default(1)->after('password');
+            $table->foreignId('role')->default(1);
             
             $table->foreign('role')->references('id')->on('tipo_usuario');
         });

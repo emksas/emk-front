@@ -1,7 +1,3 @@
-@vite(['resources/css/app.css', 'resources/js/app.js'])
-
-
-
 @if($dashboardData['totalExpenses'] == 0 && $dashboardData['numberOfExpenses'] == 0)
     <div role="status" class="w-full">
         <div class="mx-auto max-w-xl rounded-2xl border border-dashed bg-white p-8 text-center shadow-sm dark:border-gray-700 dark:bg-gray-900">
@@ -25,26 +21,26 @@
         </div>
     </div>
 @else
-    <div class="grid grid-cols-2 gap-2">
-        <div class="bg-white rounded-2xl shadow p-6 border flex flex-col items-center text-center m-2 dark:border-gray-800 dark:bg-gray-900">
+    <div class="grid grid-cols-1 gap-4 p-4 xl:grid-cols-2">
+        <div class="min-w-0 bg-white rounded-2xl shadow p-6 border flex flex-col items-center text-center dark:border-gray-800 dark:bg-gray-900">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
                 Expenses Month
             </h2>
-            <p class="mt-2 text-3xl font-bold text-gray-700 dark:text-gray-300"> {{ $dashboardData['totalExpenses'] }} </p>
+            <p class="mt-2 max-w-full break-words text-3xl font-bold text-gray-700 dark:text-gray-300"> {{ $dashboardData['totalExpenses'] }} </p>
         </div>
 
-        <div class="bg-white rounded-2xl shadow p-6 border flex flex-col items-center text-center m-2 dark:border-gray-800 dark:bg-gray-900">
+        <div class="min-w-0 bg-white rounded-2xl shadow p-6 border flex flex-col items-center text-center dark:border-gray-800 dark:bg-gray-900">
             <h2 class="text-xl font-semibold text-gray-900 mt-2 dark:text-gray-100">
                 Total Expenses
             </h2>
-            <p class="mt-2 text-3xl font-bold text-gray-700 dark:text-gray-300"> {{ $dashboardData['numberOfExpenses'] }} </p>
+            <p class="mt-2 max-w-full break-words text-3xl font-bold text-gray-700 dark:text-gray-300"> {{ $dashboardData['numberOfExpenses'] }} </p>
         </div>
 
-        <div class="bg-white rounded-2xl shadow p-6 border flex flex-col items-center text-center m-2 dark:border-gray-800 dark:bg-gray-900">
+        <div class="min-w-0 bg-white rounded-2xl shadow p-6 border flex flex-col items-center text-center dark:border-gray-800 dark:bg-gray-900">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
                 Expenses By Account
             </h2>
-            <div class="mt-2 text-3xl font-bold text-gray-700 dark:text-gray-300">
+            <div class="mt-4 w-full min-w-0 overflow-x-auto text-sm font-medium text-gray-700 dark:text-gray-300">
                 <table id="expensesByAccount" class="display" style="width:100%">
                     <thead>
                         <tr>
@@ -75,16 +71,16 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-2xl shadow p-6 border flex flex-col items-center text-center m-2 dark:border-gray-800 dark:bg-gray-900">
+        <div class="min-w-0 bg-white rounded-2xl shadow p-6 border flex flex-col items-center text-center dark:border-gray-800 dark:bg-gray-900">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
                 Expenses By Account
             </h2>
-            <div class="mt-2 text-3xl font-bold text-gray-700 dark:text-gray-300">
-                <div id="chartExpensesByAccount"></div>
+            <div class="mt-4 w-full min-w-0 text-gray-700 dark:text-gray-300">
+                <div id="chartExpensesByAccount" class="min-h-80 w-full"></div>
             </div>
         </div>
 
-        <div class="col-span-2  p-6 lg:p-8 bg-white border-b border-gray-200 m-2 dark:border-gray-800 dark:bg-gray-900">
+        <div class="col-span-full min-w-0 overflow-x-auto rounded-2xl bg-white p-6 shadow border border-gray-200 dark:border-gray-800 dark:bg-gray-900">
             <table id="expenses" class="display" style="width:100%">
                 <thead>
                     <tr>

@@ -59,9 +59,9 @@
                             {{ __('Seleccione un rol...') }}
                         </option>
 
-                        <option value="EMPRESARIAL" {{ old('role') == 'EMPRESARIAL' ? 'selected' : '' }}>Business</option>
-                        <option value="PERSONAL" {{ old('role') == 'PERSONAL' ? 'selected' : '' }}>Personal</option>
-                        <option value="FAMILIAR" {{ old('role') == 'FAMILIAR' ? 'selected' : '' }}>Family</option>
+                        <option value="3" {{ old('role') == '3' ? 'selected' : '' }}>Business</option>
+                        <option value="1" {{ old('role') == '1' ? 'selected' : '' }}>Personal</option>
+                        <option value="2" {{ old('role') == '2' ? 'selected' : '' }}>Family</option>
                     </select>
                 </div>
 

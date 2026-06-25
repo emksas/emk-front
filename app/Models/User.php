@@ -75,7 +75,7 @@ class User extends Authenticatable
      */
     public function isPersonal(): bool
     {
-        return $this->role === 'PERSONAL';
+        return (int) $this->role === 1;
     }
 
     /**
@@ -83,7 +83,7 @@ class User extends Authenticatable
      */
     public function isFamiliar(): bool
     {
-        return $this->role === 'FAMILIAR';
+        return (int) $this->role === 2;
     }
 
     /**
@@ -91,7 +91,7 @@ class User extends Authenticatable
      */
     public function isEmpresarial(): bool
     {
-        return $this->role === 'EMPRESARIAL';
+        return (int) $this->role === 3;
     }
 
     /**
@@ -99,6 +99,6 @@ class User extends Authenticatable
      */
     public function isAdmin(): bool
     {
-        return $this->role === 'ADMIN';
+        return (int) $this->role === 4;
     }
 }
