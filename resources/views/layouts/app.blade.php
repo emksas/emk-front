@@ -47,7 +47,7 @@
         @endif
 
         <!-- Page Content -->
-        <main>
+        <main class="min-w-0">
             {{ $slot }}
         </main>
     </div>

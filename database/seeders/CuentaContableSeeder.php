@@ -17,14 +17,18 @@ class CuentaContableSeeder extends Seeder
             [
                 'descripcion' => 'Basic Services',
                 'userId' => 1032459533,
+                'esProyeccion' => false,
+
             ],
             [
                 'descripcion' => 'Extra Expenses',
                 'userId' => 1032459533,
+                'esProyeccion' => false,
             ],
             [
                 'descripcion' => 'Entertainment',
                 'userId' => 1032459533,
+                'esProyeccion' => false,
             ],
         ]);
     }
