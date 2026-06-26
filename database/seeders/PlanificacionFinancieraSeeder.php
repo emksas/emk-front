@@ -20,7 +20,7 @@ class PlanificacionFinancieraSeeder extends Seeder
                 'nombre_del_plan' => 'Starter Plan',
                 'usuario_cedula' => 1032459533,
                 'valor_proyectado' => 1000000,
-                'fecha_proyectada' => now()->toDateString(),
+                'fecha_proyectada' => now(),
                 'proyecto_personal' => true,
             ],
         ]);
