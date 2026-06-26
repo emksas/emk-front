@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use App\Services\DashboardServices;
+use App\services\DashboardServices;
 use App\services\UserTypeService;
 use Carbon\Carbon; // Importamos Carbon para sacar el año/mes actual si no vienen en la URL
 

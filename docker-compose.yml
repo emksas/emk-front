@@ -4,7 +4,10 @@ services:
   # Laravel (PHP-FPM)
   # -------------------------
   laravel:
-    image: "ghcr.io/emksas/emk-front:prod-latest"
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+    image: emk_laravel_prod
     container_name: emk_laravel
     env_file:
       - ./.env
@@ -12,9 +15,11 @@ services:
       APP_ENV: "${APP_ENV:-production}"
       SPRING_BASE_URL: "http://spring:8085"
       DJANGO_BASE_URL: "http://django:8084"
-      NODE_BASE_URL: "http://node:8086"
+      NODE_BASE_URL: "http://node:3000"
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    volumes:
+      - laravel_public:/var/www
     networks:
       - emk_net
     restart: unless-stopped
@@ -30,7 +35,7 @@ services:
     ports:
       - "127.0.0.1:8081:80"
     volumes:
-      - ./:/var/www:ro
+      - laravel_public:/var/www:ro
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
     networks:
       - emk_net
@@ -43,11 +48,10 @@ services:
     build:
       context: ../emk-reports
       dockerfile: Dockerfile
+    image: emk_django_prod
     container_name: emk_django
     working_dir: /app
     command: python manage.py runserver 0.0.0.0:8084
-    volumes:
-      - ../emk-reports:/app
     ports:
       - "8084:8084"
     networks:
@@ -61,6 +65,7 @@ services:
     build:
       context: ../financial-planing
       dockerfile: Dockerfile
+    image: emk_spring_prod
     env_file:
     - ../financial-planing/.env
     container_name: emk_spring
@@ -73,21 +78,19 @@ services:
     restart: unless-stopped
 
   # -------------------------
-  # Node.js (8086)
+  # Node.js (3000)
   # -------------------------
   node:
     build:
       context: ../emk-sena-rsr-expenses-back
       dockerfile: Dockerfile
+    image: emk_node_prod
     container_name: emk_node
     working_dir: /app
     ports:
       - "3000:3000"
     environment:
-      PORT: 8086
-    volumes:
-      - ./node:/app
-      - /app/node_modules
+      PORT: 3000
     command: npm start
     networks:
       - emk_net

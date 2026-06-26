@@ -2,8 +2,8 @@ name: Build & Deploy
 
 on:
   push:
-    branches:
-      - "main"
+    branches: [ "main", "master", "develop" ]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -21,7 +21,7 @@ jobs:
       - name: Set image tag
         id: vars
         run: |
-          if [ "${GITHUB_REF_NAME}" = "main" ]; then
+          if [ "${GITHUB_REF_NAME}" = "main" ] || [ "${GITHUB_REF_NAME}" = "master" ]; then
             echo "tag=prod-latest" >> $GITHUB_OUTPUT
           else
             echo "tag=develop-latest" >> $GITHUB_OUTPUT
@@ -40,7 +40,9 @@ jobs:
           context: .
           file: docker/php/Dockerfile
           push: true
-          tags: ghcr.io/emksas/emk-front:${{ steps.vars.outputs.tag }}
+          tags: |
+            ghcr.io/emksas/emk-front:${{ steps.vars.outputs.tag }}
+            ghcr.io/emksas/emk-front:${{ github.sha }}
 
   deploy:
     runs-on: ubuntu-latest
