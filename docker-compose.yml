@@ -15,8 +15,6 @@ services:
       NODE_BASE_URL: "http://node:3000"
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    volumes:
-      - laravel_public:/var/www
     networks:
       - emk_net
     restart: unless-stopped
@@ -25,15 +23,12 @@ services:
   # Reverse proxy / Web (Nginx)
   # -------------------------
   nginx:
-    image: nginx:1.27-alpine
+    image: ghcr.io/emksas/emk-front-nginx:prod-latest
     container_name: emk_nginx
     depends_on:
       - laravel
     ports:
       - "127.0.0.1:8081:80"
-    volumes:
-      - laravel_public:/var/www:ro
-      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
     networks:
       - emk_net
     restart: unless-stopped
@@ -87,6 +82,3 @@ services:
 networks:
   emk_net:
     driver: bridge
-
-volumes:
-  laravel_public:
