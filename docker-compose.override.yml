@@ -4,6 +4,7 @@ services:
       context: .
       dockerfile: ./docker/php/Dockerfile
     image: emk_laravel_local
+    pull_policy: build
     volumes:
       - ./:/var/www
 
@@ -17,6 +18,7 @@ services:
       context: ../emk-reports
       dockerfile: Dockerfile
     image: emk_django_local
+    pull_policy: build
     command: python manage.py runserver 0.0.0.0:8084
     volumes:
       - ../emk-reports:/app
@@ -40,6 +42,7 @@ services:
       context: ../emk-sena-rsr-expenses-back
       dockerfile: Dockerfile
     image: emk_node_local
+    pull_policy: build
     volumes:
       - ../emk-sena-rsr-expenses-back:/app
       - /app/node_modules
