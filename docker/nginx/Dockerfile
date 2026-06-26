@@ -1,14 +1,9 @@
-FROM node:20-alpine AS assets
-WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm ci
-COPY resources ./resources
-COPY public ./public
-COPY vite.config.js postcss.config.js tailwind.config.js ./
-RUN npm run build
+ARG LARAVEL_IMAGE=ghcr.io/emksas/emk-front:prod-latest
+
+FROM ${LARAVEL_IMAGE} AS laravel_public
 
 FROM nginx:1.27-alpine
 COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 WORKDIR /var/www
-COPY public ./public
-COPY --from=assets /app/public/build ./public/build
+COPY --from=laravel_public /var/www/public ./public
+RUN rm -f ./public/hot

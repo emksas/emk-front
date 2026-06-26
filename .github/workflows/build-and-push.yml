@@ -49,6 +49,8 @@ jobs:
         with:
           context: .
           file: docker/nginx/Dockerfile
+          build-args: |
+            LARAVEL_IMAGE=ghcr.io/emksas/emk-front:${{ github.sha }}
           push: true
           tags: |
             ghcr.io/emksas/emk-front-nginx:${{ steps.vars.outputs.tag }}
