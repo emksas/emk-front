@@ -34,7 +34,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build & Push image
+      - name: Build & Push Laravel image
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -43,6 +43,16 @@ jobs:
           tags: |
             ghcr.io/emksas/emk-front:${{ steps.vars.outputs.tag }}
             ghcr.io/emksas/emk-front:${{ github.sha }}
+
+      - name: Build & Push Nginx image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/nginx/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/emksas/emk-front-nginx:${{ steps.vars.outputs.tag }}
+            ghcr.io/emksas/emk-front-nginx:${{ github.sha }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -71,4 +81,6 @@ jobs:
 
             docker compose -f docker-compose.yml pull
             docker compose -f docker-compose.yml up -d --remove-orphans
+            docker compose -f docker-compose.yml ps
+            docker compose -f docker-compose.yml logs --tail=80 nginx laravel
             docker image prune -f
