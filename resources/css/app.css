@@ -6,6 +6,15 @@
     display: none;
 }
 
+html.dark {
+    color-scheme: dark;
+}
+
+html,
+body {
+    min-height: 100%;
+}
+
 /* --- TUS ESTILOS PERSONALIZADOS PARA EL LOGIN --- */
 
 .image-wrapper {
@@ -22,6 +31,56 @@
     width: 100%;
     height: 100%;
     object-fit: contain; /* Esto evita que la imagen se estire o se corte */
+}
+
+.dataTables_wrapper {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.dataTables_wrapper table.dataTable {
+    width: 100% !important;
+}
+
+.dataTables_wrapper .dataTables_filter,
+.dataTables_wrapper .dt-buttons {
+    margin-bottom: 0.75rem;
+}
+
+.dataTables_wrapper .dataTables_filter input,
+.dataTables_wrapper .dataTables_length select {
+    max-width: 100%;
+}
+
+.dark input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+.dark select,
+.dark textarea {
+    background-color: rgb(17 24 39);
+    border-color: rgb(75 85 99);
+    color: rgb(243 244 246);
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+    color: rgb(156 163 175);
+}
+
+.dark input[readonly],
+.dark textarea[readonly] {
+    background-color: rgb(31 41 55);
+}
+
+@media (max-width: 640px) {
+    .dataTables_wrapper .dataTables_filter,
+    .dataTables_wrapper .dataTables_length,
+    .dataTables_wrapper .dt-buttons {
+        float: none;
+        text-align: left;
+    }
+
+    .dataTables_wrapper .dt-buttons .dt-button {
+        margin-bottom: 0.5rem;
+    }
 }
 
 .dark .dataTables_wrapper {

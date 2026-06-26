@@ -25,8 +25,8 @@ class CreateNewUser implements CreatesNewUsers
             'email' => ['required', 'string', 'email:rfc,dns', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
-            // VALIDACIÓN: El rol es obligatorio y debe ser estrictamente uno de estos tres
-            'role' => ['required', 'string', Rule::in(['PERSONAL', 'FAMILIAR', 'EMPRESARIAL'])],
+            // VALIDACIÓN: El rol es obligatorio y debe existir en tipo_usuario
+            'role' => ['required', 'integer', Rule::exists('tipo_usuario', 'id')],
         ])->validate();
 
         return User::create([
