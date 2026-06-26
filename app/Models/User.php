@@ -29,6 +29,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role', // <--- ACTUALIZADO: Permitimos la asignación masiva del rol
     ];
 
     /**
@@ -63,5 +64,41 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // =========================================================================
+    // MÉTODOS DE CONTROL DE ROLES (Evitan el error en navigation-menu.blade.php)
+    // =========================================================================
+
+    /**
+     * Comprobar si el usuario tiene rol PERSONAL
+     */
+    public function isPersonal(): bool
+    {
+        return (int) $this->role === 1;
+    }
+
+    /**
+     * Comprobar si el usuario tiene rol FAMILIAR
+     */
+    public function isFamiliar(): bool
+    {
+        return (int) $this->role === 2;
+    }
+
+    /**
+     * Comprobar si el usuario tiene rol EMPRESARIAL
+     */
+    public function isEmpresarial(): bool
+    {
+        return (int) $this->role === 3;
+    }
+
+    /**
+     * Comprobar si el usuario tiene rol ADMIN
+     */
+    public function isAdmin(): bool
+    {
+        return (int) $this->role === 4;
     }
 }

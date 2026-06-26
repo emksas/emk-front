@@ -20,7 +20,7 @@ return new class extends Migration {
                 ->constrained('users');
 
             $table->double('valor_proyectado')->nullable();
-            $table->date('fecha_proyectada')->nullable();
+            $table->timestamp('fecha_proyectada', 6);
             $table->boolean('proyecto_personal')->nullable();
         });
     }

@@ -4,23 +4,25 @@ namespace App\Http\Controllers\Incomes;
 
 use App\Http\Controllers\Controller;
 use App\Models\Income;
-use App\services\AccountingAccountService;
+use App\services\AccountingAccountIncomesService;
+use App\services\FinancialPlanningService;
 use App\services\IncomesService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class IncomesController extends Controller
 {
     public function __construct(
         private IncomesService $incomesService,
-        private AccountingAccountService $accountingAccountService
-    ) {
-    }
+        private AccountingAccountIncomesService $accountingAccountService,
+        private FinancialPlanningService $financialPlanningService
+    ) {}
 
     public function index(Request $request)
     {
-        $incomes = $this->incomesService->getIncomes( $request->user() );
+        $incomes = $this->incomesService->getIncomes($request->user());
 
-        if($incomes['status'] == 404){
+        if ($incomes['status'] == 404) {
             return view('incomes.index', [
                 'incomes' => [],
                 'error' => 'No incomes found for the user',
@@ -43,23 +45,32 @@ class IncomesController extends Controller
 
     public function create()
     {
-        $accountingAccounts = $this->accountingAccountService->getAllAccountingAccounts();
-        return view('incomes.create', ['accountingAccounts' => $accountingAccounts]);
+        $accountingAccounts = $this->accountingAccountService->getAll();
+        $financialPlannings = $this->financialPlanningService->getByUserId(Auth::id());
+                
+        return view('incomes.create', [
+            'accountingAccounts' => $accountingAccounts,
+            'financialPlannings' => $financialPlannings
+        ]);
     }
 
     public function store(Request $request)
     {
         $data = $request->input();
+        dump($data);
         $this->incomesService->create($data, $request->user()->id);
         return redirect()->route('incomes.index')->with('success', 'Income created successfully.');
     }
 
     public function edit(Income $income)
     {
-        $accountingAccounts = $this->accountingAccountService->getAllAccountingAccounts();
+        $accountingAccounts = $this->accountingAccountService->getAll();
+        $financialPlannings = $this->financialPlanningService->getByUserId(Auth::id());
+        
         return view('incomes.edit', [
             'income' => $income,
-            'accountingAccounts' => $accountingAccounts
+            'accountingAccounts' => $accountingAccounts,
+            'financialPlannings' => $financialPlannings
         ]);
     }
 
@@ -68,7 +79,6 @@ class IncomesController extends Controller
         $incomeInformation = $income->toArray();
         $this->incomesService->updateIncome($incomeInformation, $request->input());
         return redirect()->route('incomes.index')->with('success', 'Income updated successfully.');
-
     }
 
     public function destroy(Request $request, Income $income)

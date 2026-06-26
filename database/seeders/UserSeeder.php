@@ -27,6 +27,7 @@ class UserSeeder extends Seeder
                 'remember_token' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
+                'role' => 1
             ],
         ]);
     }

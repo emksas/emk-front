@@ -4,9 +4,8 @@ services:
   # Laravel (PHP-FPM)
   # -------------------------
   laravel:
-    image: "ghcr.io/emksas/emk-front:prod-latest"
+    image: ghcr.io/emksas/emk-front:prod-latest
     container_name: emk_laravel
-    working_dir: /var/www
     env_file:
       - ./.env
     environment:
@@ -14,8 +13,6 @@ services:
       SPRING_BASE_URL: "http://spring:8082"
       DJANGO_BASE_URL: "http://django:8084"
       NODE_BASE_URL: "http://node:3000"
-    volumes:
-      - ./:/var/www
     extra_hosts:
       - "host.docker.internal:host-gateway"
     networks:
@@ -26,15 +23,12 @@ services:
   # Reverse proxy / Web (Nginx)
   # -------------------------
   nginx:
-    image: nginx:1.27-alpine
+    image: ghcr.io/emksas/emk-front-nginx:prod-latest
     container_name: emk_nginx
     depends_on:
       - laravel
     ports:
       - "127.0.0.1:8081:80"
-    volumes:
-      - ./:/var/www:ro
-      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
     networks:
       - emk_net
     restart: unless-stopped
@@ -43,14 +37,12 @@ services:
   # Django (AHORA 8084)
   # -------------------------
   django:
-    build:
-      context: ../emk-reports
-      dockerfile: Dockerfile
+    image: ghcr.io/emksas/emk-reports:prod-latest
     container_name: emk_django
+    env_file:
+      - ./django.env
     working_dir: /app
     command: python manage.py runserver 0.0.0.0:8084
-    volumes:
-      - ./django:/app
     ports:
       - "8084:8084"
     networks:
@@ -61,10 +53,10 @@ services:
   # Spring Boot (8085)
   # -------------------------
   spring:
-    build:
-      context: ../financial-planing
-      dockerfile: Dockerfile
+    image: ghcr.io/emksas/financial-planing:prod-latest
     container_name: emk_spring
+    env_file:
+      - ./spring.env
     ports:
       - "8082:8082"
     environment:
@@ -74,21 +66,18 @@ services:
     restart: unless-stopped
 
   # -------------------------
-  # Node.js (8086)
+  # Node.js (3000)
   # -------------------------
   node:
-    build:
-      context: ../emk-sena-rsr-expenses-back
-      dockerfile: Dockerfile
+    image: ghcr.io/emksas/emk-sena-rsr-expenses-back:prod-latest
     container_name: emk_node
+    env_file:
+      - ./node.env
     working_dir: /app
     ports:
       - "3000:3000"
     environment:
-      PORT: 8086
-    volumes:
-      - ./node:/app
-      - /app/node_modules
+      PORT: 3000
     command: npm start
     networks:
       - emk_net
@@ -97,6 +86,3 @@ services:
 networks:
   emk_net:
     driver: bridge
-
-volumes:
-  laravel_public:

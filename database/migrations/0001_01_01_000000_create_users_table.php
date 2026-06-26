@@ -31,6 +31,10 @@ return new class extends Migration {
             $table->timestamp('two_factor_confirmed_at')
                 ->after('two_factor_recovery_codes')
                 ->nullable();
+            
+            $table->foreignId('role')->default(1);
+            
+            $table->foreign('role')->references('id')->on('tipo_usuario');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

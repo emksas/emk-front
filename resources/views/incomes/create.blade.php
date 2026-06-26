@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight dark:text-gray-100">
             {{ __('Add Income') }}
         </h2>
     </x-slot>
@@ -15,7 +15,8 @@
                                 @csrf
                                 @include('incomes._form', [
                                     'income' => null, 
-                                    'accountingAccounts' => $accountingAccounts
+                                    'accountingAccounts' => $accountingAccounts,
+                                    'financialPlannings' => $financialPlannings
                                 ])
 
                                 <div class="flex justify-center items-center gap-2">

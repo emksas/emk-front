@@ -1,14 +1,14 @@
 @php
 
-    use Illuminate\Support\Carbon;
-    $date = old(
-        'fecha',
-        isset($income) && $income->fecha
-        ? Carbon::parse($income->fecha)->format('Y-m-d')
-        : ''
-    );
-    // Para edición, $employee llega definido; en creación es null.
-    $val = fn($key, $default = '') => old($key, isset($income) ? ($income->{$key} ?? $default) : $default);
+use Illuminate\Support\Carbon;
+$date = old(
+'fecha',
+isset($income) && $income->fecha
+? Carbon::parse($income->fecha)->format('Y-m-d')
+: ''
+);
+// Para edición, $employee llega definido; en creación es null.
+$val = fn($key, $default = '') => old($key, isset($income) ? ($income->{$key} ?? $default) : $default);
 @endphp
 
 <div class="space-y-4">
@@ -38,15 +38,31 @@
             <label class="block text-sm font-medium mb-1">Accounting Account*</label>
             <select id="accountingAccount" name="cuentacontable_id" class="w-full border rounded px-3 py-2" required>
                 @foreach ($accountingAccounts as $accountingAccount)
-                    <option value="{{ $accountingAccount['id'] }}" {{ (isset($income) && $income['cuentacontable_id'] == $accountingAccount['id']) ? 'selected' : '' }}>
-                        {{ $accountingAccount['descripcion'] }}
-                    </option>
+                <option value="{{ $accountingAccount['id'] }}" {{ (isset($income) && $income['cuentacontable_id'] == $accountingAccount['id']) ? 'selected' : '' }}>
+                    {{ $accountingAccount['description'] }}
+                </option>
 
                 @endforeach
             </select>
             @error('cuentacontable_id')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
 
         </div>
+        <div class="md:col-span-2 flex justify-center">
+            <div class="w-full">
+                <label class="block text-sm font-medium mb-1">Financial Planning*</label>
+                <select id="accountingAccount" name="planificacion_financiera_id" class="w-full border rounded px-3 py-2" required>
+                    @foreach ($financialPlannings as $financialPlanning)
+                    <option value="{{ $financialPlanning['planId'] }}" {{ (isset($income) && $income['planificacion_financiera_id'] == $financialPlanning['planId']) ? 'selected' : '' }}>
+                        {{ $financialPlanning['description'] }}
+                    </option>
+
+                    @endforeach
+                </select>
+                @error('planificacion_financiera_id')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
+
+            </div>
+        </div>
+
     </div>
 
 </div>

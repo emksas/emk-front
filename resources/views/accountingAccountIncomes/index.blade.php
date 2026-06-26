@@ -1,11 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Accounting Account') }}
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight dark:text-gray-100">
+            {{ __('Accounting Account Income') }}
         </h2>
 
         <div class="sm:ml-auto flex items-center gap-2">
-            <a href="{{ route('accountingAccount.create') }}" class="inline-flex items-center gap-2 rounded-lg border border-blue-600
+            <a href="{{ route('accountingAccountIncomes.create') }}" class="inline-flex items-center gap-2 rounded-lg border border-blue-600
          bg-transparent px-4 py-2 text-sm font-medium text-blue-600
          hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-600/40
          disabled:opacity-50 disabled:pointer-events-none">
@@ -16,8 +16,8 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="p-6 lg:p-8 bg-white border-b border-gray-200">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg dark:bg-gray-900 dark:shadow-gray-950/40">
+                <div class="p-6 lg:p-8 bg-white border-b border-gray-200 dark:bg-gray-900 dark:border-gray-800">
                     <table id="accountingAccount" class="display" style="width:100%">
                         <thead>
                             <tr>
@@ -40,11 +40,11 @@
                                         {{ $accountingAccount['id'] }}
                                     </td>
                                     <td>
-                                        {{ $accountingAccount['descripcion'] }}
+                                        {{ $accountingAccount['description'] }}
                                     </td>
                                     <td class="px-4 py-2">
                                         <div class="flex justify-center items-center gap-2">
-                                            <a href="{{ route('accountingAccount.edit', $accountingAccount['id']) }}"
+                                            <a href="{{ route('accountingAccountIncomes.edit', $accountingAccount['id']) }}"
                                                 class="inline-flex items-center gap-2 rounded-lg border border-yellow-600
                                              bg-transparent px-4 py-2 text-sm font-medium text-yellow-600
                                              hover:bg-yellow-50 focus:outline-none focus:ring-2 focus:ring-yellow-600/40
@@ -52,7 +52,7 @@
                                                 Edit
                                             </a>
 
-                                            <form action="{{ route('accountingAccount.destroy', $accountingAccount['id']) }}"
+                                            <form action="{{ route('accountingAccountIncomes.destroy', $accountingAccount['id']) }}"
                                                 method="POST" onsubmit="return confirm('Are you sure you want to delete this accounting account?');">
                                                 @csrf
                                                 @method('DELETE')

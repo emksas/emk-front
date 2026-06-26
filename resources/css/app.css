@@ -6,6 +6,15 @@
     display: none;
 }
 
+html.dark {
+    color-scheme: dark;
+}
+
+html,
+body {
+    min-height: 100%;
+}
+
 /* --- TUS ESTILOS PERSONALIZADOS PARA EL LOGIN --- */
 
 .image-wrapper {
@@ -22,4 +31,168 @@
     width: 100%;
     height: 100%;
     object-fit: contain; /* Esto evita que la imagen se estire o se corte */
+}
+
+.dataTables_wrapper {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.dataTables_wrapper table.dataTable {
+    width: 100% !important;
+}
+
+.dataTables_wrapper .dataTables_filter,
+.dataTables_wrapper .dt-buttons {
+    margin-bottom: 0.75rem;
+}
+
+.dataTables_wrapper .dataTables_filter input,
+.dataTables_wrapper .dataTables_length select {
+    max-width: 100%;
+}
+
+.dark input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+.dark select,
+.dark textarea {
+    background-color: rgb(17 24 39);
+    border-color: rgb(75 85 99);
+    color: rgb(243 244 246);
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+    color: rgb(156 163 175);
+}
+
+.dark input[readonly],
+.dark textarea[readonly] {
+    background-color: rgb(31 41 55);
+}
+
+@media (max-width: 640px) {
+    .dataTables_wrapper .dataTables_filter,
+    .dataTables_wrapper .dataTables_length,
+    .dataTables_wrapper .dt-buttons {
+        float: none;
+        text-align: left;
+    }
+
+    .dataTables_wrapper .dt-buttons .dt-button {
+        margin-bottom: 0.5rem;
+    }
+}
+
+.dark .dataTables_wrapper {
+    color: rgb(229 231 235);
+}
+
+.dark table.dataTable {
+    background-color: rgb(17 24 39);
+    border-color: rgb(55 65 81);
+    color: rgb(229 231 235);
+}
+
+.dark table.dataTable thead th,
+.dark table.dataTable thead td,
+.dark table.dataTable tfoot th,
+.dark table.dataTable tfoot td {
+    background-color: rgb(31 41 55);
+    border-color: rgb(75 85 99);
+    color: rgb(243 244 246);
+}
+
+.dark table.dataTable tbody th,
+.dark table.dataTable tbody td {
+    border-color: rgb(55 65 81);
+    color: rgb(229 231 235);
+}
+
+.dark table.dataTable tbody tr,
+.dark table.dataTable.display tbody tr,
+.dark table.dataTable.stripe tbody tr {
+    background-color: rgb(17 24 39);
+}
+
+.dark table.dataTable.stripe tbody tr.odd,
+.dark table.dataTable.display tbody tr.odd,
+.dark table.dataTable.row-border tbody tr.odd {
+    background-color: rgb(31 41 55);
+}
+
+.dark table.dataTable.hover tbody tr:hover,
+.dark table.dataTable.display tbody tr:hover,
+.dark table.dataTable tbody tr:hover {
+    background-color: rgb(55 65 81);
+}
+
+.dark table.dataTable.no-footer {
+    border-bottom-color: rgb(75 85 99);
+}
+
+.dark .dataTables_info,
+.dark .dataTables_filter label,
+.dark .dataTables_length label {
+    color: rgb(209 213 219) !important;
+}
+
+.dark .dataTables_wrapper .dataTables_filter input,
+.dark .dataTables_wrapper .dataTables_length select {
+    background-color: rgb(17 24 39);
+    border: 1px solid rgb(75 85 99);
+    border-radius: 0.375rem;
+    color: rgb(243 244 246);
+}
+
+.dark .dataTables_wrapper .dataTables_filter input:focus,
+.dark .dataTables_wrapper .dataTables_length select:focus {
+    border-color: rgb(99 102 241);
+    box-shadow: 0 0 0 1px rgb(99 102 241);
+    outline: none;
+}
+
+.dark .dataTables_wrapper .dataTables_paginate .paginate_button {
+    background: transparent !important;
+    border-color: transparent !important;
+    color: rgb(229 231 235) !important;
+}
+
+.dark .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: rgb(55 65 81) !important;
+    border-color: rgb(75 85 99) !important;
+    color: rgb(255 255 255) !important;
+}
+
+.dark .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.dark .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+    background: rgb(79 70 229) !important;
+    border-color: rgb(99 102 241) !important;
+    color: rgb(255 255 255) !important;
+}
+
+.dark .dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
+.dark .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover {
+    background: transparent !important;
+    border-color: transparent !important;
+    color: rgb(107 114 128) !important;
+}
+
+.dark .dt-buttons .dt-button,
+.dark button.dt-button,
+.dark div.dt-button,
+.dark a.dt-button,
+.dark input.dt-button {
+    background: rgb(31 41 55) !important;
+    border-color: rgb(75 85 99) !important;
+    color: rgb(243 244 246) !important;
+}
+
+.dark .dt-buttons .dt-button:hover,
+.dark button.dt-button:hover,
+.dark div.dt-button:hover,
+.dark a.dt-button:hover,
+.dark input.dt-button:hover {
+    background: rgb(55 65 81) !important;
+    border-color: rgb(99 102 241) !important;
+    color: rgb(255 255 255) !important;
 }
