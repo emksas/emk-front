@@ -46,6 +46,11 @@ COPY . .
 COPY --from=vendor /app/vendor ./vendor
 COPY --from=assets /app/public/build ./public/build
 
+RUN rm -f public/hot \
+  && mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views storage/logs bootstrap/cache \
+  && chown -R www-data:www-data storage bootstrap/cache \
+  && chmod -R ug+rwX storage bootstrap/cache
+
 RUN php artisan package:discover --ansi
 
 CMD ["php-fpm"]
