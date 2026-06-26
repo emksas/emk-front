@@ -4,10 +4,7 @@ services:
   # Laravel (PHP-FPM)
   # -------------------------
   laravel:
-    build:
-      context: .
-      dockerfile: ./docker/php/Dockerfile
-    image: emk_laravel_prod
+    image: ghcr.io/emksas/emk-front:prod-latest
     container_name: emk_laravel
     env_file:
       - ./.env
@@ -45,10 +42,7 @@ services:
   # Django (AHORA 8084)
   # -------------------------
   django:
-    build:
-      context: ../emk-reports
-      dockerfile: Dockerfile
-    image: emk_django_prod
+    image: ghcr.io/emksas/emk-reports:prod-latest
     container_name: emk_django
     working_dir: /app
     command: python manage.py runserver 0.0.0.0:8084
@@ -62,10 +56,7 @@ services:
   # Spring Boot (8085)
   # -------------------------
   spring:
-    build:
-      context: ../financial-planing
-      dockerfile: Dockerfile
-    image: emk_spring_prod
+    image: ghcr.io/emksas/financial-planing:prod-latest
     env_file:
     - ../financial-planing/.env
     container_name: emk_spring
@@ -81,10 +72,7 @@ services:
   # Node.js (3000)
   # -------------------------
   node:
-    build:
-      context: ../emk-sena-rsr-expenses-back
-      dockerfile: Dockerfile
-    image: emk_node_prod
+    image: ghcr.io/emksas/emk-sena-rsr-expenses-back:prod-latest
     container_name: emk_node
     working_dir: /app
     ports:
