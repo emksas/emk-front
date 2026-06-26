@@ -39,6 +39,8 @@ services:
   django:
     image: ghcr.io/emksas/emk-reports:prod-latest
     container_name: emk_django
+    env_file:
+      - ./django.env
     working_dir: /app
     command: python manage.py runserver 0.0.0.0:8084
     ports:
@@ -52,9 +54,9 @@ services:
   # -------------------------
   spring:
     image: ghcr.io/emksas/financial-planing:prod-latest
-    env_file:
-    - ../financial-planing/.env
     container_name: emk_spring
+    env_file:
+      - ./spring.env
     ports:
       - "8085:8085"
     environment:
@@ -69,6 +71,8 @@ services:
   node:
     image: ghcr.io/emksas/emk-sena-rsr-expenses-back:prod-latest
     container_name: emk_node
+    env_file:
+      - ./node.env
     working_dir: /app
     ports:
       - "3000:3000"
