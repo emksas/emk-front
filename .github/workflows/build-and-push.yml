@@ -69,6 +69,6 @@ jobs:
             git reset --hard "origin/${{ github.ref_name }}"
             git clean -fd
 
-            docker compose pull
-            docker compose up -d --remove-orphans
+            docker compose -f docker-compose.yml pull
+            docker compose -f docker-compose.yml up -d --remove-orphans
             docker image prune -f
