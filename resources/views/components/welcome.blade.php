@@ -26,7 +26,7 @@
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
                 Expenses Month
             </h2>
-            <p class="mt-2 max-w-full break-words text-3xl font-bold text-gray-700 dark:text-gray-300"> {{ $dashboardData['totalExpenses'] }} </p>
+            <p class="mt-2 max-w-full break-words text-3xl font-bold text-gray-700 dark:text-gray-300"> <x-money :value="$dashboardData['totalExpenses']" /> </p>
         </div>
 
         <div class="min-w-0 bg-white rounded-2xl shadow p-6 border flex flex-col items-center text-center dark:border-gray-800 dark:bg-gray-900">
@@ -60,8 +60,8 @@
                                     <td>
                                         {{ $expense['descripcion'] }}
                                     </td>
-                                    <td>
-                                        {{ $expense['total'] }}
+                                    <td data-order="{{ $expense['total'] }}">
+                                        <x-money :value="$expense['total']" />
                                     </td>
                                 </tr>
                             @endif
@@ -103,8 +103,8 @@
                     @foreach ($dashboardData['monthlyExpenses'] as $expense)
                         @if ($expense['descripcion'] != null)
                             <tr>
-                                <td>
-                                    {{ $expense['valor'] }}
+                                <td data-order="{{ $expense['valor'] }}">
+                                    <x-money :value="$expense['valor']" />
                                 </td>
                                 <td>
                                     {{ $expense['descripcion'] }}

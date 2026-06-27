@@ -48,8 +48,8 @@
                             @foreach ($expenses as $expense)
                             @if ($expense['descripcion'] != null)
                             <tr>
-                                <td>
-                                    {{ $expense['valor'] }}
+                                <td data-order="{{ $expense['valor'] }}">
+                                    <x-money :value="$expense['valor']" />
                                 </td>
                                 <td>
                                     {{ $expense['descripcion'] }}
@@ -127,7 +127,7 @@
             const arriba = (screen.height / 2) - (alto / 2);
 
             const popup = window.open(
-                datosUrl.url,
+                datosUrl,
                 'MicrosoftAuth',
                 `width=${ancho},height=${alto},top=${arriba},left=${izquierda}`
             );

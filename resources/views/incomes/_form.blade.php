@@ -16,8 +16,7 @@ $val = fn($key, $default = '') => old($key, isset($income) ? ($income->{$key} ??
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
             <label class="block text-sm font-medium mb-1">Value *</label>
-            <input type="numeric" name="valor" value="{{ $val('valor') }}" class="w-full border rounded px-3 py-2"
-                required>
+            <x-money-input name="valor" :value="$val('valor')" required />
             @error('valor')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
         </div>
 

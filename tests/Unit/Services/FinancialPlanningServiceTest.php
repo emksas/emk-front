@@ -12,7 +12,7 @@ class FinancialPlanningServiceTest extends TestCase
     {
         config(['services.spring_financial.base_url' => 'http://spring.test']);
         Http::fake([
-            'http://spring.test/financial-planning/user/7' => Http::response([
+            'http://spring.test/api/financial-planning/user/7' => Http::response([
                 ['planId' => 1, 'description' => 'Savings'],
             ]),
         ]);
@@ -26,41 +26,55 @@ class FinancialPlanningServiceTest extends TestCase
     {
         config(['services.spring_financial.base_url' => 'http://spring.test']);
         Http::fake([
-            'http://spring.test/financial-planning/user/7' => Http::response([], 503),
+            'http://spring.test/api/financial-planning/user/7' => Http::response([], 503),
         ]);
 
         $result = (new FinancialPlanningService())->getByUserId('7');
 
-        $this->assertSame([], $result['financialPlannings']);
-        $this->assertSame('Error fetching data from financial planning service', $result['error']);
-        $this->assertSame(503, $result['spring_status']);
+        $this->assertSame([], $result);
     }
 
-    public function test_create_posts_payload_and_returns_response_json(): void
+    public function test_create_maps_form_payload_and_posts_to_spring_service(): void
     {
         config(['services.spring_financial.base_url' => 'http://spring.test']);
-        $payload = ['description' => 'New plan'];
+        $payload = [
+            'descripcion' => 'New plan',
+            'valor' => '1000.00',
+            'fecha' => '2026-06-27',
+        ];
         Http::fake([
-            'http://spring.test/financial-planning' => Http::response(['planId' => 9], 201),
+            'http://spring.test/api/financial-planning' => Http::response(['planId' => 9], 201),
         ]);
 
-        $result = (new FinancialPlanningService())->create($payload);
+        $response = (new FinancialPlanningService())->create($payload, 7);
 
-        $this->assertSame(['planId' => 9], $result['response']);
-        Http::assertSent(fn ($request) => $request->url() === 'http://spring.test/financial-planning'
+        $this->assertTrue($response->created());
+        Http::assertSent(fn ($request) => $request->url() === 'http://spring.test/api/financial-planning'
             && $request->method() === 'POST'
-            && $request->data() === $payload);
+            && $request->data() === [
+                'userId' => 7,
+                'planName' => 'New plan',
+                'description' => 'New plan',
+                'projectedValue' => '1000.00',
+                'projectedDate' => '2026-06-27T00:00:00',
+                'personalProject' => true,
+            ]);
     }
 
-    public function test_create_returns_error_reason_when_service_fails(): void
+    public function test_create_returns_failed_response_when_service_fails(): void
     {
         config(['services.spring_financial.base_url' => 'http://spring.test']);
         Http::fake([
-            'http://spring.test/financial-planning' => Http::response([], 422),
+            'http://spring.test/api/financial-planning' => Http::response([], 422),
         ]);
 
-        $result = (new FinancialPlanningService())->create(['description' => 'Invalid']);
+        $response = (new FinancialPlanningService())->create([
+            'descripcion' => 'Invalid',
+            'valor' => '0',
+            'fecha' => '2026-06-27',
+        ], 7);
 
-        $this->assertArrayHasKey('error', $result);
+        $this->assertTrue($response->failed());
+        $this->assertSame(422, $response->status());
     }
 }

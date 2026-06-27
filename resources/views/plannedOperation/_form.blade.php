@@ -26,8 +26,7 @@
 
         <div>
             <label class="block text-sm font-medium mb-1">Projected Value *</label>
-            <input type="number" step="0.01" id="projectedValue" name="projectedValue" value="{{  old('projectedValue', data_get($expense, 'projectedValue', ''))  }}"
-                class="w-full border rounded px-3 py-2" required>
+            <x-money-input id="projectedValue" name="projectedValue" :value="old('projectedValue', data_get($expense, 'projectedValue', ''))" required />
         </div>
 
         <div>
@@ -38,8 +37,7 @@
 
         <div class="md:col-span-2">
             <label class="block text-sm font-medium mb-1">Total Projected Value *</label>
-            <input type="number" step="0.01" id="totalProjectedValue" name="totalProjectedValue" readonly
-                class="w-full border rounded px-3 py-2 bg-gray-100" required>
+            <x-money-input id="totalProjectedValue" name="totalProjectedValue" readonly class="bg-gray-100" required />
         </div>
 
 
@@ -54,13 +52,16 @@
         const totalInput = document.getElementById('totalProjectedValue');
 
         function calculateTotal() {
-            const projectedValue = parseFloat(projectedInput.value) || 0;
+            const projectedValue = parseFloat(projectedInput.value.replace(/[^\d,.-]/g, '').replace(/\./g, '').replace(',', '.')) || 0;
             const amount = parseFloat(amountInput.value) || 0;
 
             const total = projectedValue * amount;
 
             // Limitar a 2 decimales
-            totalInput.value = total.toFixed(2);
+            totalInput.value = '$ ' + new Intl.NumberFormat('es-CO', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(total);
         }
 
         projectedInput.addEventListener('input', calculateTotal);

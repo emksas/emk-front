@@ -11,15 +11,15 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="bg-white p-6 rounded-lg shadow">
                     <h3 class="text-lg font-bold text-green-600">Ingresos Familiares</h3>
-                    <p class="text-2xl">${{ number_format($dashboardData['total_incomes'] ?? 0, 2) }}</p>
+                    <p class="text-2xl"><x-money :value="$dashboardData['total_incomes'] ?? 0" /></p>
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow">
                     <h3 class="text-lg font-bold text-red-600">Egresos Familiares</h3>
-                    <p class="text-2xl">${{ number_format($dashboardData['total_expenses'] ?? 0, 2) }}</p>
+                    <p class="text-2xl"><x-money :value="$dashboardData['total_expenses'] ?? 0" /></p>
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow">
                     <h3 class="text-lg font-bold text-orange-600">Gastos Totales</h3>
-                    <p class="text-2xl">${{ number_format($dashboardData['balance'] ?? 0, 2) }}</p>
+                    <p class="text-2xl"><x-money :value="$dashboardData['balance'] ?? 0" /></p>
                 </div>
             </div>
 
@@ -35,7 +35,7 @@
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Monto</label>
-                        <input type="number" step="0.01" name="monto" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                        <x-money-input name="monto" class="mt-1 block rounded-md border-gray-300 shadow-sm" required />
                     </div>
 
                     <div>

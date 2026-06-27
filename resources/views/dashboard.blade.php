@@ -134,7 +134,7 @@
                         series: series,
                         labels: labels,
                         tooltip: {
-                            y: { formatter: (val) => new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(val) }
+                            y: { formatter: (val) => '$ ' + new Intl.NumberFormat('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(val) }
                         },
                         plotOptions: {
                             pie: {

@@ -10,7 +10,7 @@ class AccountingAccountService
 {
     public function getAllAccountingAccounts()
     {
-        return AccountingAccount::all()->where('userId', Auth::id())->toArray();
+        return AccountingAccount::all()->where('userId', Auth::id())->where('esProyeccion', false)->toArray();
     }
 
     public function createAccountingAccount($request)

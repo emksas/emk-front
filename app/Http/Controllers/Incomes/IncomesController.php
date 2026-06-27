@@ -57,7 +57,6 @@ class IncomesController extends Controller
     public function store(Request $request)
     {
         $data = $request->input();
-        dump($data);
         $this->incomesService->create($data, $request->user()->id);
         return redirect()->route('incomes.index')->with('success', 'Income created successfully.');
     }
