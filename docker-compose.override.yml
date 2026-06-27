@@ -5,6 +5,8 @@ services:
       dockerfile: ./docker/php/Dockerfile
     image: emk_laravel_local
     pull_policy: build
+    env_file: !override
+      - ./.env
     volumes:
       - ./:/var/www
 
@@ -20,6 +22,8 @@ services:
       dockerfile: Dockerfile
     image: emk_django_local
     pull_policy: build
+    env_file: !override
+      - ../emk-reports/.env
     command: python manage.py runserver 0.0.0.0:8084
     volumes:
       - ../emk-reports:/app
@@ -27,6 +31,8 @@ services:
   
   spring:
     image: maven:3.9-eclipse-temurin-21
+    env_file: !override
+      - ../financial-planing/.env
     working_dir: /app
     volumes:
       - ../financial-planing:/app
@@ -44,6 +50,8 @@ services:
       dockerfile: Dockerfile
     image: emk_node_local
     pull_policy: build
+    env_file: !override
+      - ../emk-sena-rsr-expenses-back/.env
     volumes:
       - ../emk-sena-rsr-expenses-back:/app
       - /app/node_modules

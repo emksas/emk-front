@@ -7,12 +7,11 @@
 
         <div class="sm:ml-auto flex items-center gap-2">
             <a href="{{ route('expenses.create') }}" class="inline-flex items-center gap-2 rounded-lg border border-blue-600
-             bg-transparent px-4 py-2 text-sm font-medium text-blue-600
              hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-600/40
              disabled:opacity-50 disabled:pointer-events-none">
                 Add Expense
             </a>
-            <a id="fromMail" class="inline-flex items-center gap-2 rounded-lg border border-blue-600
+            <a id="auth-microsoft" data-url-auth-email="{{ $urlAuthEmail }}" class="inline-flex items-center gap-2 rounded-lg border border-blue-600
              bg-transparent px-4 py-2 text-sm font-medium text-blue-600
              hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-600/40
              disabled:opacity-50 disabled:pointer-events-none">
@@ -114,9 +113,26 @@
             });
         });
 
-        document.getElementById('fromMail').addEventListener('click', () => {
-            window.open("localhost:3000/api/auth/login/1032459533", "aoutlookAuth", "width=600, height=700")
-        });
+        document.getElementById('auth-microsoft').addEventListener('click', async function() {
+
+            console.log('boton para autenticar ramses ')
+
+            
+            const datosUrl = this.dataset.urlAuthEmail;
+            console.log(datosUrl);
+            
+            const ancho = 600;
+            const alto = 700;
+            const izquierda = (screen.width / 2) - (ancho / 2);
+            const arriba = (screen.height / 2) - (alto / 2);
+
+            const popup = window.open(
+                datosUrl.url,
+                'MicrosoftAuth',
+                `width=${ancho},height=${alto},top=${arriba},left=${izquierda}`
+            );
+            
+        })
     </script>
 
 </x-app-layout>
