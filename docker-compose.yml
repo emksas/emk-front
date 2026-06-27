@@ -7,7 +7,7 @@ services:
     image: ghcr.io/emksas/emk-front:prod-latest
     container_name: emk_laravel
     env_file:
-      - ./.env
+      - ../env_files/laravel.env
     environment:
       APP_ENV: "${APP_ENV:-production}"
       SPRING_BASE_URL: "http://spring:8085"
@@ -40,7 +40,7 @@ services:
     image: ghcr.io/emksas/emk-reports:prod-latest
     container_name: emk_django
     env_file:
-      - ./django.env
+      - ../env_files/django.env
     working_dir: /app
     command: python manage.py runserver 0.0.0.0:8084
     ports:
@@ -56,7 +56,7 @@ services:
     image: ghcr.io/emksas/financial-planing:prod-latest
     container_name: emk_spring
     env_file:
-      - ./spring.env
+      - ../env_files/spring.env
     ports:
       - "8085:8085"
     environment:
@@ -72,7 +72,7 @@ services:
     image: ghcr.io/emksas/emk-sena-rsr-expenses-back:prod-latest
     container_name: emk_node
     env_file:
-      - ./node.env
+      - ../env_files/node.env
     working_dir: /app
     ports:
       - "3000:3000"
