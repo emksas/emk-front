@@ -32,7 +32,7 @@ class ExpensesController extends Controller
         $expenses = $this->expensesService->getAllExpenses();
         $error = null;
         $urlAuthEmail = $this->expensesService->getUrlAuthMicrosoft();
-
+        dump($urlAuthEmail);
         return view('expenses.index', ['expenses' => $expenses, 'error' => $error, 'userId' => $this->userId, 'urlAuthEmail' => $urlAuthEmail]);
     }
 

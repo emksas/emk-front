@@ -11,7 +11,7 @@
              disabled:opacity-50 disabled:pointer-events-none">
                 Add Expense
             </a>
-            <a id="auth-microsoft" class="inline-flex items-center gap-2 rounded-lg border border-blue-600
+            <a id="auth-microsoft" data-url-auth-email="{{ $urlAuthEmail }}" class="inline-flex items-center gap-2 rounded-lg border border-blue-600
              bg-transparent px-4 py-2 text-sm font-medium text-blue-600
              hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-600/40
              disabled:opacity-50 disabled:pointer-events-none">
@@ -115,8 +115,12 @@
 
         document.getElementById('auth-microsoft').addEventListener('click', async function() {
 
-            const datosUrl = {{ $urlAuthEmail }};
+            console.log('boton para autenticar ramses ')
 
+            
+            const datosUrl = this.dataset.urlAuthEmail;
+            console.log(datosUrl);
+            
             const ancho = 600;
             const alto = 700;
             const izquierda = (screen.width / 2) - (ancho / 2);
@@ -127,6 +131,7 @@
                 'MicrosoftAuth',
                 `width=${ancho},height=${alto},top=${arriba},left=${izquierda}`
             );
+            
         })
     </script>
 
