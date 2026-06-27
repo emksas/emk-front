@@ -27,22 +27,22 @@ $val = function ($key, $default = '') use ($financialPlanning) {
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-            <label class="block text-sm font-medium mb-1">Projected Value *</label>
-            <x-money-input name="valor" :value="$val('valor')" required />
+            <label for="valor" class="block text-sm font-medium mb-1">Projected Value *</label>
+            <x-money-input id="valor" name="valor" :value="$val('valor')" required />
             @error('valor')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
         </div>
 
         <div>
-            <label class="block text-sm font-medium mb-1">Description *</label>
-            <input type="text" name="descripcion" value="{{ $val('descripcion') }}"
+            <label for="descripcion" class="block text-sm font-medium mb-1">Description *</label>
+            <input type="text" id="descripcion" name="descripcion" value="{{ $val('descripcion') }}"
                 class="w-full border rounded px-3 py-2" required>
             @error('descripcion')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
         </div>
 
         <div class="md:col-span-2 flex justify-center">
             <div class="w-full">
-                <label class="block text-sm font-medium mb-1">Date *</label>
-                <input type="date" name="fecha"
+                <label for="fecha" class="block text-sm font-medium mb-1">Date *</label>
+                <input type="date" id="fecha" name="fecha"
                     class="w-full border rounded px-3 py-2"
                     value="{{ $date }}" required>
                 @error('fecha')

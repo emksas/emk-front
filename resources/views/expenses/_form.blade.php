@@ -15,26 +15,26 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-            <label class="block text-sm font-medium mb-1">Value *</label>
-            <x-money-input name="valor" :value="$val('valor')" required />
+            <label for="valor" class="block text-sm font-medium mb-1">Value *</label>
+            <x-money-input id="valor" name="valor" :value="$val('valor')" required />
             @error('valor')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
         </div>
 
         <div>
-            <label class="block text-sm font-medium mb-1">Description *</label>
-            <input type="text" name="descripcion" value="{{ $val('descripcion') }}"
+            <label for="descripcion" class="block text-sm font-medium mb-1">Description *</label>
+            <input type="text" id="descripcion" name="descripcion" value="{{ $val('descripcion') }}"
                 class="w-full border rounded px-3 py-2" required>
             @error('descripcion')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
         </div>
 
         <div>
-            <label class="block text-sm font-medium mb-1">Date * {{ $date }}</label>
-            <input type="date" name="fecha" class="w-full border rounded px-3 py-2" value="{{ $date }}" required>
+            <label for="fecha" class="block text-sm font-medium mb-1">Date * {{ $date }}</label>
+            <input type="date" id="fecha" name="fecha" class="w-full border rounded px-3 py-2" value="{{ $date }}" required>
             @error('fecha')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
         </div>
 
         <div>
-            <label class="block text-sm font-medium mb-1">Accounting Account*</label>
+            <label for="accountingAccount" class="block text-sm font-medium mb-1">Accounting Account*</label>
             <select id="accountingAccount" name="cuentacontable_id" class="w-full border rounded px-3 py-2" required>
                 @foreach ($accountingAccounts as $accountingAccount)
                     <option value="{{ $accountingAccount['id'] }}" {{ (isset($expense) && $expense['cuentacontable_id'] == $accountingAccount['id']) ? 'selected' : '' }}>
@@ -48,7 +48,7 @@
         </div>
 
          <div class="md:col-span-2">
-            <label class="block text-sm font-medium mb-1">Financial Planning*</label>
+            <label for="financialPlanning" class="block text-sm font-medium mb-1">Financial Planning*</label>
             <select id="financialPlanning" name="planificacion_financiera_id" class="w-full border rounded px-3 py-2" required>
                 @foreach ($financialPlannings as $financialPlanning)
                     <option value="{{ $financialPlanning['planId'] }}" {{ (isset($expense) && $expense['planificacion_financiera_id'] == $financialPlanning['planId']) ? 'selected' : '' }}>

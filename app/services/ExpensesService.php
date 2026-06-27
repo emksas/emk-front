@@ -139,10 +139,12 @@ class ExpensesService
         return $this->baseUrl;
     }
 
-    public function getUrlAuthMicrosoft(){
+    public function getUrlAuthMicrosoft(): string{
         $this->baseUrl = config('services.node_expenses.base_url');
-        return $this->baseUrl . "/auth/login/". Auth::id();
+        $returnTo = rtrim(config('app.url'), '/') . '/microsoft/auth/callback';
 
+        return  $this->baseUrl . '/auth/login/' . Auth::id()
+        . '?returnTo=' . urlencode($returnTo);
     }
 
 }

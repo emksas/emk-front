@@ -9,38 +9,38 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-white p-6 rounded-lg shadow">
+                <div class="bg-white p-6 rounded-lg shadow dark:bg-gray-900">
                     <h3 class="text-lg font-bold text-green-600">Ingresos Familiares</h3>
                     <p class="text-2xl"><x-money :value="$dashboardData['total_incomes'] ?? 0" /></p>
                 </div>
-                <div class="bg-white p-6 rounded-lg shadow">
+                <div class="bg-white p-6 rounded-lg shadow dark:bg-gray-900">
                     <h3 class="text-lg font-bold text-red-600">Egresos Familiares</h3>
                     <p class="text-2xl"><x-money :value="$dashboardData['total_expenses'] ?? 0" /></p>
                 </div>
-                <div class="bg-white p-6 rounded-lg shadow">
+                <div class="bg-white p-6 rounded-lg shadow dark:bg-gray-900">
                     <h3 class="text-lg font-bold text-orange-600">Gastos Totales</h3>
                     <p class="text-2xl"><x-money :value="$dashboardData['balance'] ?? 0" /></p>
                 </div>
             </div>
 
-            <div class="bg-white p-6 rounded-lg shadow">
+            <div class="bg-white p-6 rounded-lg shadow dark:bg-gray-900">
                 <h3 class="text-lg font-medium text-gray-900 mb-4">Registrar Gasto Familiar</h3>
                 
                 <form action="{{ route('expenses.store') }}" method="POST" class="space-y-4">
                     @csrf
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Descripción del Gasto</label>
-                        <input type="text" name="descripcion" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                        <label for="family-expense-description" class="block text-sm font-medium text-gray-700">Descripción del Gasto</label>
+                        <input type="text" id="family-expense-description" name="descripcion" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Monto</label>
-                        <x-money-input name="monto" class="mt-1 block rounded-md border-gray-300 shadow-sm" required />
+                        <label for="family-expense-amount" class="block text-sm font-medium text-gray-700">Monto</label>
+                        <x-money-input id="family-expense-amount" name="monto" class="mt-1 block rounded-md border-gray-300 shadow-sm" required />
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Asignar a Miembro(s) (Rol Personal)</label>
-                        <div class="space-y-2 max-h-40 overflow-y-auto p-3 border rounded-md bg-gray-50">
+                        <p id="family-expense-users-label" class="block text-sm font-medium text-gray-700 mb-2">Asignar a Miembro(s) (Rol Personal)</p>
+                        <div class="space-y-2 max-h-40 overflow-y-auto p-3 border rounded-md bg-gray-50 dark:bg-gray-800" aria-labelledby="family-expense-users-label">
                             @foreach($usuariosPersonal as $usuario)
                                 <label class="inline-flex items-center mr-4">
                                     <input type="checkbox" name="usuarios_asignados[]" value="{{ $usuario->id }}" class="rounded border-gray-300 text-indigo-600 shadow-sm">

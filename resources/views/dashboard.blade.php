@@ -16,13 +16,15 @@
         </h2>
         <div class="sm:ml-auto flex items-center gap-2">
             <form method="GET" action="{{ route('dashboard') }}" class="flex gap-2">
+                <label for="selYear" class="sr-only">{{ __('Year') }}</label>
                 <select id="selYear" name="year" class="border rounded px-2 py-1 text-sm min-w-32 border-gray-300 bg-white text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100">
                     <option value="">{{ $actualYear }}</option>
                 </select>
+                <label for="selMonth" class="sr-only">{{ __('Month') }}</label>
                 <select id="selMonth" name="month" class="border rounded px-2 py-1 text-sm min-w-32 border-gray-300 bg-white text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100">
                     <option value="{{ $actualMonth }}">{{ $actualMonthName }}</option>
                 </select>
-                <button id="btnApply"
+                <button type="submit" id="btnApply"
                     class="rounded-lg border border-blue-600 px-3 py-1.5 text-sm text-blue-600 hover:bg-blue-50 dark:border-blue-400 dark:text-blue-300 dark:hover:bg-blue-950/50">
                     Apply
                 </button>
