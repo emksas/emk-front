@@ -15,6 +15,69 @@ body {
     min-height: 100%;
 }
 
+.dark main .bg-white:not(.dark-keep-light) {
+    background-color: rgb(17 24 39);
+}
+
+.dark main .bg-gray-50 {
+    background-color: rgb(31 41 55);
+}
+
+.dark main .bg-gray-100 {
+    background-color: rgb(31 41 55);
+}
+
+.dark main .bg-green-50 {
+    background-color: rgb(20 83 45 / 0.18);
+}
+
+.dark main .bg-red-50 {
+    background-color: rgb(127 29 29 / 0.18);
+}
+
+.dark main .text-gray-900,
+.dark main .text-gray-800 {
+    color: rgb(243 244 246);
+}
+
+.dark main .text-gray-700,
+.dark main .text-gray-600 {
+    color: rgb(209 213 219);
+}
+
+.dark main .text-gray-500,
+.dark main .text-gray-400 {
+    color: rgb(156 163 175);
+}
+
+.dark main .border,
+.dark main .border-gray-100,
+.dark main .border-gray-200,
+.dark main .border-gray-300 {
+    border-color: rgb(55 65 81);
+}
+
+.dark main .divide-gray-200 > :not([hidden]) ~ :not([hidden]) {
+    border-color: rgb(55 65 81);
+}
+
+.dark main .shadow,
+.dark main .shadow-sm,
+.dark main .shadow-md,
+.dark main .shadow-lg,
+.dark main .shadow-xl {
+    --tw-shadow-color: rgb(3 7 18 / 0.45);
+    --tw-shadow: var(--tw-shadow-colored);
+}
+
+.dark main .hover\:bg-green-50:hover {
+    background-color: rgb(20 83 45 / 0.22);
+}
+
+.dark main .hover\:bg-red-50:hover {
+    background-color: rgb(127 29 29 / 0.22);
+}
+
 /* --- TUS ESTILOS PERSONALIZADOS PARA EL LOGIN --- */
 
 .image-wrapper {
