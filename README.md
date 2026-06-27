@@ -195,6 +195,86 @@ Only Node:
 docker compose logs -f node
 ```
 
+### Load Testing with Locust
+
+The project includes a Locust setup for web and API load testing.
+
+Add test user credentials to your local `.env` file. Use a test-only user:
+
+```env
+LOCUST_HOST=http://localhost:8081
+LOCUST_TEST_EMAIL=test@example.com
+LOCUST_TEST_PASSWORD=password
+LOCUST_LOGIN_PATH=/login
+LOCUST_API_LOGIN_PATH=/api/login
+```
+
+Start the application and Locust with Docker:
+
+```bash
+docker compose up -d --build
+```
+
+Open the Locust UI:
+
+```text
+http://localhost:8089
+```
+
+In production, the Locust service is included in `docker-compose.yml` and listens only on the server itself by default:
+
+```text
+http://127.0.0.1:8089
+```
+
+On the production server, add the Locust test credentials to `../env_files/laravel.env`:
+
+```env
+LOCUST_TEST_EMAIL=test@example.com
+LOCUST_TEST_PASSWORD=password
+LOCUST_HOST=http://nginx
+```
+
+From your computer, open it through an SSH tunnel:
+
+```bash
+ssh -L 8089:127.0.0.1:8089 user@production-server
+```
+
+Then open:
+
+```text
+http://localhost:8089
+```
+
+If you intentionally need to expose the Locust UI from the production server, start Compose with:
+
+```bash
+LOCUST_BIND_ADDRESS=0.0.0.0 docker compose up -d locust
+```
+
+Only do that behind a firewall or VPN.
+
+In the Locust UI, choose one of these user classes:
+
+- `LaravelWebUser`: logs in through the Blade login form and exercises `/dashboard`, `/api/dashboard`, and filter endpoints.
+- `LaravelApiUser`: logs in through `/api/login` and exercises API endpoints with the returned bearer token.
+
+To run Locust without Docker:
+
+```bash
+python -m venv .venv-locust
+source .venv-locust/bin/activate
+pip install -r requirements-locust.txt
+LOCUST_HOST=http://localhost:8081 locust -f locustfile.py
+```
+
+For a headless smoke test:
+
+```bash
+LOCUST_HOST=http://localhost:8081 locust -f locustfile.py LaravelWebUser --headless -u 5 -r 1 -t 30s
+```
+
 ### Stop Docker
 
 ```bash
