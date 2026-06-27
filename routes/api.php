@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\AuthInstrospectionController;
+use App\Http\Controllers\AuthIntrospectionController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -13,4 +13,4 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('/monthly-expenses', [\App\Http\Controllers\Api\ExpensesController::class, 'monthlyExpenses']);
 
-Route::post('/auth/instrospect', [AuthInstrospectionController::class, 'instrospect']);
+Route::post('/auth/instrospect', [AuthIntrospectionController::class, 'introspect']);

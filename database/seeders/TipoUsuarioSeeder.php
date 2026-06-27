@@ -15,13 +15,20 @@ class TipoUsuarioSeeder extends Seeder
     {
         DB::table('tipo_usuario')->insert([
             [
+                'id' => 1,
                 'nombre' => 'Individual Role',
             ],
             [
+                'id' => 2,
                 'nombre' => 'Family Role',
             ],
             [
+                'id' => 3,
                 'nombre' => 'Business Role',
+            ],
+            [
+                'id' => 4,
+                'nombre' => 'Administrator Role',
             ],
         ]);
     }

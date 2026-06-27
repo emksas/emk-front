@@ -39,6 +39,12 @@
                         </x-nav-link>
                     @endif
 
+                    @if(Auth::user()->isAdmin())
+                        <x-nav-link href="{{ route('user-management.index') }}" :active="request()->routeIs('user-management.*')">
+                            {{ __('User Management') }}
+                        </x-nav-link>
+                    @endif
+
                 </div>
             </div>
 
@@ -173,6 +179,12 @@
                 <x-responsive-nav-link href="{{ route('financial-planning.index') }}"
                     :active="request()->routeIs('financial-planning.*')">
                     {{ __('Financial Planning') }}
+                </x-responsive-nav-link>
+            @endif
+
+            @if(Auth::user()->isAdmin())
+                <x-responsive-nav-link href="{{ route('user-management.index') }}" :active="request()->routeIs('user-management.*')">
+                    {{ __('User Management') }}
                 </x-responsive-nav-link>
             @endif
         </div>

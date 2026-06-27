@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -100,5 +101,10 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return (int) $this->role === 4;
+    }
+
+    public function roleType(): BelongsTo
+    {
+        return $this->belongsTo(UserType::class, 'role');
     }
 }
