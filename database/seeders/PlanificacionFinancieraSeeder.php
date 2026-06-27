@@ -15,7 +15,6 @@ class PlanificacionFinancieraSeeder extends Seeder
     {
         DB::table('planificacion_financiera')->insert([
             [
-                'id' => 1,
                 'descripcion' => 'Default financial planning',
                 'nombre_del_plan' => 'Starter Plan',
                 'usuario_cedula' => 1032459533,

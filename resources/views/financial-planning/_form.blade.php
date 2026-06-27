@@ -1,14 +1,26 @@
 @php
 
 use Illuminate\Support\Carbon;
+
+$financialPlanningDate = data_get($financialPlanning, 'fecha', data_get($financialPlanning, 'projectedDate'));
 $date = old(
 'fecha',
-isset($financialPlanning) && $financialPlanning->fecha
-? Carbon::parse($financialPlanning->fecha)->format('Y-m-d')
+isset($financialPlanning) && $financialPlanningDate
+? Carbon::parse($financialPlanningDate)->format('Y-m-d')
 : ''
 );
 
-$val = fn($key, $default = '') => old($key, isset($financialPlanning) ? ($financialPlanning->{$key} ?? $default) : $default);
+$val = function ($key, $default = '') use ($financialPlanning) {
+    $serviceKeys = [
+        'valor' => 'projectedValue',
+        'descripcion' => 'description',
+    ];
+
+    return old(
+        $key,
+        data_get($financialPlanning, $key, data_get($financialPlanning, $serviceKeys[$key] ?? $key, $default))
+    );
+};
 @endphp
 
 <div class="space-y-4">
