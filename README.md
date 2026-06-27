@@ -227,6 +227,8 @@ In production, the Locust service is included in `docker-compose.yml` and listen
 http://127.0.0.1:8089
 ```
 
+There is a dedicated SSH access guide in `docs/locust-production-ssh.md`.
+
 On the production server, add the Locust test credentials to `../env_files/laravel.env`:
 
 ```env
