@@ -221,6 +221,40 @@ Open the Locust UI:
 http://localhost:8089
 ```
 
+In production, the Locust service is included in `docker-compose.yml` and listens only on the server itself by default:
+
+```text
+http://127.0.0.1:8089
+```
+
+On the production server, add the Locust test credentials to `../env_files/laravel.env`:
+
+```env
+LOCUST_TEST_EMAIL=test@example.com
+LOCUST_TEST_PASSWORD=password
+LOCUST_HOST=http://nginx
+```
+
+From your computer, open it through an SSH tunnel:
+
+```bash
+ssh -L 8089:127.0.0.1:8089 user@production-server
+```
+
+Then open:
+
+```text
+http://localhost:8089
+```
+
+If you intentionally need to expose the Locust UI from the production server, start Compose with:
+
+```bash
+LOCUST_BIND_ADDRESS=0.0.0.0 docker compose up -d locust
+```
+
+Only do that behind a firewall or VPN.
+
 In the Locust UI, choose one of these user classes:
 
 - `LaravelWebUser`: logs in through the Blade login form and exercises `/dashboard`, `/api/dashboard`, and filter endpoints.
