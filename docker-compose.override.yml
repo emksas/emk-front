@@ -5,6 +5,8 @@ services:
       dockerfile: ./docker/php/Dockerfile
     image: emk_laravel_local
     pull_policy: build
+    env_file:
+      - .env
     volumes:
       - ./:/var/www
     networks:
@@ -12,6 +14,10 @@ services:
 
   nginx:
     image: nginx:1.27-alpine
+    depends_on:
+      - laravel
+    ports:
+      - "127.0.0.1:8081:80"
     volumes:
       - ./:/var/www:ro
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
@@ -24,7 +30,11 @@ services:
       dockerfile: Dockerfile
     image: emk_django_local
     pull_policy: build
+    env_file:
+      - ../emk-reports/.env
     command: python manage.py runserver 0.0.0.0:8084
+    ports:
+      - "8084:8084"
     volumes:
       - ../emk-reports:/app
     networks:
@@ -33,6 +43,8 @@ services:
   spring:
     image: maven:3.9-eclipse-temurin-21
     working_dir: /app
+    env_file:
+      - ../financial-planing/.env
     volumes:
       - ../financial-planing:/app
       - ~/.m2:/root/.m2
@@ -51,6 +63,11 @@ services:
       dockerfile: Dockerfile
     image: emk_node_local
     pull_policy: build
+    env_file:
+      - ../emk-sena-rsr-expenses-back/.env
+    working_dir: /app
+    ports:
+      - "3000:3000"
     volumes:
       - ../emk-sena-rsr-expenses-back:/app
       - /app/node_modules
