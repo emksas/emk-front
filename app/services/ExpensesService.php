@@ -13,28 +13,61 @@ use Illuminate\Support\Facades\Auth;
 class ExpensesService
 {
 
-    private $baseUrl;
+    private string $baseUrl;
 
-    public function fetchExpenses($user)
+    public function __construct(
+        private FinancialPlanningService $financialPlanningService,
+        private AccountingAccountService $accountingAccountService
+    ) {}
+
+    public function fetchExpenses(string $user, string $folderPath)
     {
+
         $this->baseUrl = config('services.node_expenses.base_url');
         $expenses = [];
 
         try {
             $res = Http::timeout(10)->retry(3, 200)
-                ->baseUrl($this->baseUrl.'/expenses/'.$user.'?folderPath=/Finanzas/rappi&numberElements=5')
-                ->get('/expenses')
+                ->baseUrl($this->baseUrl)
+                ->get('/expenses/' . $user, [
+                    'folderPath' => $folderPath,
+                    'numberElements' => 10,
+                ])
                 ->throw()
                 ->json();
 
-            $expenses = $res['data'] ?? $res;
-
+            $expenses = collect($res['expenses'] ?? $res['data'] ?? $res)
+                ->map(fn($expense) => $this->formatExpenseFromNode($expense))
+                ->filter()
+                ->values()
+                ->all();
         } catch (\Exception $e) {
             report($e);
-            return false;
         }
 
         return $expenses;
+    }
+
+    private function formatExpenseFromNode(array $expense): ?array
+    {
+        $expenseData = $expense['bodyText'] ?? $expense;
+
+        if (
+            empty($expenseData['amount']) ||
+            empty($expenseData['paymentMethod']) ||
+            empty($expenseData['transactionDate'])
+        ) {
+            return null;
+        }
+
+        return [
+            'messageId' => $expense['messageId'] ?? $expense['id'] ?? null,
+            'amount' => $expenseData['amount'],
+            'paymentMethod' => $expenseData['paymentMethod'],
+            'authorizationCode' => $expenseData['authorizationCode'] ?? null,
+            'merchant' => $expenseData['merchant'] ?? $expense['subject'] ?? 'Sin comercio',
+            'transactionDate' => $expenseData['transactionDate'],
+        ];
     }
 
 
@@ -47,38 +80,45 @@ class ExpensesService
             $isValidated['user_id'] = Auth::id();
             return Expense::create($isValidated);
         }
-
     }
 
-    public function fromMail($user)
+    public function fromMail($user, string $folderPath)
     {
-        $expensesFromMail = $this->fetchExpenses($user);
-        foreach ($expensesFromMail as $expenseData) {
-            if ($expenseData['paymentMethod'] != null) {
+        $expensesFromMail = $this->fetchExpenses($user, $folderPath);
 
-                $date = Carbon::parse($expenseData['transactionDate']);
-                $data = [
-                    'valor' => $expenseData['amount'],
-                    'descripcion' => $expenseData['merchant'],
-                    'fecha' => $date->format('Y-m-d H:i:s'),
-                    'estado' => 'pay',
-                    'planificacion_financiera_id' => 1,
-                    'cuentacontable_id' => 1,
-                    'user_id' => $user,
-                ];
+        if (!empty($expensesFromMail)) {
 
-                $rules = [
-                    'valor' => ['required'],
-                    'descripcion' => ['required', 'string', 'max:255'],
-                    'fecha' => ['required'], // si viene en otro formato, ver abajo
-                    'estado' => ['sometimes', 'string'],
-                    'planificacion_financiera_id' => ['sometimes', 'integer'],
-                    'cuentacontable_id' => ['sometimes', 'integer'],
-                    'user_id' => ['required', 'integer'],
-                ];
-                $validated = Validator::make($data, $rules)->validate();
-                Expense::create($validated);
+            $financialPlannings = $this->financialPlanningService->getByUserId($user);
+            $accountingAccounts = $this->accountingAccountService->getAllAccountingAccounts();
 
+            if (!empty($financialPlannings) && !empty($accountingAccounts)) {
+                foreach ($expensesFromMail as $expenseData) {
+                    if (!empty($expenseData['paymentMethod']) && !empty($expenseData['transactionDate'])) {
+
+                        $date = Carbon::parse($expenseData['transactionDate']);
+                        $data = [
+                            'valor' => $expenseData['amount'],
+                            'descripcion' => $expenseData['merchant'] ?? 'Sin comercio',
+                            'fecha' => $date->format('Y-m-d H:i:s'),
+                            'estado' => 'pay',
+                            'planificacion_financiera_id' => $financialPlannings[0]['planId'],
+                            'cuentacontable_id' => $accountingAccounts[0]['id'],
+                            'user_id' => $user,
+                        ];
+
+                        $rules = [
+                            'valor' => ['required'],
+                            'descripcion' => ['required', 'string', 'max:255'],
+                            'fecha' => ['required'], // si viene en otro formato, ver abajo
+                            'estado' => ['sometimes', 'string'],
+                            'planificacion_financiera_id' => ['sometimes', 'integer'],
+                            'cuentacontable_id' => ['sometimes', 'integer'],
+                            'user_id' => ['required', 'integer'],
+                        ];
+                        $validated = Validator::make($data, $rules)->validate();
+                        Expense::create($validated);
+                    }
+                }
             }
         }
     }
@@ -103,7 +143,6 @@ class ExpensesService
             ->orderByDesc('total')
             ->get()
             ->toArray();
-
     }
 
     public function getSumOfExpensesByMonth($month, $year, string|int|null $userId = null)
@@ -147,16 +186,18 @@ class ExpensesService
             ->pluck('month');
     }
 
-    public function getBaseUrl(){
+    public function getBaseUrl()
+    {
         return $this->baseUrl;
     }
 
-    public function getUrlAuthMicrosoft(): string{
-        $this->baseUrl = config('services.node_expenses.base_url');
-        $returnTo = rtrim(config('app.url'), '/') . '/microsoft/auth/callback';
+    public function getUrlAuthMicrosoft(): string
+    {
+        $this->baseUrl = config('services.node_expenses_external.base_url');
+        $returnTo = rtrim(config('app.url'), '/');
 
         return  $this->baseUrl . '/auth/login/' . Auth::id()
-        . '?returnTo=' . urlencode($returnTo);
+            . '?returnTo=' . urlencode($returnTo);
     }
 
     private function resolveUserId(string|int|null $userId): int

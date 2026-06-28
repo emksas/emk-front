@@ -5,8 +5,8 @@ services:
       dockerfile: ./docker/php/Dockerfile
     image: emk_laravel_local
     pull_policy: build
-    env_file:
-      - .env
+    env_file: !override
+      - ./.env
     volumes:
       - ./:/var/www
     networks:

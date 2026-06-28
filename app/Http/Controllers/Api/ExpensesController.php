@@ -46,7 +46,13 @@ class ExpensesController extends Controller
     {
         $expensesService = app(\App\services\ExpensesService::class);
         $userId = Auth::id();
-        $result = $expensesService->fromMail($userId);
+        $folderPath = Auth::user()->mail_folder_path;
+
+        if (!$folderPath) {
+            return response()->json(['error' => 'No hay rutas disponibles para leer el correo.'], 422);
+        }
+
+        $result = $expensesService->fromMail($userId, $folderPath);
         if ($result === false) {
             return response()->json(['error' => 'Failed to fetch expenses from mail.'], 500);
         }
