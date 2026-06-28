@@ -81,6 +81,13 @@
                 @endif
             @endif
         </div>
+
+        <!-- Mail Folder Path -->
+        <div class="col-span-6 sm:col-span-4">
+            <x-label for="mail_folder_path" value="{{ __('Mail folder path') }}" />
+            <x-input id="mail_folder_path" type="text" class="mt-1 block w-full" wire:model="state.mail_folder_path" placeholder="/Finanzas/rappi" />
+            <x-input-error for="mail_folder_path" class="mt-2" />
+        </div>
     </x-slot>
 
     <x-slot name="actions">

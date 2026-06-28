@@ -3,9 +3,12 @@
 namespace Tests\Unit\Services;
 
 use App\Models\User;
+use App\services\AccountingAccountService;
 use App\services\ExpensesService;
+use App\services\FinancialPlanningService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Mockery;
 use Tests\TestCase;
 
 class ExpensesServiceTest extends TestCase
@@ -15,31 +18,48 @@ class ExpensesServiceTest extends TestCase
         config(['services.node_expenses.base_url' => 'http://node.test']);
         Http::fake(['*' => Http::response(['data' => [['amount' => 100]]])]);
 
-        $result = (new ExpensesService())->fetchExpenses(15);
+        $result = $this->service()->fetchExpenses(15, '/Finanzas/rappi');
 
-        $this->assertSame([['amount' => 100]], $result);
-        Http::assertSent(fn ($request) => $request->method() === 'GET');
+        $this->assertSame([], $result);
+        Http::assertSent(fn ($request) =>
+            $request->method() === 'GET' &&
+            $request->url() === 'http://node.test/expenses/15?folderPath=%2FFinanzas%2Frappi&numberElements=5'
+        );
     }
 
-    public function test_fetch_expenses_returns_false_when_remote_request_fails(): void
+    public function test_fetch_expenses_returns_empty_array_when_remote_request_fails(): void
     {
         config(['services.node_expenses.base_url' => 'http://node.test']);
         Http::fake(['*' => Http::response([], 500)]);
 
-        $result = (new ExpensesService())->fetchExpenses(15);
+        $result = $this->service()->fetchExpenses(15, '/Finanzas/rappi');
 
-        $this->assertFalse($result);
+        $this->assertSame([], $result);
     }
 
     public function test_get_url_auth_microsoft_uses_authenticated_user_id(): void
     {
-        config(['services.node_expenses.base_url' => 'http://node.test']);
+        config([
+            'app.url' => 'http://localhost:8081/',
+            'services.node_expenses_external.base_url' => 'http://node-public.test/api',
+        ]);
         $user = new User();
         $user->id = 42;
         Auth::shouldReceive('id')->once()->andReturn($user->id);
 
-        $result = (new ExpensesService())->getUrlAuthMicrosoft();
+        $result = $this->service()->getUrlAuthMicrosoft();
 
-        $this->assertSame('http://node.test/auth/login/42', $result);
+        $this->assertSame(
+            'http://node-public.test/api/auth/login/42?returnTo=http%3A%2F%2Flocalhost%3A8081',
+            $result
+        );
+    }
+
+    private function service(): ExpensesService
+    {
+        return new ExpensesService(
+            Mockery::mock(FinancialPlanningService::class),
+            Mockery::mock(AccountingAccountService::class)
+        );
     }
 }

@@ -13,7 +13,8 @@
              disabled:opacity-50 disabled:pointer-events-none">
                 Add Expense
             </a>
-            <button type="button" id="auth-microsoft" data-url-auth-email="{{ $urlAuthEmail }}" class="inline-flex items-center gap-2 rounded-lg border border-blue-600
+            @if (Auth::user()->mail_folder_path)
+            <button type="button" id="auth-microsoft" data-url-auth-email="{{ $urlAuthEmail }}" data-from-mail-url="{{ route('expenses.fromMail') }}" class="inline-flex items-center gap-2 rounded-lg border border-blue-600
              bg-transparent px-4 py-2 text-sm font-medium text-blue-600 transition-colors
              hover:bg-blue-50 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600/40
              dark:border-sky-400/70 dark:bg-sky-400/10 dark:text-sky-200
@@ -21,6 +22,7 @@
              disabled:opacity-50 disabled:pointer-events-none">
                 From Mail
             </button>
+            @endif
         </div>
     </x-slot>
 
@@ -121,39 +123,81 @@
             });
         });
 
-        window.addEventListener('message', function(event) {
-            console.log("evento de origen ramses: ". event.origin ); 
-            console.log("ventana ramses". window.location.origin);
-            if (event.origin !== window.location.origin) {
+        window.addEventListener('message', async function(event) {
+            console.log('entro al evento');
+            const authButton = document.getElementById('auth-microsoft');
+            if (!authButton) {
+                return;
+            }
+            const nodeOrigin = new URL(authButton.dataset.urlAuthEmail).origin;
+            console.log(authButton);
+            console.log(nodeOrigin);
+            console.log( event.origin );
+
+            if (event.origin !== nodeOrigin) {
                 return;
             }
 
-            if (event.data?.type === 'MICROSOFT_AUTH_FINISHED') {
-                window.location.reload();
+            const data = event.data;
+            console.log('Respuesta recibida desde popup:', data);
+
+            if (data?.type !== 'MICROSOFT_AUTH_FINISHED') {
+                return;
+            }
+
+            if (!data.success) {
+                console.error('Error autenticando Microsoft:', data.message);
+                return;
+            }
+
+            try {
+                console.log('url para obtener informacion: ', authButton.dataset)
+                const response = await fetch(authButton.dataset.fromMailUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error('Error llamando endpoint Laravel from-mail');
+                } else {
+                    window.location.reload();
+                }
+
+
+
+            } catch (error) {
+                console.error('Error importando gastos desde el correo:', error);
             }
         });
 
-        document.getElementById('auth-microsoft').addEventListener('click', async function() {
+        const authMicrosoftButton = document.getElementById('auth-microsoft');
 
-            console.log('boton para autenticar ramses ')
+        if (authMicrosoftButton) {
+            authMicrosoftButton.addEventListener('click', async function() {
+
+                console.log('boton para autenticar ramses ')
 
 
-            const datosUrl = this.dataset.urlAuthEmail;
-            console.log(datosUrl);
+                const datosUrl = this.dataset.urlAuthEmail;
+                console.log(datosUrl);
 
 
-            const ancho = 600;
-            const alto = 700;
-            const izquierda = (screen.width / 2) - (ancho / 2);
-            const arriba = (screen.height / 2) - (alto / 2);
+                const ancho = 600;
+                const alto = 700;
+                const izquierda = (screen.width / 2) - (ancho / 2);
+                const arriba = (screen.height / 2) - (alto / 2);
 
-            const popup = window.open(
-                datosUrl,
-                'MicrosoftAuth',
-                `width=${ancho},height=${alto},top=${arriba},left=${izquierda}`
-            );
-
-        })
+                const popup = window.open(
+                    datosUrl,
+                    'MicrosoftAuth',
+                    `width=${ancho},height=${alto},top=${arriba},left=${izquierda}`
+                );
+                console.log("-------------------------------------")
+            })
+        }
     </script>
 
 </x-app-layout>

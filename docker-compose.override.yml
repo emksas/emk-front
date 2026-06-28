@@ -45,8 +45,6 @@ services:
     env_file: !override
       - ../financial-planing/.env
     working_dir: /app
-    env_file:
-      - ../financial-planing/.env
     volumes:
       - ../financial-planing:/app
       - ~/.m2:/root/.m2

@@ -29,6 +29,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'mail_folder_path',
         'role', // <--- ACTUALIZADO: Permitimos la asignación masiva del rol
     ];
 

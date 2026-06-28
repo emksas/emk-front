@@ -97,7 +97,16 @@ class ExpensesController extends Controller
     public function getExpensesFromMail()
     {
         $userId = Auth::id();
-        $this->expensesService->fromMail($userId);
-        return redirect()->route('expenses.index')->with('success', 'Expense deleted successfully.');
+        $folderPath = Auth::user()->mail_folder_path;
+
+        if (!$folderPath) {
+            return redirect()
+                ->route('expenses.index')
+                ->with('error', 'No hay rutas disponibles para leer el correo.');
+        }
+
+        $this->expensesService->fromMail($userId, $folderPath);
+
+        return redirect()->route('expenses.index')->with('success', 'Expenses fetched and stored successfully.');
     }
 }
