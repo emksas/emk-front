@@ -24,7 +24,6 @@ class ExpensesService
     {
 
         $this->baseUrl = config('services.node_expenses.base_url');
-        dump($this->baseUrl);
         $expenses = [];
 
         try {
@@ -32,12 +31,10 @@ class ExpensesService
                 ->baseUrl($this->baseUrl)
                 ->get('/expenses/' . $user, [
                     'folderPath' => $folderPath,
-                    'numberElements' => 20,
+                    'numberElements' => 10,
                 ])
                 ->throw()
                 ->json();
-
-            dump($res);
 
             $expenses = collect($res['expenses'] ?? $res['data'] ?? $res)
                 ->map(fn($expense) => $this->formatExpenseFromNode($expense))
@@ -86,17 +83,12 @@ class ExpensesService
 
     public function fromMail($user, string $folderPath)
     {
-        dump($user);
-        dump($folderPath);
         $expensesFromMail = $this->fetchExpenses($user, $folderPath);
-        dump($expensesFromMail);
 
         if (!empty($expensesFromMail)) {
 
             $financialPlannings = $this->financialPlanningService->getByUserId($user);
             $accountingAccounts = $this->accountingAccountService->getAllAccountingAccounts();
-
-            dump($financialPlannings);
 
             if (!empty($financialPlannings) && !empty($accountingAccounts)) {
                 foreach ($expensesFromMail as $expenseData) {
@@ -111,8 +103,6 @@ class ExpensesService
                             'planificacion_financiera_id' => $financialPlannings[0]['planId'],
                             'cuentacontable_id' => $accountingAccounts[0]['id'],
                         ];
-
-                        dump($data);
 
                         $rules = [
                             'valor' => ['required'],

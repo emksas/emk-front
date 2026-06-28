@@ -120,9 +120,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
     <script>
-
-        hideLoader();
-
         $(function() {
             $('#expenses').DataTable({
                 pageLength: 20,
@@ -138,7 +135,7 @@
                 return;
             }
             const nodeOrigin = new URL(authButton.dataset.urlAuthEmail).origin;
-        
+
             if (event.origin !== nodeOrigin) {
                 return;
             }
@@ -165,11 +162,10 @@
                     },
                 });
 
-                console.log(response);
-                console.log(response.ok)
-
+                hideLoader();
 
                 if (response.ok) {
+
                     window.location.reload();
 
                 } else {
