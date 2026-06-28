@@ -33,7 +33,7 @@ class PlannedOperationController extends Controller
         $user = $request->user();
         $baseUrl = config('services.spring_financial.base_url');
 
-        $response = Http::get($baseUrl . '/api/accounting-account/user/' . $user->id);
+        $response = Http::get($this->apiUrl($baseUrl, '/accounting-account/user/' . $user->id));
 
         if ($response->failed()) {
             return view('financial-planning.index', [
@@ -78,13 +78,13 @@ class PlannedOperationController extends Controller
 
         $response = Http::acceptJson()
             ->asJson()
-            ->post("{$baseUrl}/api/planned-operations/user/{$user->id}/plan/{$planId}", $payload);
+            ->post($this->apiUrl($baseUrl, "/planned-operations/user/{$user->id}/plan/{$planId}"), $payload);
 
         if ($response->successful()) {
             return redirect()->route('financial-planning.index')
                 ->with('success', 'Operation created successfully.');
         } else {
-            return redirect()->route('planning-operation.index')
+            return redirect()->route('financial-planning.index')
                 ->with('error', 'Error creating operation: ' . $response->status());
         }
     }
@@ -107,9 +107,9 @@ class PlannedOperationController extends Controller
 
         $baseUrl = config('services.spring_financial.base_url');
 
-        $response = Http::get($baseUrl . '/api/planned-operations/user/' . $user->id . '/plan/' . $planningId . '/operation/' . $transactionId);
+        $response = Http::get($this->apiUrl($baseUrl, '/planned-operations/user/' . $user->id . '/plan/' . $planningId . '/operation/' . $transactionId));
 
-        $responseAccountingAccount = Http::get($baseUrl . '/api/accounting-account/user/' . $user->id);
+        $responseAccountingAccount = Http::get($this->apiUrl($baseUrl, '/accounting-account/user/' . $user->id));
 
 
         if ($response->failed() || $responseAccountingAccount->failed() ) {
@@ -157,13 +157,13 @@ class PlannedOperationController extends Controller
 
         $response = Http::acceptJson()
             ->asJson()
-            ->put("{$baseUrl}/api/planned-operations/user/{$user->id}/plan/{$planningId}/operation/{$transactionId}", $payload);
+            ->put($this->apiUrl($baseUrl, "/planned-operations/user/{$user->id}/plan/{$planningId}/operation/{$transactionId}"), $payload);
 
         if ($response->successful()) {
             return redirect()->route('financial-planning.index')
                 ->with('success', 'Operation updated successfully.');
         } else {
-            return redirect()->route('planning-operation.index')
+            return redirect()->route('financial-planning.index')
                 ->with('error', 'Error updating operation: ' . $response->status());
         }
     }
@@ -177,7 +177,7 @@ class PlannedOperationController extends Controller
 
         $baseUrl = config('services.spring_financial.base_url');
 
-        $response = Http::delete($baseUrl . '/api/planned-operations/user/' . $user->id . '/plan/' . $planningId . '/operation/' . $transactionId);
+        $response = Http::delete($this->apiUrl($baseUrl, '/planned-operations/user/' . $user->id . '/plan/' . $planningId . '/operation/' . $transactionId));
 
         if ($response->failed()) {
             return redirect()->route('financial-planning.index')->with('error', 'Error deleting plan from financial planning service');
@@ -185,5 +185,13 @@ class PlannedOperationController extends Controller
 
         return redirect()->route('financial-planning.index')->with('success', 'Planning operation deleted successfully.');
 
+    }
+
+    private function apiUrl(?string $baseUrl, string $path): string
+    {
+        $baseUrl = rtrim((string) $baseUrl, '/');
+        $apiBaseUrl = str_ends_with($baseUrl, '/api') ? $baseUrl : $baseUrl . '/api';
+
+        return $apiBaseUrl . '/' . ltrim($path, '/');
     }
 }
