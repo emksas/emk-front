@@ -27,7 +27,10 @@
                     </div>
                 @endsession
 
-                <form method="POST" action="{{ route('login') }}">
+                <form method="POST" action="{{ route('login') }}"
+                    data-loading="true"
+                    data-loading-title="Signing in"
+                    data-loading-message="Please wait while we verify your credentials.">
                     @csrf
                     <div>
                         <x-label for="email" value="{{ __('Email') }}" />

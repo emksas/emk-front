@@ -82,8 +82,8 @@ class PasswordResetTest extends TestCase
             $response = $this->post('/reset-password', [
                 'token' => $notification->token,
                 'email' => $user->email,
-                'password' => 'New-password1!',
-                'password_confirmation' => 'New-password1!',
+                'password' => 'V3ry-Unique-C0dex-Test-2026#RsR!',
+                'password_confirmation' => 'V3ry-Unique-C0dex-Test-2026#RsR!',
             ]);
 
             $response->assertSessionHasNoErrors();

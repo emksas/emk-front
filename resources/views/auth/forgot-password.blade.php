@@ -16,7 +16,10 @@
 
         <x-validation-errors class="mb-4" />
 
-        <form method="POST" action="{{ route('password.email') }}">
+        <form method="POST" action="{{ route('password.email') }}"
+            data-loading="true"
+            data-loading-title="Sending reset link"
+            data-loading-message="Please wait while we send the password reset email.">
             @csrf
 
             <div class="block">

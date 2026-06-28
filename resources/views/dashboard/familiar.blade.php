@@ -26,7 +26,10 @@
             <div class="bg-white p-6 rounded-lg shadow">
                 <h3 class="text-lg font-medium text-gray-900 mb-4">Registrar Gasto Familiar</h3>
                 
-                <form action="{{ route('expenses.store') }}" method="POST" class="space-y-4">
+                <form action="{{ route('expenses.store') }}" method="POST" class="space-y-4"
+                    data-loading="true"
+                    data-loading-title="Saving family expense"
+                    data-loading-message="Please wait while the family expense is created.">
                     @csrf
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Descripción del Gasto</label>

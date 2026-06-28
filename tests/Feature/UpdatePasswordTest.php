@@ -20,12 +20,12 @@ class UpdatePasswordTest extends TestCase
         Livewire::test(UpdatePasswordForm::class)
             ->set('state', [
                 'current_password' => 'password',
-                'password' => 'New-password1!',
-                'password_confirmation' => 'New-password1!',
+                'password' => 'V3ry-Unique-C0dex-Test-2026#RsR!',
+                'password_confirmation' => 'V3ry-Unique-C0dex-Test-2026#RsR!',
             ])
             ->call('updatePassword');
 
-        $this->assertTrue(Hash::check('New-password1!', $user->fresh()->password));
+        $this->assertTrue(Hash::check('V3ry-Unique-C0dex-Test-2026#RsR!', $user->fresh()->password));
     }
 
     public function test_current_password_must_be_correct(): void
@@ -35,8 +35,8 @@ class UpdatePasswordTest extends TestCase
         Livewire::test(UpdatePasswordForm::class)
             ->set('state', [
                 'current_password' => 'wrong-password',
-                'password' => 'New-password1!',
-                'password_confirmation' => 'New-password1!',
+                'password' => 'V3ry-Unique-C0dex-Test-2026#RsR!',
+                'password_confirmation' => 'V3ry-Unique-C0dex-Test-2026#RsR!',
             ])
             ->call('updatePassword')
             ->assertHasErrors(['current_password']);
@@ -51,7 +51,7 @@ class UpdatePasswordTest extends TestCase
         Livewire::test(UpdatePasswordForm::class)
             ->set('state', [
                 'current_password' => 'password',
-                'password' => 'New-password1!',
+                'password' => 'V3ry-Unique-C0dex-Test-2026#RsR!',
                 'password_confirmation' => 'Wrong-password1!',
             ])
             ->call('updatePassword')

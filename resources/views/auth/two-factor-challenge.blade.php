@@ -15,7 +15,10 @@
 
             <x-validation-errors class="mb-4" />
 
-            <form method="POST" action="{{ route('two-factor.login') }}">
+            <form method="POST" action="{{ route('two-factor.login') }}"
+                data-loading="true"
+                data-loading-title="Verifying code"
+                data-loading-message="Please wait while we verify your two-factor code.">
                 @csrf
 
                 <div class="mt-4" x-show="! recovery">

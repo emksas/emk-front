@@ -10,7 +10,10 @@
 
         <x-validation-errors class="mb-4" />
 
-        <form method="POST" action="{{ route('password.confirm') }}">
+        <form method="POST" action="{{ route('password.confirm') }}"
+            data-loading="true"
+            data-loading-title="Confirming password"
+            data-loading-message="Please wait while we confirm your password.">
             @csrf
 
             <div>
