@@ -32,7 +32,7 @@ class ExpensesService
                 ->baseUrl($this->baseUrl)
                 ->get('/expenses/' . $user, [
                     'folderPath' => $folderPath,
-                    'numberElements' => 5,
+                    'numberElements' => 20,
                 ])
                 ->throw()
                 ->json();
