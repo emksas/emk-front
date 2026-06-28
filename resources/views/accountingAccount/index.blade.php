@@ -53,7 +53,13 @@
                                             </a>
 
                                             <form action="{{ route('accountingAccount.destroy', $accountingAccount['id']) }}"
-                                                method="POST" onsubmit="return confirm('Are you sure you want to delete this accounting account?');">
+                                                method="POST"
+                                                data-confirm-delete
+                                                data-confirm-title="Delete accounting account?"
+                                                data-confirm-message="This accounting account will be permanently deleted."
+                                                data-loading="true"
+                                                data-loading-title="Deleting accounting account"
+                                                data-loading-message="Please wait while the accounting account is removed.">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit"

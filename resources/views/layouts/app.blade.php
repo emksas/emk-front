@@ -22,6 +22,15 @@
             document.documentElement.classList.remove('dark');
         }
     </script>
+    <script>
+        window.AppFlashMessages = {{ Illuminate\Support\Js::from([
+            'success' => session('success'),
+            'error' => session('error'),
+            'warning' => session('warning'),
+            'info' => session('info'),
+            'status' => session('status'),
+        ]) }};
+    </script>
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
