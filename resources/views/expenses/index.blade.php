@@ -115,6 +115,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
     <script>
+
+        hideLoader();
+
         $(function() {
             $('#expenses').DataTable({
                 pageLength: 20,
@@ -130,10 +133,7 @@
                 return;
             }
             const nodeOrigin = new URL(authButton.dataset.urlAuthEmail).origin;
-            console.log(authButton);
-            console.log(nodeOrigin);
-            console.log( event.origin );
-
+        
             if (event.origin !== nodeOrigin) {
                 return;
             }
@@ -160,10 +160,15 @@
                     },
                 });
 
-                if (!response.ok) {
-                    throw new Error('Error llamando endpoint Laravel from-mail');
-                } else {
+                console.log(response);
+                console.log(response.ok)
+
+
+                if (response.ok) {
                     window.location.reload();
+
+                } else {
+                    throw new Error('Error llamando endpoint Laravel from-mail');
                 }
 
 
@@ -177,14 +182,8 @@
 
         if (authMicrosoftButton) {
             authMicrosoftButton.addEventListener('click', async function() {
-
-                console.log('boton para autenticar ramses ')
-
-
+                showLoader("Getting information", "Please continue in the pop up ");
                 const datosUrl = this.dataset.urlAuthEmail;
-                console.log(datosUrl);
-
-
                 const ancho = 600;
                 const alto = 700;
                 const izquierda = (screen.width / 2) - (ancho / 2);
@@ -195,7 +194,6 @@
                     'MicrosoftAuth',
                     `width=${ancho},height=${alto},top=${arriba},left=${izquierda}`
                 );
-                console.log("-------------------------------------")
             })
         }
     </script>

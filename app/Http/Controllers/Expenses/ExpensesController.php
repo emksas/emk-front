@@ -107,6 +107,12 @@ class ExpensesController extends Controller
 
         $this->expensesService->fromMail($userId, $folderPath);
 
-        return redirect()->route('expenses.index')->with('success', 'Expenses fetched and stored successfully.');
+        return response()->json([
+            'success' => true,
+            'message' => 'Expenses fetched and stored successfully.',
+            'redirect_url' =>  redirect()->route('dashboard')
+        ]);
+
+        //return redirect()->route('expenses.index')->with('success', 'Expenses fetched and stored successfully.');
     }
 }

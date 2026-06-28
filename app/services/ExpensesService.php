@@ -24,6 +24,7 @@ class ExpensesService
     {
 
         $this->baseUrl = config('services.node_expenses.base_url');
+        dump($this->baseUrl);
         $expenses = [];
 
         try {
@@ -85,6 +86,8 @@ class ExpensesService
 
     public function fromMail($user, string $folderPath)
     {
+        dump($user);
+        dump($folderPath);
         $expensesFromMail = $this->fetchExpenses($user, $folderPath);
         dump($expensesFromMail);
 
