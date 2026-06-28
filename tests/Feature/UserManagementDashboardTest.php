@@ -38,8 +38,8 @@ class UserManagementDashboardTest extends TestCase
         $response->assertSee('Registered users and their assigned roles');
         $response->assertSee('Roles and their assigned user counts');
         $response->assertSee('scope="col"', false);
-        $response->assertSee('role="status"', false);
-        $response->assertSee('aria-live="polite"', false);
+        $response->assertSee('window.AppFlashMessages', false);
+        $response->assertSee('User created successfully.');
         $response->assertSee('aria-labelledby="users-table-heading"', false);
         $response->assertSee('Create User');
         $response->assertSee('Add Role');
