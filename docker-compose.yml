@@ -58,9 +58,9 @@ services:
     env_file:
       - ../env_files/spring.env
     ports:
-      - "8082:8082"
+      - "8085:8085"
     environment:
-      SERVER_PORT: 8082
+      SERVER_PORT: 8085
     networks:
       - emk_net
     restart: unless-stopped
