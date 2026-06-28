@@ -46,7 +46,7 @@
                                     data-accordion-target="#accordion-card-body-{{ $loop->iteration }}" aria-expanded="false"
                                     aria-controls="accordion-card-body-{{ $loop->iteration }}">
                                     <span> {{ $financialPlanning['planName'] }} - Total projected value:
-                                        {{ $financialPlanning['projectedValue'] }} </span>
+                                        <x-money :value="$financialPlanning['projectedValue']" /> </span>
                                     <svg data-accordion-icon class="w-5 h-5 rotate-180 shrink-0" aria-hidden="true"
                                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                                         viewBox="0 0 24 24">
@@ -124,14 +124,14 @@
                                                         <td>
                                                             {{ $planningExpense['description'] }}
                                                         </td>
-                                                        <td>
-                                                            {{ $planningExpense['projectedValue'] }}
+                                                        <td data-order="{{ $planningExpense['projectedValue'] }}">
+                                                            <x-money :value="$planningExpense['projectedValue']" />
                                                         </td>
                                                         <td>
                                                             {{ $planningExpense['amount'] }}
                                                         </td>
-                                                        <td>
-                                                            {{ $planningExpense['totalProjectedValue'] }}
+                                                        <td data-order="{{ $planningExpense['totalProjectedValue'] }}">
+                                                            <x-money :value="$planningExpense['totalProjectedValue']" />
                                                         </td>
                                                         <td class="px-4 py-2">
                                                             <div class="flex justify-center items-center gap-2">

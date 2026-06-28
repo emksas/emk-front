@@ -7,17 +7,20 @@
 
         <div class="sm:ml-auto flex items-center gap-2">
             <a href="{{ route('expenses.create') }}" class="inline-flex items-center gap-2 rounded-lg border border-blue-600
-             bg-transparent px-4 py-2 text-sm font-medium text-blue-600
-             hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-600/40
+             bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors
+             hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600/40
+             dark:border-indigo-300 dark:bg-indigo-400 dark:text-gray-950 dark:hover:bg-indigo-300 dark:focus:ring-indigo-300/40
              disabled:opacity-50 disabled:pointer-events-none">
                 Add Expense
             </a>
-            <a id="fromMail" class="inline-flex items-center gap-2 rounded-lg border border-blue-600
-             bg-transparent px-4 py-2 text-sm font-medium text-blue-600
-             hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-600/40
+            <button type="button" id="auth-microsoft" data-url-auth-email="{{ $urlAuthEmail }}" class="inline-flex items-center gap-2 rounded-lg border border-blue-600
+             bg-transparent px-4 py-2 text-sm font-medium text-blue-600 transition-colors
+             hover:bg-blue-50 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600/40
+             dark:border-sky-400/70 dark:bg-sky-400/10 dark:text-sky-200
+             dark:hover:border-sky-300 dark:hover:bg-sky-400/20 dark:hover:text-white dark:focus:ring-sky-300/40
              disabled:opacity-50 disabled:pointer-events-none">
                 From Mail
-            </a>
+            </button>
         </div>
     </x-slot>
 
@@ -49,8 +52,8 @@
                             @foreach ($expenses as $expense)
                             @if ($expense['descripcion'] != null)
                             <tr>
-                                <td>
-                                    {{ $expense['valor'] }}
+                                <td data-order="{{ $expense['valor'] }}">
+                                    <x-money :value="$expense['valor']" />
                                 </td>
                                 <td>
                                     {{ $expense['descripcion'] }}
@@ -61,8 +64,10 @@
                                 <td class="px-4 py-2">
                                     <div class="flex justify-center items-center gap-2">
                                         <a href="{{ route('expenses.edit', $expense['id']) }}" class="inline-flex items-center gap-2 rounded-lg border border-yellow-600
-                                             bg-transparent px-4 py-2 text-sm font-medium text-yellow-600
+                                             bg-transparent px-4 py-2 text-sm font-medium text-yellow-600 transition-colors
                                              hover:bg-yellow-50 focus:outline-none focus:ring-2 focus:ring-yellow-600/40
+                                             dark:border-amber-400/70 dark:bg-amber-400/10 dark:text-amber-200
+                                             dark:hover:border-amber-300 dark:hover:bg-amber-400/20 dark:hover:text-white dark:focus:ring-amber-300/40
                                              disabled:opacity-50 disabled:pointer-events-none">
                                             Edit
                                         </a>
@@ -72,8 +77,10 @@
                                             @method('DELETE')
                                             <button type="submit"
                                                 class="inline-flex items-center gap-2 rounded-lg border border-red-600
-                                             bg-transparent px-4 py-2 text-sm font-medium text-red-600
+                                             bg-transparent px-4 py-2 text-sm font-medium text-red-600 transition-colors
                                              hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-600/40
+                                             dark:border-rose-400/70 dark:bg-rose-400/10 dark:text-rose-200
+                                             dark:hover:border-rose-300 dark:hover:bg-rose-400/20 dark:hover:text-white dark:focus:ring-rose-300/40
                                              disabled:opacity-50 disabled:pointer-events-none"
                                                 onclick="return confirm('Are you sure you want to delete this expense?');">
                                                 Delete
@@ -114,9 +121,39 @@
             });
         });
 
-        document.getElementById('fromMail').addEventListener('click', () => {
-            window.open("localhost:3000/api/auth/login/1032459533", "aoutlookAuth", "width=600, height=700")
+        window.addEventListener('message', function(event) {
+            console.log("evento de origen ramses: ". event.origin ); 
+            console.log("ventana ramses". window.location.origin);
+            if (event.origin !== window.location.origin) {
+                return;
+            }
+
+            if (event.data?.type === 'MICROSOFT_AUTH_FINISHED') {
+                window.location.reload();
+            }
         });
+
+        document.getElementById('auth-microsoft').addEventListener('click', async function() {
+
+            console.log('boton para autenticar ramses ')
+
+
+            const datosUrl = this.dataset.urlAuthEmail;
+            console.log(datosUrl);
+
+
+            const ancho = 600;
+            const alto = 700;
+            const izquierda = (screen.width / 2) - (ancho / 2);
+            const arriba = (screen.height / 2) - (alto / 2);
+
+            const popup = window.open(
+                datosUrl,
+                'MicrosoftAuth',
+                `width=${ancho},height=${alto},top=${arriba},left=${izquierda}`
+            );
+
+        })
     </script>
 
 </x-app-layout>

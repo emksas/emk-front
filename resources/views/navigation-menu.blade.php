@@ -24,7 +24,14 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
-                    @if(Auth::user()->role == 1 || Auth::user()->role == 2)
+                    @if(Auth::user()->isAdmin())
+                        <x-nav-link href="{{ route('user-management.users.create') }}" :active="request()->routeIs('user-management.users.create')">
+                            {{ __('Create User') }}
+                        </x-nav-link>
+                        <x-nav-link href="{{ route('user-management.roles.create') }}" :active="request()->routeIs('user-management.roles.create')">
+                            {{ __('Add Role') }}
+                        </x-nav-link>
+                    @elseif(Auth::user()->role == 1 || Auth::user()->role == 2)
                         <x-nav-link href="{{ route('expenses.index') }}" :active="request()->routeIs('expenses.*')">
                             {{ __('Expenses') }}
                         </x-nav-link>
@@ -83,7 +90,8 @@
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                                <button
+                                <button type="button"
+                                    aria-label="{{ __('Open user menu') }}"
                                     class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
                                     <img class="size-8 rounded-full object-cover"
                                         src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
@@ -138,7 +146,10 @@
                     </svg>
                 </button>
 
-                <button @click="open = ! open"
+                <button type="button" @click="open = ! open"
+                    aria-controls="mobile-navigation"
+                    :aria-expanded="open.toString()"
+                    aria-label="{{ __('Toggle navigation menu') }}"
                     class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800 dark:focus:bg-gray-800 dark:focus:text-white">
                     <svg class="size-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex"
@@ -152,13 +163,20 @@
         </div>
     </div>
 
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+    <div id="mobile-navigation" :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
 
-            @if(Auth::user()->role == 1 || Auth::user()->role == 2)
+            @if(Auth::user()->isAdmin())
+                <x-responsive-nav-link href="{{ route('user-management.users.create') }}" :active="request()->routeIs('user-management.users.create')">
+                    {{ __('Create User') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link href="{{ route('user-management.roles.create') }}" :active="request()->routeIs('user-management.roles.create')">
+                    {{ __('Add Role') }}
+                </x-responsive-nav-link>
+            @elseif(Auth::user()->role == 1 || Auth::user()->role == 2)
                 <x-responsive-nav-link href="{{ route('expenses.index') }}" :active="request()->routeIs('expenses.*')">
                     {{ __('Expenses') }}
                 </x-responsive-nav-link>

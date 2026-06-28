@@ -22,7 +22,6 @@ class ExpensesController extends Controller
         private FinancialPlanningService $financialPlanningService
     ) {
         $this->userId = Auth::id();
-
     }
 
     /**
@@ -32,8 +31,8 @@ class ExpensesController extends Controller
     {
         $expenses = $this->expensesService->getAllExpenses();
         $error = null;
-
-        return view('expenses.index', compact('expenses', 'error'));
+        $urlAuthEmail = $this->expensesService->getUrlAuthMicrosoft();
+        return view('expenses.index', ['expenses' => $expenses, 'error' => $error, 'userId' => $this->userId, 'urlAuthEmail' => $urlAuthEmail]);
     }
 
     /**
@@ -101,5 +100,4 @@ class ExpensesController extends Controller
         $this->expensesService->fromMail($userId);
         return redirect()->route('expenses.index')->with('success', 'Expense deleted successfully.');
     }
-
 }

@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
 class ExpensesService
 {
 
@@ -15,7 +17,7 @@ class ExpensesService
 
     public function fetchExpenses($user)
     {
-        $this->baseUrl = config('services.nose_expenses.base_url');
+        $this->baseUrl = config('services.node_expenses.base_url');
         $expenses = [];
 
         try {
@@ -133,7 +135,16 @@ class ExpensesService
             ->pluck('month');
     }
 
+    public function getBaseUrl(){
+        return $this->baseUrl;
+    }
+
+    public function getUrlAuthMicrosoft(): string{
+        $this->baseUrl = config('services.node_expenses.base_url');
+        $returnTo = rtrim(config('app.url'), '/') . '/microsoft/auth/callback';
+
+        return  $this->baseUrl . '/auth/login/' . Auth::id()
+        . '?returnTo=' . urlencode($returnTo);
+    }
+
 }
-
-
-?>
