@@ -11,7 +11,10 @@
                 <div class="py-8">
                     <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
                         <div class="bg-white p-6 shadow sm:rounded-lg">
-                            <form action="{{ route('accountingAccountIncomes.store') }}" method="POST" class="space-y-6">
+                            <form action="{{ route('accountingAccountIncomes.store') }}" method="POST" class="space-y-6"
+                                data-loading="true"
+                                data-loading-title="Saving income account"
+                                data-loading-message="Please wait while the income accounting account is created.">
                                 @csrf
                                 @include('accountingAccount._form', [
                                     'accountingAccount' => null

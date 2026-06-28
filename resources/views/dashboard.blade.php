@@ -20,7 +20,10 @@
                 {{ $dashboardData['year'] }}
             </h2>
             <div class="sm:ml-auto flex items-center gap-2">
-                <form method="GET" action="{{ route('dashboard') }}" class="flex gap-2">
+                <form method="GET" action="{{ route('dashboard') }}" class="flex gap-2"
+                    data-loading="true"
+                    data-loading-title="Loading dashboard"
+                    data-loading-message="Please wait while the selected period is loaded.">
                     <select id="selYear" name="year" class="border rounded px-2 py-1 text-sm min-w-32 border-gray-300 bg-white text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100">
                         <option value="">{{ $actualYear }}</option>
                     </select>
@@ -187,9 +190,7 @@
     @else
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg dark:bg-gray-900 dark:shadow-gray-950/40">
-                    <x-welcome :dashboard-data="$dashboardData" />
-                </div>
+                <x-welcome :dashboard-data="$dashboardData" />
             </div>
         </div>
 
@@ -271,6 +272,18 @@
                         pagingType: 'simple',
                     });
                 });
+
+                $(function () {
+                    $('#plannedExpensesByAccount').DataTable({
+                        pageLength: 5,
+                        dom: 'tp',
+                        lengthChange: false,
+                        searching: false,
+                        info: false,
+                        ordering: true,
+                        pagingType: 'simple',
+                    });
+                });
             });
         </script>
 
@@ -297,6 +310,32 @@
                         }
                     };
                     new ApexCharts(document.querySelector("#chartExpensesByAccount"), options).render();
+                });
+
+                $(function () {
+                    const plannedByAccount = @json($dashboardData['plannedExpensesByAccount']);
+                    const chartElement = document.querySelector("#chartPlannedExpensesByAccount");
+
+                    if (!chartElement || plannedByAccount.length === 0) {
+                        return;
+                    }
+
+                    const labels = plannedByAccount.map(item => item.description);
+                    const series = plannedByAccount.map(item => Number(item.total));
+
+                    const options = {
+                        chart: { type: 'bar', height: 320, toolbar: { show: false } },
+                        series: [{ name: 'Planned', data: series }],
+                        xaxis: { categories: labels },
+                        colors: ['#2563eb'],
+                        plotOptions: { bar: { borderRadius: 4, horizontal: true } },
+                        dataLabels: { enabled: false },
+                        tooltip: {
+                            y: { formatter: (val) => new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(val) }
+                        }
+                    };
+
+                    new ApexCharts(chartElement, options).render();
                 });
             });
         </script>

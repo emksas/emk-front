@@ -14,7 +14,7 @@
             <select id="accountingAccount" name="accountId" class="w-full border rounded px-3 py-2" required>
                 @foreach ($accountingAccounts as $accountingAccount)
                     <option value="{{ $accountingAccount['id'] }}" {{ (isset($expense) && $expense['accountId'] == $accountingAccount['id']) ? 'selected' : '' }}>
-                        {{ $accountingAccount['descripcion'] }}
+                        {{ $accountingAccount['description'] }}
                     </option>
 
                 @endforeach

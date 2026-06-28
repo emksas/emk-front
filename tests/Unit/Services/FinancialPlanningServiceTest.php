@@ -77,4 +77,30 @@ class FinancialPlanningServiceTest extends TestCase
         $this->assertTrue($response->failed());
         $this->assertSame(422, $response->status());
     }
+
+    public function test_get_accounting_accounts_returns_json_from_spring_service(): void
+    {
+        config(['services.spring_financial.base_url' => 'http://spring.test/api']);
+        Http::fake([
+            'http://spring.test/api/accounting-account/user/7' => Http::response([
+                ['id' => 4, 'description' => 'Rent'],
+            ]),
+        ]);
+
+        $result = (new FinancialPlanningService())->getAccountingAccounts(7);
+
+        $this->assertSame([['id' => 4, 'description' => 'Rent']], $result);
+    }
+
+    public function test_get_accounting_accounts_returns_empty_array_when_service_fails(): void
+    {
+        config(['services.spring_financial.base_url' => 'http://spring.test']);
+        Http::fake([
+            'http://spring.test/api/accounting-account/user/7' => Http::response([], 500),
+        ]);
+
+        $result = (new FinancialPlanningService())->getAccountingAccounts(7);
+
+        $this->assertSame([], $result);
+    }
 }

@@ -51,8 +51,6 @@ class PlannedOperationController extends Controller
         } else {
             return view('plannedOperation.create', ['accountingAccounts' => $accountingAccounts, 'planId' => $planId]);
         }
-
-
     }
 
     public function store(Request $request, $planId)

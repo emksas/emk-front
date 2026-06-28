@@ -22,7 +22,10 @@
                     <div class="p-6 lg:p-8 bg-white border-b border-gray-200 dark:bg-gray-900 dark:border-gray-800">
                         <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Add User</h3>
 
-                        <form action="{{ route('user-management.users.store') }}" method="POST" class="mt-6 space-y-4">
+                        <form action="{{ route('user-management.users.store') }}" method="POST" class="mt-6 space-y-4"
+                            data-loading="true"
+                            data-loading-title="Creating user"
+                            data-loading-message="Please wait while the user account is created.">
                             @csrf
 
                             <div>
@@ -70,7 +73,10 @@
                     <div class="p-6 lg:p-8 bg-white border-b border-gray-200 dark:bg-gray-900 dark:border-gray-800">
                         <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Add Role</h3>
 
-                        <form action="{{ route('user-management.roles.store') }}" method="POST" class="mt-6 space-y-4">
+                        <form action="{{ route('user-management.roles.store') }}" method="POST" class="mt-6 space-y-4"
+                            data-loading="true"
+                            data-loading-title="Creating role"
+                            data-loading-message="Please wait while the role is created.">
                             @csrf
 
                             <div>

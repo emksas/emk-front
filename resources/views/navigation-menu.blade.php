@@ -117,12 +117,15 @@
 
                             <div class="border-t border-gray-200 dark:border-gray-800"></div>
 
-                            <form method="POST" action="{{ route('logout') }}">
+                            <form method="POST" action="{{ route('logout') }}"
+                                data-loading="true"
+                                data-loading-title="Signing out"
+                                data-loading-message="Please wait while your session is closed.">
                                 @csrf
 
                                 <x-dropdown-link href="{{ route('logout') }}"
                                     onclick="event.preventDefault();
-                                    this.closest('form').submit();">
+                                    this.closest('form').requestSubmit();">
                                     {{ __('Log Out') }}
                                 </x-dropdown-link>
                             </form>
@@ -210,9 +213,12 @@
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
 
-                <form method="POST" action="{{ route('logout') }}" x-data>
+                <form method="POST" action="{{ route('logout') }}" x-data
+                    data-loading="true"
+                    data-loading-title="Signing out"
+                    data-loading-message="Please wait while your session is closed.">
                     @csrf
-                    <x-responsive-nav-link href="{{ route('logout') }}" @click.prevent="$root.submit();">
+                    <x-responsive-nav-link href="{{ route('logout') }}" @click.prevent="$root.requestSubmit();">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
                 </form>

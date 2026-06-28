@@ -21,7 +21,10 @@
                 <div class="p-6 text-center lg:p-8 bg-white border-b border-gray-200 dark:bg-gray-900 dark:border-gray-800">
                     <h3 id="create-role-heading" class="text-lg font-semibold text-gray-900 dark:text-gray-100">Role Details</h3>
 
-                    <form action="{{ route('user-management.roles.store') }}" method="POST" class="mx-auto mt-6 max-w-xl space-y-4 text-left">
+                    <form action="{{ route('user-management.roles.store') }}" method="POST" class="mx-auto mt-6 max-w-xl space-y-4 text-left"
+                        data-loading="true"
+                        data-loading-title="Creating role"
+                        data-loading-message="Please wait while the role is created.">
                         @csrf
 
                         <div>

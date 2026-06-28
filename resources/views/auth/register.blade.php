@@ -37,7 +37,10 @@
 
             <x-validation-errors class="mb-4" />
 
-            <form method="POST" action="{{ route('register') }}">
+            <form method="POST" action="{{ route('register') }}"
+                data-loading="true"
+                data-loading-title="Creating account"
+                data-loading-message="Please wait while your account is created.">
                 @csrf
 
                 <div>

@@ -42,8 +42,8 @@ class RegistrationTest extends TestCase
         $response = $this->post('/register', [
             'name' => 'Test User',
             'email' => 'new.user@gmail.com',
-            'password' => 'New-password1!',
-            'password_confirmation' => 'New-password1!',
+            'password' => 'V3ry-Unique-C0dex-Test-2026#RsR!',
+            'password_confirmation' => 'V3ry-Unique-C0dex-Test-2026#RsR!',
             'role' => 1,
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature(),
         ]);
