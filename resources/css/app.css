@@ -15,6 +15,56 @@ body {
     min-height: 100%;
 }
 
+.skip-link {
+    position: fixed;
+    left: 1rem;
+    top: 1rem;
+    z-index: 9999;
+    transform: translateY(-150%);
+    border-radius: 0.5rem;
+    background-color: rgb(17 24 39);
+    color: rgb(255 255 255);
+    padding: 0.625rem 1rem;
+    font-weight: 600;
+    transition: transform 150ms ease-in-out;
+}
+
+.skip-link:focus {
+    transform: translateY(0);
+    outline: 3px solid rgb(99 102 241);
+    outline-offset: 3px;
+}
+
+:where(a, button, input, select, textarea, summary, [role="button"], [tabindex]:not([tabindex="-1"])):focus-visible {
+    outline: 3px solid rgb(79 70 229);
+    outline-offset: 3px;
+}
+
+.dark :where(a, button, input, select, textarea, summary, [role="button"], [tabindex]:not([tabindex="-1"])):focus-visible {
+    outline-color: rgb(165 180 252);
+}
+
+.dark .skip-link {
+    background-color: rgb(238 242 255);
+    color: rgb(3 7 18);
+}
+
+:is(main, header) .text-gray-400 {
+    color: rgb(75 85 99);
+}
+
+:is(main, header) .text-green-600 {
+    color: rgb(21 128 61);
+}
+
+:is(main, header) .text-yellow-600 {
+    color: rgb(161 98 7);
+}
+
+:is(main, header) .text-red-500 {
+    color: rgb(185 28 28);
+}
+
 .dark main .bg-white:not(.dark-keep-light) {
     background-color: rgb(17 24 39);
 }
@@ -27,55 +77,104 @@ body {
     background-color: rgb(31 41 55);
 }
 
-.dark main .bg-green-50 {
+.dark :is(main, header) .bg-green-50 {
     background-color: rgb(20 83 45 / 0.18);
 }
 
-.dark main .bg-red-50 {
+.dark :is(main, header) .bg-red-50 {
     background-color: rgb(127 29 29 / 0.18);
 }
 
-.dark main .text-gray-900,
-.dark main .text-gray-800 {
+.dark :is(main, header) .text-gray-900,
+.dark :is(main, header) .text-gray-800 {
     color: rgb(243 244 246);
 }
 
-.dark main .text-gray-700,
-.dark main .text-gray-600 {
+.dark :is(main, header) .text-gray-700,
+.dark :is(main, header) .text-gray-600 {
     color: rgb(209 213 219);
 }
 
-.dark main .text-gray-500,
-.dark main .text-gray-400 {
+.dark :is(main, header) .text-gray-500,
+.dark :is(main, header) .text-gray-400 {
     color: rgb(156 163 175);
 }
 
-.dark main .border,
-.dark main .border-gray-100,
-.dark main .border-gray-200,
-.dark main .border-gray-300 {
+.dark :is(main, header) .border,
+.dark :is(main, header) .border-gray-100,
+.dark :is(main, header) .border-gray-200,
+.dark :is(main, header) .border-gray-300 {
     border-color: rgb(55 65 81);
 }
 
-.dark main .divide-gray-200 > :not([hidden]) ~ :not([hidden]) {
+.dark :is(main, header) .divide-gray-200 > :not([hidden]) ~ :not([hidden]) {
     border-color: rgb(55 65 81);
 }
 
-.dark main .shadow,
-.dark main .shadow-sm,
-.dark main .shadow-md,
-.dark main .shadow-lg,
-.dark main .shadow-xl {
+.dark :is(main, header) .shadow,
+.dark :is(main, header) .shadow-sm,
+.dark :is(main, header) .shadow-md,
+.dark :is(main, header) .shadow-lg,
+.dark :is(main, header) .shadow-xl {
     --tw-shadow-color: rgb(3 7 18 / 0.45);
     --tw-shadow: var(--tw-shadow-colored);
 }
 
-.dark main .hover\:bg-green-50:hover {
-    background-color: rgb(20 83 45 / 0.22);
+.dark :is(main, header) .text-blue-600 {
+    color: rgb(186 230 253);
 }
 
-.dark main .hover\:bg-red-50:hover {
-    background-color: rgb(127 29 29 / 0.22);
+.dark :is(main, header) .text-green-600 {
+    color: rgb(167 243 208);
+}
+
+.dark :is(main, header) .text-yellow-600 {
+    color: rgb(253 230 138);
+}
+
+.dark :is(main, header) .text-red-600 {
+    color: rgb(254 205 211);
+}
+
+.dark :is(main, header) .text-red-500 {
+    color: rgb(254 205 211);
+}
+
+.dark :is(main, header) .border-blue-600 {
+    border-color: rgb(56 189 248 / 0.7);
+}
+
+.dark :is(main, header) .border-green-600 {
+    border-color: rgb(52 211 153 / 0.7);
+}
+
+.dark :is(main, header) .border-yellow-600 {
+    border-color: rgb(251 191 36 / 0.7);
+}
+
+.dark :is(main, header) .border-red-600 {
+    border-color: rgb(251 113 133 / 0.7);
+}
+
+.dark :is(main, header) .hover\:bg-blue-50:hover {
+    background-color: rgb(56 189 248 / 0.18);
+}
+
+.dark :is(main, header) .hover\:bg-green-50:hover {
+    background-color: rgb(52 211 153 / 0.18);
+}
+
+.dark :is(main, header) .hover\:bg-yellow-50:hover {
+    background-color: rgb(251 191 36 / 0.18);
+}
+
+.dark :is(main, header) .hover\:bg-red-50:hover {
+    background-color: rgb(251 113 133 / 0.18);
+}
+
+.dark :is(main, header) .hover\:text-blue-700:hover,
+.dark :is(main, header) .hover\:text-gray-900:hover {
+    color: rgb(255 255 255);
 }
 
 /* --- TUS ESTILOS PERSONALIZADOS PARA EL LOGIN --- */

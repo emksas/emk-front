@@ -31,6 +31,7 @@
 </head>
 
 <body class="font-sans antialiased bg-gray-100 text-gray-900 dark:bg-gray-950 dark:text-gray-100">
+    <a href="#main-content" class="skip-link">{{ __('Skip to content') }}</a>
     <x-banner />
 
     <div class="min-h-screen bg-gray-100 dark:bg-gray-950">
@@ -47,7 +48,7 @@
         @endif
 
         <!-- Page Content -->
-        <main class="min-w-0">
+        <main id="main-content" class="min-w-0" tabindex="-1">
             {{ $slot }}
         </main>
     </div>

@@ -30,7 +30,7 @@ services:
       dockerfile: Dockerfile
     image: emk_django_local
     pull_policy: build
-    env_file:
+    env_file: !override
       - ../emk-reports/.env
     command: python manage.py runserver 0.0.0.0:8084
     ports:
@@ -42,6 +42,8 @@ services:
 
   spring:
     image: maven:3.9-eclipse-temurin-21
+    env_file: !override
+      - ../financial-planing/.env
     working_dir: /app
     env_file:
       - ../financial-planing/.env

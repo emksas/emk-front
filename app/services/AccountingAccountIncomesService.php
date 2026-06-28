@@ -20,7 +20,6 @@ class AccountingAccountIncomesService
     {
         $userId = Auth::id();
         $urlRequest = "{$this->baseUrl}/accounting-account/user/{$userId}";
-        dump($urlRequest);
         $response = Http::get($urlRequest); 
         return $response->json();
     }
