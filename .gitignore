@@ -1,5 +1,8 @@
 /.phpunit.cache
 /node_modules
+/.venv-locust
+/__pycache__
+*.py[cod]
 /public/build
 /public/hot
 /public/storage

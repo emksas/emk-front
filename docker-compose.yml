@@ -83,6 +83,29 @@ services:
       - emk_net
     restart: unless-stopped
 
+  # -------------------------
+  # Load testing (Locust)
+  # -------------------------
+  locust:
+    image: locustio/locust:latest
+    container_name: emk_locust
+    depends_on:
+      - nginx
+    env_file:
+      - ../env_files/laravel.env
+    environment:
+      LOCUST_HOST: "${LOCUST_HOST:-http://nginx}"
+      LOCUST_LOGIN_PATH: "${LOCUST_LOGIN_PATH:-/login}"
+      LOCUST_API_LOGIN_PATH: "${LOCUST_API_LOGIN_PATH:-/api/login}"
+    ports:
+      - "${LOCUST_BIND_ADDRESS:-127.0.0.1}:8089:8089"
+    volumes:
+      - ./locustfile.py:/mnt/locust/locustfile.py:ro
+    command: -f /mnt/locust/locustfile.py --web-host=0.0.0.0
+    networks:
+      - emk_net
+    restart: unless-stopped
+
 networks:
   emk_net:
     driver: bridge
