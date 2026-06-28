@@ -12,7 +12,7 @@ class IncomesServiceTest extends TestCase
     {
         config(['services.python_incomes.base_url' => 'http://django.test/api']);
         Http::fake([
-            'http://django.test/api/incomes/?user_id=5' => Http::response([
+            'http://django.test/api/incomes/*' => Http::response([
                 ['id' => 1, 'value' => '1500.00'],
             ]),
         ]);
@@ -27,7 +27,7 @@ class IncomesServiceTest extends TestCase
     {
         config(['services.python_incomes.base_url' => 'http://django.test/api']);
         Http::fake([
-            'http://django.test/api/incomes/?user_id=5' => Http::response([], 500),
+            'http://django.test/api/incomes/*' => Http::response([], 500),
         ]);
 
         $result = (new IncomesService())->getIncomes(5);
@@ -41,7 +41,7 @@ class IncomesServiceTest extends TestCase
     {
         config(['services.python_incomes.base_url' => 'http://django.test/api']);
         Http::fake([
-            'http://django.test/api/incomes/?user_id=5' => Http::response([]),
+            'http://django.test/api/incomes/*' => Http::response([]),
         ]);
 
         $result = (new IncomesService())->getIncomes(5);
@@ -54,7 +54,7 @@ class IncomesServiceTest extends TestCase
     public function test_create_maps_form_payload_to_python_income_payload(): void
     {
         config(['services.python_incomes.base_url' => 'http://django.test/api']);
-        Http::fake(['http://django.test/api/incomes' => Http::response(['id' => 3], 201)]);
+        Http::fake(['http://django.test/api/incomes/' => Http::response(['id' => 3], 201)]);
 
         (new IncomesService())->create([
             'valor' => '2000.50',
@@ -63,7 +63,7 @@ class IncomesServiceTest extends TestCase
             'fecha' => '2026-06-26 10:45:00',
         ], '8');
 
-        Http::assertSent(fn ($request) => $request->url() === 'http://django.test/api/incomes'
+        Http::assertSent(fn ($request) => $request->url() === 'http://django.test/api/incomes/'
             && $request->method() === 'POST'
             && $request->data() === [
                 'value' => '2000.50',
@@ -90,20 +90,22 @@ class IncomesServiceTest extends TestCase
             ],
         );
 
-        Http::assertSent(fn ($request) => $request->url() === 'http://django.test/api/api/incomes/4/'
+        Http::assertSent(fn ($request) => $request->url() === 'http://django.test/api/incomes/4/'
             && $request->method() === 'PUT'
             && $request->data()['user_id'] === 9
             && $request->data()['date'] === '2026-06-01');
     }
 
-    public function test_delete_income_calls_python_delete_endpoint(): void
+    public function test_delete_income_calls_python_delete_by_user_account_endpoint(): void
     {
         config(['services.python_incomes.base_url' => 'http://django.test/api']);
         Http::fake(['*' => Http::response([], 204)]);
 
-        (new IncomesService())->deleteIncome(10);
+        (new IncomesService())->deleteIncome(10, 8);
 
-        Http::assertSent(fn ($request) => $request->url() === 'http://django.test/api/api/incomes/10/'
+        Http::assertSent(fn ($request) => str_starts_with($request->url(), 'http://django.test/api/incomes/delete-by-user-account/')
+            && str_contains($request->url(), 'user_id=10')
+            && str_contains($request->url(), 'account_id=8')
             && $request->method() === 'DELETE');
     }
 }

@@ -70,6 +70,7 @@
                                                     data-loading-message="Please wait while the income is removed.">
                                                     @csrf
                                                     @method('DELETE')
+                                                    <input type="hidden" name="accounting_account_id" value="{{ $income['accounting_account_id'] ?? '' }}">
                                                     <button type="submit"
                                                         class="inline-flex items-center gap-2 rounded-lg border border-red-600
                                              bg-transparent px-4 py-2 text-sm font-medium text-red-600

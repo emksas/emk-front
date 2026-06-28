@@ -29,9 +29,9 @@ class DashboardServices
 
         $month = intval($month);
         $year = intval($year);
-        $monthlyExpenses = $this->expensesService->getMonthlyExpenses($month, $year);
-        $totalExpenses = $this->expensesService->getSumOfExpensesByMonth($month, $year);
-        $expensesByAccount = $this->expensesService->getMonthlyExpensesByAccount($month, $year);
+        $monthlyExpenses = $this->expensesService->getMonthlyExpenses($month, $year, $userId);
+        $totalExpenses = $this->expensesService->getSumOfExpensesByMonth($month, $year, $userId);
+        $expensesByAccount = $this->expensesService->getMonthlyExpensesByAccount($month, $year, $userId);
         $personalSummary = $userId !== null
             ? $this->getPersonalFinanceSummary($userId, $month, $year)
             : $this->emptyPersonalFinanceSummary();
@@ -219,13 +219,13 @@ class DashboardServices
         return $this->financialPlanningService ??= new FinancialPlanningService();
     }
 
-    public function yearsAvailables(){
-        return $this->expensesService->getYersAvailables();
+    public function yearsAvailables(string|int|null $userId = null){
+        return $this->expensesService->getYersAvailables($userId);
     }
 
-    public function months($year){
+    public function months($year, string|int|null $userId = null){
 
-        $months = $this->expensesService->getMonthsAvailables($year);
+        $months = $this->expensesService->getMonthsAvailables($year, $userId);
         return $months->map(function($month) {
             return [
                 'number' => $month,

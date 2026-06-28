@@ -17,6 +17,7 @@ class Expense extends Model
         'fecha',
         'estado', 
         'planificacion_financiera_id', 
-        'cuentacontable_id'
+        'cuentacontable_id',
+        'user_id',
     ]; 
 }
