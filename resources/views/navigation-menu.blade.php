@@ -24,7 +24,14 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
-                    @if(Auth::user()->role == 1 || Auth::user()->role == 2)
+                    @if(Auth::user()->isAdmin())
+                        <x-nav-link href="{{ route('user-management.users.create') }}" :active="request()->routeIs('user-management.users.create')">
+                            {{ __('Create User') }}
+                        </x-nav-link>
+                        <x-nav-link href="{{ route('user-management.roles.create') }}" :active="request()->routeIs('user-management.roles.create')">
+                            {{ __('Add Role') }}
+                        </x-nav-link>
+                    @elseif(Auth::user()->role == 1 || Auth::user()->role == 2)
                         <x-nav-link href="{{ route('expenses.index') }}" :active="request()->routeIs('expenses.*')">
                             {{ __('Expenses') }}
                         </x-nav-link>
@@ -162,7 +169,14 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
 
-            @if(Auth::user()->role == 1 || Auth::user()->role == 2)
+            @if(Auth::user()->isAdmin())
+                <x-responsive-nav-link href="{{ route('user-management.users.create') }}" :active="request()->routeIs('user-management.users.create')">
+                    {{ __('Create User') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link href="{{ route('user-management.roles.create') }}" :active="request()->routeIs('user-management.roles.create')">
+                    {{ __('Add Role') }}
+                </x-responsive-nav-link>
+            @elseif(Auth::user()->role == 1 || Auth::user()->role == 2)
                 <x-responsive-nav-link href="{{ route('expenses.index') }}" :active="request()->routeIs('expenses.*')">
                     {{ __('Expenses') }}
                 </x-responsive-nav-link>

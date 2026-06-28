@@ -43,8 +43,8 @@
                             @foreach ($incomes as $income)
                                 @if ($income['source'] != null)
                                     <tr>
-                                        <td data-order="{{ $income['value'] }}">
-                                            <x-money :value="$income['value']" />
+                                        <td>
+                                            {{ $income['value'] }}
                                         </td>
                                         <td>
                                             {{ $income['source'] }}

@@ -39,10 +39,8 @@ class ExpensesServiceTest extends TestCase
 
     public function test_get_url_auth_microsoft_uses_authenticated_user_id(): void
     {
-        config([
-            'app.url' => 'http://localhost:8081/',
-            'services.node_expenses_external.base_url' => 'http://node-public.test/api',
-        ]);
+        config(['services.node_expenses.base_url' => 'http://node.test']);
+        config(['app.url' => 'http://localhost']);
         $user = new User();
         $user->id = 42;
         Auth::shouldReceive('id')->once()->andReturn($user->id);
@@ -50,16 +48,8 @@ class ExpensesServiceTest extends TestCase
         $result = $this->service()->getUrlAuthMicrosoft();
 
         $this->assertSame(
-            'http://node-public.test/api/auth/login/42?returnTo=http%3A%2F%2Flocalhost%3A8081',
+            'http://node.test/auth/login/42?returnTo=http%3A%2F%2Flocalhost%2Fmicrosoft%2Fauth%2Fcallback',
             $result
-        );
-    }
-
-    private function service(): ExpensesService
-    {
-        return new ExpensesService(
-            Mockery::mock(FinancialPlanningService::class),
-            Mockery::mock(AccountingAccountService::class)
         );
     }
 }

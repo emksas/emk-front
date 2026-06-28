@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 use App\services\DashboardServices;
 use App\services\UserTypeService;
 use Carbon\Carbon; // Importamos Carbon para sacar el año/mes actual si no vienen en la URL
@@ -25,7 +24,12 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
-        $typeUser =  $this->userTypeService->getUserTypeById($user->role);
+
+        if ($user->isAdmin()) {
+            return view('dashboard', $this->userTypeService->getUserManagementData() + [
+                'isAdminDashboard' => true,
+            ]);
+        }
 
         $year = $request->query('year', Carbon::now()->year);
         $month = $request->query('month', Carbon::now()->month);
