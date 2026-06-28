@@ -19,6 +19,8 @@ class Income extends Model
         'fecha',
         'referencia',
         'planificacionfinanciera_id',
-        'cuentacontable_id'
+        'planificacion_financiera_id',
+        'cuentacontable_id',
+        'user_id',
     ];
 }

@@ -29,7 +29,7 @@ class ExpensesController extends Controller
      */
     public function index()
     {
-        $expenses = $this->expensesService->getAllExpenses();
+        $expenses = $this->expensesService->getAllExpenses($this->userId);
         $error = null;
         $urlAuthEmail = $this->expensesService->getUrlAuthMicrosoft();
         return view('expenses.index', ['expenses' => $expenses, 'error' => $error, 'userId' => $this->userId, 'urlAuthEmail' => $urlAuthEmail]);
@@ -67,6 +67,8 @@ class ExpensesController extends Controller
      */
     public function edit(Expense $expense)
     {
+        abort_unless((int) $expense->user_id === (int) $this->userId, 404);
+
         $financialPlannings = $this->financialPlanningService->getByUserId($this->userId);
         $accountingAccounts = $this->accountingAccountService->getAllAccountingAccounts();
         return view('expenses.edit', ['expense' => $expense, 'accountingAccounts' => $accountingAccounts, 'financialPlannings' => $financialPlannings]);
@@ -77,6 +79,8 @@ class ExpensesController extends Controller
      */
     public function update(UpdateExpenseRequest $request, Expense $expense)
     {
+        abort_unless((int) $expense->user_id === (int) $this->userId, 404);
+
         $expense->update($request->validated());
         return redirect()->route('expenses.index')->with('success', 'Expense updated successfully.');
     }

@@ -64,14 +64,14 @@ class HomeController extends Controller
 
     public function years()
     {
-        $years = $this->dashboardServices->yearsAvailables();
+        $years = $this->dashboardServices->yearsAvailables(Auth::id());
         return response()->json($years);
     }
 
     public function months(Request $request)
     {
         $year = $request->query('year');
-        $months = $this->dashboardServices->months($year);
+        $months = $this->dashboardServices->months($year, Auth::id());
         return response()->json($months);
     }
 
@@ -80,7 +80,7 @@ class HomeController extends Controller
         $year = request()->query('year');
         $month = request()->query('month');
 
-        $dashboardData = $this->dashboardServices->getDashboardData($year, $month);
+        $dashboardData = $this->dashboardServices->getDashboardData($year, $month, Auth::id());
         return response()->json($dashboardData);
     }
 }
