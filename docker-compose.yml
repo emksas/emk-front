@@ -10,7 +10,7 @@ services:
       - ../env_files/laravel.env
     environment:
       APP_ENV: "${APP_ENV:-production}"
-      SPRING_BASE_URL: "http://spring:8082"
+      SPRING_BASE_URL: "http://spring:8085"
       DJANGO_BASE_URL: "http://django:8084"
       NODE_BASE_URL: "http://node:3000"
     extra_hosts:
