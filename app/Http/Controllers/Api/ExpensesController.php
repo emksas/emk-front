@@ -17,10 +17,14 @@ class ExpensesController extends Controller
             return response()->json(['error' => 'Month and year parameters are required.'], 400);
         }
 
+        if (Auth::id() === null) {
+            return response()->json(['error' => 'Authenticated user is required.'], 401);
+        }
+
         $expensesService = app(\App\services\ExpensesService::class);
-        $expenses = $expensesService->getMonthlyExpenses($month, $year);
+        $expenses = $expensesService->getMonthlyExpenses($month, $year, Auth::id());
         $numberOfExpenses = count($expenses);
-        $sumOfExpenses = $expensesService->getSumOfExpensesByMonth($month, $year);
+        $sumOfExpenses = $expensesService->getSumOfExpensesByMonth($month, $year, Auth::id());
 
         return response()->json(['numberOfExpenses' => $numberOfExpenses, 'sum' => $sumOfExpenses, 'data' => $expenses], 200);
     }

@@ -21,12 +21,12 @@ class DashboardServicesTest extends TestCase
     public function test_get_dashboard_data_uses_expense_service_values(): void
     {
         $expensesService = Mockery::mock(ExpensesService::class);
-        $expensesService->shouldReceive('getMonthlyExpenses')->once()->with(6, 2026)->andReturn([
+        $expensesService->shouldReceive('getMonthlyExpenses')->once()->with(6, 2026, null)->andReturn([
             ['valor' => 100],
             ['valor' => 200],
         ]);
-        $expensesService->shouldReceive('getSumOfExpensesByMonth')->once()->with(6, 2026)->andReturn(300);
-        $expensesService->shouldReceive('getMonthlyExpensesByAccount')->once()->with(6, 2026)->andReturn([
+        $expensesService->shouldReceive('getSumOfExpensesByMonth')->once()->with(6, 2026, null)->andReturn(300);
+        $expensesService->shouldReceive('getMonthlyExpensesByAccount')->once()->with(6, 2026, null)->andReturn([
             ['descripcion' => 'Food', 'total' => 300],
         ]);
 
@@ -42,9 +42,9 @@ class DashboardServicesTest extends TestCase
     public function test_get_dashboard_data_adds_personal_finance_summary(): void
     {
         $expensesService = Mockery::mock(ExpensesService::class);
-        $expensesService->shouldReceive('getMonthlyExpenses')->once()->with(6, 2026)->andReturn([]);
-        $expensesService->shouldReceive('getSumOfExpensesByMonth')->once()->with(6, 2026)->andReturn(650);
-        $expensesService->shouldReceive('getMonthlyExpensesByAccount')->once()->with(6, 2026)->andReturn([]);
+        $expensesService->shouldReceive('getMonthlyExpenses')->once()->with(6, 2026, 7)->andReturn([]);
+        $expensesService->shouldReceive('getSumOfExpensesByMonth')->once()->with(6, 2026, 7)->andReturn(650);
+        $expensesService->shouldReceive('getMonthlyExpensesByAccount')->once()->with(6, 2026, 7)->andReturn([]);
 
         $incomesService = Mockery::mock(IncomesService::class);
         $incomesService->shouldReceive('getIncomes')->once()->with(7)->andReturn([
@@ -92,7 +92,7 @@ class DashboardServicesTest extends TestCase
     public function test_months_maps_month_numbers_to_names(): void
     {
         $expensesService = Mockery::mock(ExpensesService::class);
-        $expensesService->shouldReceive('getMonthsAvailables')->once()->with(2026)->andReturn(new Collection([1, 12]));
+        $expensesService->shouldReceive('getMonthsAvailables')->once()->with(2026, null)->andReturn(new Collection([1, 12]));
 
         $result = (new DashboardServices($expensesService))->months(2026)->all();
 

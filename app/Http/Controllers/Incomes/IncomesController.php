@@ -20,7 +20,7 @@ class IncomesController extends Controller
 
     public function index(Request $request)
     {
-        $incomes = $this->incomesService->getIncomes($request->user());
+        $incomes = $this->incomesService->getIncomes($request->user()->id);
 
         if ($incomes['status'] == 404) {
             return view('incomes.index', [
@@ -57,13 +57,14 @@ class IncomesController extends Controller
     public function store(Request $request)
     {
         $data = $request->input();
-        dump($data);
         $this->incomesService->create($data, $request->user()->id);
         return redirect()->route('incomes.index')->with('success', 'Income created successfully.');
     }
 
     public function edit(Income $income)
     {
+        abort_unless((int) $income->user_id === (int) Auth::id(), 404);
+
         $accountingAccounts = $this->accountingAccountService->getAll();
         $financialPlannings = $this->financialPlanningService->getByUserId(Auth::id());
         
@@ -76,15 +77,29 @@ class IncomesController extends Controller
 
     public function update(Request $request, Income $income)
     {
+        abort_unless((int) $income->user_id === (int) $request->user()->id, 404);
+
         $incomeInformation = $income->toArray();
         $this->incomesService->updateIncome($incomeInformation, $request->input());
         return redirect()->route('incomes.index')->with('success', 'Income updated successfully.');
     }
 
-    public function destroy(Request $request, Income $income)
+    public function destroy(Request $request, string|int $income)
     {
         try {
-            $this->incomesService->deleteIncome($income['id']);
+            $request->validate([
+                'accounting_account_id' => ['required', 'integer'],
+            ]);
+
+            $response = $this->incomesService->deleteIncome(
+                $request->user()->id,
+                $request->input('accounting_account_id')
+            );
+
+            if ($response->failed()) {
+                throw new \RuntimeException($response->body());
+            }
+
             return redirect()->route('incomes.index')->with('success', 'Income deleted successfully.');
         } catch (\Exception $e) {
             return redirect()->route('incomes.index')->with('error', 'Failed to delete income: ' . $e->getMessage());

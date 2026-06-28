@@ -15,7 +15,7 @@ class IncomesService
 
         try {
             $this->baseUrl = config('services.python_incomes.base_url');
-            $response = Http::get($this->baseUrl . '/incomes/?user_id=' . $user);
+            $response = Http::get($this->apiUrl('/incomes/'), ['user_id' => $user]);
 
             if ($response->failed()) {
                 return [
@@ -61,13 +61,16 @@ class IncomesService
             'financial_planning_id' => 1,
         ];
 
-        return Http::acceptJson()->asJson()->post($this->baseUrl . '/incomes', $newIncome);
+        return Http::acceptJson()->asJson()->post($this->apiUrl('/incomes/'), $newIncome);
     }
 
-    public function deleteIncome($incomeId)
+    public function deleteIncome($userId, $accountingAccountId)
     {
         $this->baseUrl = config('services.python_incomes.base_url');
-        return Http::delete($this->baseUrl . '/api/incomes/' . $incomeId.'/');
+        return Http::withQueryParameters([
+            'user_id' => intval($userId),
+            'account_id' => intval($accountingAccountId),
+        ])->delete($this->apiUrl('/incomes/delete-by-user-account/'));
     }
 
     public function updateIncome($income, $payload)
@@ -83,7 +86,12 @@ class IncomesService
             'financial_planning_id' => 1,
         ];
 
-        return Http::acceptJson()->asJson()->put($this->baseUrl . '/api/incomes/' . $income['id'] . '/', $updatedIncome);
+        return Http::acceptJson()->asJson()->put($this->apiUrl('/incomes/' . $income['id'] . '/'), $updatedIncome);
+    }
+
+    private function apiUrl(string $path): string
+    {
+        return rtrim($this->baseUrl, '/') . '/' . ltrim($path, '/');
     }
 
 }

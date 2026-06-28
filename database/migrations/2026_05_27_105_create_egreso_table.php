@@ -21,6 +21,8 @@ return new class extends Migration
 
             $table->unsignedBigInteger('planificacion_financiera_id');
             $table->unsignedBigInteger('cuentacontable_id');
+            $table->foreignId('user_id')
+                ->constrained('users');
 
             $table->foreign('planificacion_financiera_id', 'fk_egreso_planificacion')
                 ->references('id')

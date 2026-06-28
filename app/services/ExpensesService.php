@@ -44,6 +44,7 @@ class ExpensesService
         if (!$isValidated) {
             throw new \InvalidArgumentException('Invalid data provided for creating an expense.');
         } else {
+            $isValidated['user_id'] = Auth::id();
             return Expense::create($isValidated);
         }
 
@@ -61,8 +62,9 @@ class ExpensesService
                     'descripcion' => $expenseData['merchant'],
                     'fecha' => $date->format('Y-m-d H:i:s'),
                     'estado' => 'pay',
-                    'idPlanificacion' => 1,
+                    'planificacion_financiera_id' => 1,
                     'cuentacontable_id' => 1,
+                    'user_id' => $user,
                 ];
 
                 $rules = [
@@ -70,8 +72,9 @@ class ExpensesService
                     'descripcion' => ['required', 'string', 'max:255'],
                     'fecha' => ['required'], // si viene en otro formato, ver abajo
                     'estado' => ['sometimes', 'string'],
-                    'idPlanificacion' => ['sometimes', 'integer'],
+                    'planificacion_financiera_id' => ['sometimes', 'integer'],
                     'cuentacontable_id' => ['sometimes', 'integer'],
+                    'user_id' => ['required', 'integer'],
                 ];
                 $validated = Validator::make($data, $rules)->validate();
                 Expense::create($validated);
@@ -80,19 +83,21 @@ class ExpensesService
         }
     }
 
-    public function getMonthlyExpenses($month, $year)
+    public function getMonthlyExpenses($month, $year, string|int|null $userId = null)
     {
         return Expense::whereMonth('fecha', $month)
             ->whereYear('fecha', $year)
+            ->where('user_id', $this->resolveUserId($userId))
             ->get()
             ->toArray();
     }
 
-    public function getMonthlyExpensesByAccount($month, $year)
+    public function getMonthlyExpensesByAccount($month, $year, string|int|null $userId = null)
     {
         return Expense::join('cuentacontable as cc', 'cc.id', '=', 'egreso.cuentacontable_id')
             ->whereYear('egreso.fecha', $year)
             ->whereMonth('egreso.fecha', $month)
+            ->where('egreso.user_id', $this->resolveUserId($userId))
             ->groupBy('cc.id', 'cc.descripcion')
             ->select('cc.id as cuenta_id', 'cc.descripcion', DB::raw('SUM(egreso.valor) as total'))
             ->orderByDesc('total')
@@ -101,35 +106,42 @@ class ExpensesService
 
     }
 
-    public function getSumOfExpensesByMonth($month, $year)
+    public function getSumOfExpensesByMonth($month, $year, string|int|null $userId = null)
     {
         return Expense::whereMonth('fecha', $month)
             ->whereYear('fecha', $year)
+            ->where('user_id', $this->resolveUserId($userId))
             ->sum('valor');
     }
 
 
-    public function getAllExpenses()
+    public function getAllExpenses(string|int|null $userId = null)
     {
-        return Expense::all()->toArray();
+        return Expense::where('user_id', $this->resolveUserId($userId))->get()->toArray();
     }
 
     public function deleteExpense(Expense $expense)
     {
+        if ((int) $expense->user_id !== (int) Auth::id()) {
+            throw new \RuntimeException('You are not allowed to delete this expense.');
+        }
+
         return $expense->delete();
     }
 
-    public function getYersAvailables( ){
+    public function getYersAvailables(string|int|null $userId = null){
         return Expense::selectRaw('YEAR(fecha) as year')
+            ->where('user_id', $this->resolveUserId($userId))
             ->distinct()
             ->orderBy('year', 'desc')
             ->pluck('year')
             ->toArray();
     }
 
-    public function getMonthsAvailables( $year ){
+    public function getMonthsAvailables( $year, string|int|null $userId = null ){
         return Expense::selectRaw('MONTH(fecha) as month')
             ->whereYear('fecha', intval($year))
+            ->where('user_id', $this->resolveUserId($userId))
             ->distinct()
             ->orderBy('month', 'desc')
             ->pluck('month');
@@ -145,6 +157,17 @@ class ExpensesService
 
         return  $this->baseUrl . '/auth/login/' . Auth::id()
         . '?returnTo=' . urlencode($returnTo);
+    }
+
+    private function resolveUserId(string|int|null $userId): int
+    {
+        $resolvedUserId = $userId ?? Auth::id();
+
+        if ($resolvedUserId === null) {
+            throw new \RuntimeException('Authenticated user is required.');
+        }
+
+        return (int) $resolvedUserId;
     }
 
 }
