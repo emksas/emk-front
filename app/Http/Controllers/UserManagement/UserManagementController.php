@@ -19,11 +19,27 @@ class UserManagementController extends Controller
     {
     }
 
-    public function index(): View
+    public function index(): RedirectResponse
     {
         $this->authorizeAdmin();
 
-        return view('user-management.index', $this->userTypeService->getUserManagementData());
+        return redirect()->route('dashboard');
+    }
+
+    public function createUser(): View
+    {
+        $this->authorizeAdmin();
+
+        return view('user-management.create-user', [
+            'roles' => $this->userTypeService->getUserManagementData()['roles'],
+        ]);
+    }
+
+    public function createRole(): View
+    {
+        $this->authorizeAdmin();
+
+        return view('user-management.create-role');
     }
 
     public function storeUser(Request $request): RedirectResponse
@@ -39,7 +55,7 @@ class UserManagementController extends Controller
 
         $this->userTypeService->createUser($validated);
 
-        return redirect()->route('user-management.index')->with('success', 'User created successfully.');
+        return redirect()->route('dashboard')->with('success', 'User created successfully.');
     }
 
     public function destroyUser(User $user): RedirectResponse
@@ -54,7 +70,7 @@ class UserManagementController extends Controller
 
         $this->userTypeService->deleteUser($user);
 
-        return redirect()->route('user-management.index')->with('success', 'User deleted successfully.');
+        return redirect()->route('dashboard')->with('success', 'User deleted successfully.');
     }
 
     public function storeRole(Request $request): RedirectResponse
@@ -67,7 +83,7 @@ class UserManagementController extends Controller
 
         $this->userTypeService->createRole($validated);
 
-        return redirect()->route('user-management.index')->with('success', 'Role created successfully.');
+        return redirect()->route('dashboard')->with('success', 'Role created successfully.');
     }
 
     public function destroyRole(UserType $role): RedirectResponse
@@ -76,7 +92,7 @@ class UserManagementController extends Controller
 
         $this->userTypeService->deleteRole($role);
 
-        return redirect()->route('user-management.index')->with('success', 'Role deleted successfully.');
+        return redirect()->route('dashboard')->with('success', 'Role deleted successfully.');
     }
 
     private function authorizeAdmin(): void

@@ -20,9 +20,12 @@ class UserTypeService
 
     public function getUserManagementData(): array
     {
+        $users = User::with('roleType')->orderBy('name')->get();
+
         return [
-            'users' => User::with('roleType')->orderBy('name')->get(),
+            'users' => $users,
             'roles' => UserType::withCount('users')->orderBy('id')->get(),
+            'activeUsersCount' => $users->count(),
         ];
     }
 

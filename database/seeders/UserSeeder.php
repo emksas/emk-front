@@ -27,8 +27,21 @@ class UserSeeder extends Seeder
                 'remember_token' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
-                'role' => 4
+                'role' => 1
             ],
+            [
+                'id' => 10,
+                'name' => 'Ramses',
+                'email' => 'ramsessr@icloud.com',
+                'email_verified_at' => now(),
+                'password' => Hash::make('isis1998'),
+                'current_team_id' => null,
+                'profile_photo_path' => null,
+                'remember_token' => null,
+                'created_at' => now(),
+                'updated_at' => now(),
+                'role' => 4
+            ]
         ]);
     }
 }

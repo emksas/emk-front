@@ -13,7 +13,7 @@ class TipoUsuarioSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('tipo_usuario')->insert([
+        DB::table('tipo_usuario')->upsert([
             [
                 'id' => 1,
                 'nombre' => 'Individual Role',
@@ -30,6 +30,12 @@ class TipoUsuarioSeeder extends Seeder
                 'id' => 4,
                 'nombre' => 'Administrator Role',
             ],
-        ]);
+        ], ['id'], ['nombre']);
+
+        if (DB::getDriverName() === 'pgsql') {
+            DB::statement(
+                "select setval(pg_get_serial_sequence('tipo_usuario', 'id'), coalesce((select max(id) from tipo_usuario), 1), true)"
+            );
+        }
     }
 }

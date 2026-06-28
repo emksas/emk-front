@@ -15,26 +15,27 @@ $val = fn($key, $default = '') => old($key, isset($income) ? ($income->{$key} ??
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-            <label for="valor" class="block text-sm font-medium mb-1">Value *</label>
-            <x-money-input id="valor" name="valor" :value="$val('valor')" required />
+            <label class="block text-sm font-medium mb-1">Value *</label>
+            <input type="numeric" name="valor" value="{{ $val('valor') }}" class="w-full border rounded px-3 py-2"
+                required>
             @error('valor')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
         </div>
 
         <div>
-            <label for="fuente" class="block text-sm font-medium mb-1">Fuente *</label>
-            <input type="text" id="fuente" name="fuente" value="{{ $val('fuente') }}"
+            <label class="block text-sm font-medium mb-1">Fuente *</label>
+            <input type="text" name="fuente" value="{{ $val('fuente') }}"
                 class="w-full border rounded px-3 py-2" required>
             @error('fuente')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
         </div>
 
         <div>
-            <label for="fecha" class="block text-sm font-medium mb-1">Date * {{ $date }}</label>
-            <input type="date" id="fecha" name="fecha" class="w-full border rounded px-3 py-2" value="{{ $date }}" required>
+            <label class="block text-sm font-medium mb-1">Date * {{ $date }}</label>
+            <input type="date" name="fecha" class="w-full border rounded px-3 py-2" value="{{ $date }}" required>
             @error('fecha')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
         </div>
 
         <div>
-            <label for="accountingAccount" class="block text-sm font-medium mb-1">Accounting Account*</label>
+            <label class="block text-sm font-medium mb-1">Accounting Account*</label>
             <select id="accountingAccount" name="cuentacontable_id" class="w-full border rounded px-3 py-2" required>
                 @foreach ($accountingAccounts as $accountingAccount)
                 <option value="{{ $accountingAccount['id'] }}" {{ (isset($income) && $income['cuentacontable_id'] == $accountingAccount['id']) ? 'selected' : '' }}>
@@ -48,8 +49,8 @@ $val = fn($key, $default = '') => old($key, isset($income) ? ($income->{$key} ??
         </div>
         <div class="md:col-span-2 flex justify-center">
             <div class="w-full">
-                <label for="financialPlanning" class="block text-sm font-medium mb-1">Financial Planning*</label>
-                <select id="financialPlanning" name="planificacion_financiera_id" class="w-full border rounded px-3 py-2" required>
+                <label class="block text-sm font-medium mb-1">Financial Planning*</label>
+                <select id="accountingAccount" name="planificacion_financiera_id" class="w-full border rounded px-3 py-2" required>
                     @foreach ($financialPlannings as $financialPlanning)
                     <option value="{{ $financialPlanning['planId'] }}" {{ (isset($income) && $income['planificacion_financiera_id'] == $financialPlanning['planId']) ? 'selected' : '' }}>
                         {{ $financialPlanning['description'] }}

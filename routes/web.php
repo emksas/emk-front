@@ -73,8 +73,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     ->name('user-management.')
     ->group(function () {
         Route::get('/', [UserManagementController::class, 'index'])->name('index');
+        Route::get('/users/create', [UserManagementController::class, 'createUser'])->name('users.create');
         Route::post('/users', [UserManagementController::class, 'storeUser'])->name('users.store');
         Route::delete('/users/{user}', [UserManagementController::class, 'destroyUser'])->name('users.destroy');
+        Route::get('/roles/create', [UserManagementController::class, 'createRole'])->name('roles.create');
         Route::post('/roles', [UserManagementController::class, 'storeRole'])->name('roles.store');
         Route::delete('/roles/{role}', [UserManagementController::class, 'destroyRole'])->name('roles.destroy');
     });
