@@ -177,6 +177,221 @@ body {
     color: rgb(255 255 255);
 }
 
+:root {
+    --app-alert-surface: rgb(255 255 255);
+    --app-alert-surface-strong: rgb(248 250 252);
+    --app-alert-text: rgb(15 23 42);
+    --app-alert-muted: rgb(51 65 85);
+    --app-alert-border: rgb(79 70 229 / 0.38);
+    --app-alert-shadow: 0 26px 80px rgb(15 23 42 / 0.28);
+    --app-alert-backdrop: rgb(15 23 42 / 0.52);
+    --app-alert-primary: rgb(67 56 202);
+    --app-alert-primary-hover: rgb(49 46 129);
+    --app-alert-primary-text: rgb(255 255 255);
+    --app-alert-secondary: rgb(255 255 255);
+    --app-alert-secondary-hover: rgb(238 242 255);
+    --app-alert-secondary-text: rgb(30 41 59);
+    --app-alert-secondary-border: rgb(99 102 241 / 0.5);
+    --app-alert-danger: rgb(190 18 60);
+    --app-alert-danger-hover: rgb(136 19 55);
+    --app-alert-ring: rgb(67 56 202 / 0.35);
+    --swal2-backdrop: var(--app-alert-backdrop);
+    --swal2-background: var(--app-alert-surface);
+    --swal2-color: var(--app-alert-text);
+}
+
+html.dark {
+    --app-alert-surface: rgb(3 7 18);
+    --app-alert-surface-strong: rgb(15 23 42);
+    --app-alert-text: rgb(248 250 252);
+    --app-alert-muted: rgb(226 232 240);
+    --app-alert-border: rgb(125 211 252 / 0.5);
+    --app-alert-shadow: 0 28px 90px rgb(0 0 0 / 0.72);
+    --app-alert-backdrop: rgb(0 0 0 / 0.76);
+    --app-alert-primary: rgb(125 211 252);
+    --app-alert-primary-hover: rgb(186 230 253);
+    --app-alert-primary-text: rgb(3 7 18);
+    --app-alert-secondary: rgb(15 23 42);
+    --app-alert-secondary-hover: rgb(30 41 59);
+    --app-alert-secondary-text: rgb(248 250 252);
+    --app-alert-secondary-border: rgb(148 163 184 / 0.55);
+    --app-alert-danger: rgb(251 113 133);
+    --app-alert-danger-hover: rgb(253 164 175);
+    --app-alert-ring: rgb(125 211 252 / 0.48);
+    --swal2-backdrop: var(--app-alert-backdrop);
+    --swal2-background: var(--app-alert-surface);
+    --swal2-color: var(--app-alert-text);
+}
+
+.app-alert-container {
+    font-family: Figtree, ui-sans-serif, system-ui, sans-serif;
+}
+
+.app-alert-popup {
+    width: min(92vw, 28rem);
+    border: 1px solid var(--app-alert-border);
+    border-radius: 0.75rem;
+    background: var(--app-alert-surface);
+    color: var(--app-alert-text);
+    box-shadow: var(--app-alert-shadow);
+    padding: 1.5rem;
+}
+
+html div.swal2-container .swal2-popup.app-alert-popup {
+    border: 1px solid var(--app-alert-border) !important;
+    background: var(--app-alert-surface) !important;
+    color: var(--app-alert-text) !important;
+    box-shadow: var(--app-alert-shadow) !important;
+}
+
+.app-alert-toast {
+    width: min(92vw, 24rem);
+    padding: 1rem;
+}
+
+html div.swal2-container .swal2-popup.app-alert-toast {
+    border-left: 4px solid var(--app-alert-primary) !important;
+    background: var(--app-alert-surface) !important;
+}
+
+.app-alert-title {
+    color: var(--app-alert-text);
+    font-size: 1.125rem;
+    font-weight: 700;
+    letter-spacing: 0;
+}
+
+html div.swal2-container .swal2-title.app-alert-title {
+    color: var(--app-alert-text) !important;
+}
+
+.app-alert-content {
+    color: var(--app-alert-muted);
+    font-size: 0.95rem;
+    line-height: 1.55;
+}
+
+html div.swal2-container .swal2-html-container.app-alert-content {
+    color: var(--app-alert-muted) !important;
+}
+
+.app-alert-actions {
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.app-alert-button {
+    min-height: 2.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid transparent;
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1;
+    transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
+}
+
+.app-alert-button:focus-visible {
+    outline: 3px solid var(--app-alert-ring);
+    outline-offset: 3px;
+}
+
+.app-alert-button-primary {
+    background: var(--app-alert-primary);
+    color: var(--app-alert-primary-text);
+}
+
+html div.swal2-container .app-alert-button-primary {
+    background: var(--app-alert-primary) !important;
+    color: var(--app-alert-primary-text) !important;
+}
+
+.app-alert-button-primary:hover {
+    background: var(--app-alert-primary-hover);
+}
+
+html div.swal2-container .app-alert-button-primary:hover {
+    background: var(--app-alert-primary-hover) !important;
+}
+
+.app-alert-button-secondary {
+    border-color: var(--app-alert-secondary-border);
+    background: var(--app-alert-secondary);
+    color: var(--app-alert-secondary-text);
+}
+
+html div.swal2-container .app-alert-button-secondary {
+    border-color: var(--app-alert-secondary-border) !important;
+    background: var(--app-alert-secondary) !important;
+    color: var(--app-alert-secondary-text) !important;
+}
+
+.app-alert-button-secondary:hover {
+    background: var(--app-alert-secondary-hover);
+}
+
+html div.swal2-container .app-alert-button-secondary:hover {
+    background: var(--app-alert-secondary-hover) !important;
+}
+
+.app-alert-button-danger {
+    background: var(--app-alert-danger);
+    color: rgb(255 255 255);
+}
+
+html div.swal2-container .app-alert-button-danger {
+    background: var(--app-alert-danger) !important;
+    color: rgb(255 255 255) !important;
+}
+
+.app-alert-button-danger:hover {
+    background: var(--app-alert-danger-hover);
+}
+
+html div.swal2-container .app-alert-button-danger:hover {
+    background: var(--app-alert-danger-hover) !important;
+}
+
+.app-alert-loader {
+    border-color: var(--app-alert-primary) transparent var(--app-alert-primary) transparent;
+}
+
+html div.swal2-container .swal2-loader.app-alert-loader {
+    border-color: var(--app-alert-primary) transparent var(--app-alert-primary) transparent !important;
+}
+
+.app-alert-show {
+    animation: app-alert-enter 160ms ease-out;
+}
+
+.app-alert-hide {
+    animation: app-alert-leave 120ms ease-in forwards;
+}
+
+@keyframes app-alert-enter {
+    from {
+        opacity: 0;
+        transform: translateY(0.5rem) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes app-alert-leave {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(0.25rem) scale(0.98);
+    }
+}
+
 /* --- TUS ESTILOS PERSONALIZADOS PARA EL LOGIN --- */
 
 .image-wrapper {

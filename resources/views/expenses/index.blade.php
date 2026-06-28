@@ -72,7 +72,13 @@
                                             Edit
                                         </a>
                                         <form action="{{ route('expenses.destroy', $expense['id']) }}"
-                                            method="POST" style="display:inline;">
+                                            method="POST" style="display:inline;"
+                                            data-confirm-delete
+                                            data-confirm-title="Delete expense?"
+                                            data-confirm-message="This expense will be permanently deleted."
+                                            data-loading="true"
+                                            data-loading-title="Deleting expense"
+                                            data-loading-message="Please wait while the expense is removed.">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit"
@@ -81,8 +87,7 @@
                                              hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-600/40
                                              dark:border-rose-400/70 dark:bg-rose-400/10 dark:text-rose-200
                                              dark:hover:border-rose-300 dark:hover:bg-rose-400/20 dark:hover:text-white dark:focus:ring-rose-300/40
-                                             disabled:opacity-50 disabled:pointer-events-none"
-                                                onclick="return confirm('Are you sure you want to delete this expense?');">
+                                             disabled:opacity-50 disabled:pointer-events-none">
                                                 Delete
                                             </button>
                                         </form>
@@ -122,8 +127,6 @@
         });
 
         window.addEventListener('message', function(event) {
-            console.log("evento de origen ramses: ". event.origin ); 
-            console.log("ventana ramses". window.location.origin);
             if (event.origin !== window.location.origin) {
                 return;
             }
@@ -134,13 +137,7 @@
         });
 
         document.getElementById('auth-microsoft').addEventListener('click', async function() {
-
-            console.log('boton para autenticar ramses ')
-
-
-            const datosUrl = this.dataset.urlAuthEmail;
-            console.log(datosUrl);
-
+            const authUrl = this.dataset.urlAuthEmail;
 
             const ancho = 600;
             const alto = 700;
@@ -148,11 +145,10 @@
             const arriba = (screen.height / 2) - (alto / 2);
 
             const popup = window.open(
-                datosUrl,
+                authUrl,
                 'MicrosoftAuth',
                 `width=${ancho},height=${alto},top=${arriba},left=${izquierda}`
             );
-
         })
     </script>
 

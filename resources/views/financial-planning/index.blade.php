@@ -72,14 +72,19 @@
                                         </a>
 
                                         <form action="{{ route('financial-planning.destroy', $financialPlanning['planId']) }}"
-                                            method="POST">
+                                            method="POST"
+                                            data-confirm-delete
+                                            data-confirm-title="Delete financial plan?"
+                                            data-confirm-message="This financial plan will be permanently deleted."
+                                            data-loading="true"
+                                            data-loading-title="Deleting financial plan"
+                                            data-loading-message="Please wait while the financial plan is removed.">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="inline-flex items-center gap-2 rounded-lg border border-red-600
                                              bg-transparent px-4 py-2 text-sm font-medium text-red-600
                                              hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-600/40
-                                             disabled:opacity-50 disabled:pointer-events-none"
-                                                onclick="return confirm('Are you sure you want to delete this financial plan?');">
+                                             disabled:opacity-50 disabled:pointer-events-none">
                                                 Delete Plan
                                             </button>
                                         </form>
@@ -142,14 +147,19 @@
                                                                     Edit
                                                                 </a>
                                                                 <form action="{{ route('planning-operation.destroy',  [ 'transactionId' => $planningExpense['id'], 'planningId' => $planningExpense['planificationId'] ] ) }}"
-                                                                    method="POST" style="display:inline;">
+                                                                    method="POST" style="display:inline;"
+                                                                    data-confirm-delete
+                                                                    data-confirm-title="Delete planned operation?"
+                                                                    data-confirm-message="This planned operation will be permanently deleted."
+                                                                    data-loading="true"
+                                                                    data-loading-title="Deleting planned operation"
+                                                                    data-loading-message="Please wait while the planned operation is removed.">
                                                                     @csrf
                                                                     @method('DELETE')
                                                                     <button type="submit" class="inline-flex items-center gap-2 rounded-lg border border-red-600
                                                          bg-transparent px-4 py-2 text-sm font-medium text-red-600
                                                          hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-600/40
-                                                         disabled:opacity-50 disabled:pointer-events-none"
-                                                                        onclick="return confirm('Are you sure you want to delete this expense?');">
+                                                         disabled:opacity-50 disabled:pointer-events-none">
                                                                         Delete
                                                                     </button>
                                                                 </form>

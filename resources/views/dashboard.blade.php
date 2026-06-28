@@ -39,12 +39,6 @@
     @if (($isAdminDashboard ?? false) === true)
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-                @if (session('success'))
-                    <div class="rounded-md border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700" role="status" aria-live="polite">
-                        {{ session('success') }}
-                    </div>
-                @endif
-
                 @if ($errors->any())
                     <div class="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700" role="alert" aria-live="assertive">
                         <ul class="list-disc pl-5">
@@ -110,7 +104,13 @@
                                             <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">{{ $user->roleType?->nombre ?? 'No role' }}</td>
                                             <td class="px-4 py-3 text-center">
                                                 @unless ($user->is(auth()->user()))
-                                                    <form action="{{ route('user-management.users.destroy', $user) }}" method="POST" class="inline-flex justify-center" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                                    <form action="{{ route('user-management.users.destroy', $user) }}" method="POST" class="inline-flex justify-center"
+                                                        data-confirm-delete
+                                                        data-confirm-title="Delete user?"
+                                                        data-confirm-message="This user account will be permanently deleted."
+                                                        data-loading="true"
+                                                        data-loading-title="Deleting user"
+                                                        data-loading-message="Please wait while the user is removed.">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="inline-flex items-center gap-2 rounded-lg border border-red-600 bg-transparent px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-600/40" aria-label="Delete user {{ $user->name }}">
@@ -154,7 +154,13 @@
                                             <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">{{ $role->users_count }}</td>
                                             <td class="px-4 py-3 text-center">
                                                 @unless ($role->users_count > 0)
-                                                    <form action="{{ route('user-management.roles.destroy', $role) }}" method="POST" class="inline-flex justify-center" onsubmit="return confirm('Are you sure you want to delete this role?');">
+                                                    <form action="{{ route('user-management.roles.destroy', $role) }}" method="POST" class="inline-flex justify-center"
+                                                        data-confirm-delete
+                                                        data-confirm-title="Delete role?"
+                                                        data-confirm-message="This role will be permanently deleted."
+                                                        data-loading="true"
+                                                        data-loading-title="Deleting role"
+                                                        data-loading-message="Please wait while the role is removed.">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="inline-flex items-center gap-2 rounded-lg border border-red-600 bg-transparent px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-600/40" aria-label="Delete role {{ $role->nombre }}">
