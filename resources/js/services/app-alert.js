@@ -201,6 +201,22 @@ function showFlashMessages() {
     });
 }
 
+function registerLivewireNotifications() {
+    document.addEventListener('livewire:init', () => {
+        if (!window.Livewire) {
+            return;
+        }
+
+        window.Livewire.on('saved', () => {
+            AppAlert.showSuccess('Changes saved successfully.');
+        });
+
+        window.Livewire.on('loggedOut', () => {
+            AppAlert.showSuccess('Other browser sessions have been logged out.');
+        });
+    });
+}
+
 const AppAlert = {
     fire,
     showSuccess(message, title = TYPE_TITLES.success) {
@@ -272,6 +288,7 @@ const AppAlert = {
         document.addEventListener('submit', handleLoadingSubmit);
         document.addEventListener('click', handleConfirmableClick);
         document.addEventListener('click', handleLoadingClick);
+        registerLivewireNotifications();
 
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', showFlashMessages, { once: true });
