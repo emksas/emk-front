@@ -210,5 +210,4 @@ class ExpensesService
 
         return (int) $resolvedUserId;
     }
-
 }
