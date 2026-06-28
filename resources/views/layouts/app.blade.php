@@ -62,6 +62,8 @@
         </main>
     </div>
 
+    <x-loader />
+
     @stack('modals')
 
     @livewireScripts

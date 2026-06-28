@@ -42,5 +42,8 @@ return [
     'node_expenses' => [
         'base_url' => env('NODE_EXPENSES_BASE_URL'),
     ],
+    'node_expenses_external' => [
+        'base_url' => env('NODE_EXPENSES_EXTERNAL_BASE_URL'),
+    ],
 
 ];
