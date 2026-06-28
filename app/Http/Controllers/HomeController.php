@@ -35,7 +35,7 @@ class HomeController extends Controller
         $month = $request->query('month', Carbon::now()->month);
 
         // CORRECCIÓN CON EL MÉTODO REAL: Usamos getDashboardData con sus respectivos parámetros
-        $dashboardData = $this->dashboardServices->getDashboardData($year, $month);
+        $dashboardData = $this->dashboardServices->getDashboardData($year, $month, $user->id);
 
         return view('dashboard', compact('dashboardData'));
 

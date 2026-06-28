@@ -11,7 +11,10 @@
                 <div class="py-8">
                     <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
                         <div class="bg-white p-6 shadow sm:rounded-lg">
-                            <form action="{{ route('expenses.update', $expense) }}" method="POST" class="space-y-6">
+                            <form action="{{ route('expenses.update', $expense) }}" method="POST" class="space-y-6"
+                                data-loading="true"
+                                data-loading-title="Updating expense"
+                                data-loading-message="Please wait while the expense is updated.">
                                 @csrf
                                 @method('PUT')
 
@@ -37,6 +40,7 @@
                                             Cancelar
                                         </a>
                                     </div>
+                                </div>
                             </form>
                         </div>
                     </div>

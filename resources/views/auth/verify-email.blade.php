@@ -15,7 +15,10 @@
         @endif
 
         <div class="mt-4 flex items-center justify-between">
-            <form method="POST" action="{{ route('verification.send') }}">
+            <form method="POST" action="{{ route('verification.send') }}"
+                data-loading="true"
+                data-loading-title="Sending verification email"
+                data-loading-message="Please wait while we send a new verification link.">
                 @csrf
 
                 <div>
@@ -32,7 +35,10 @@
                 >
                     {{ __('Edit Profile') }}</a>
 
-                <form method="POST" action="{{ route('logout') }}" class="inline">
+                <form method="POST" action="{{ route('logout') }}" class="inline"
+                    data-loading="true"
+                    data-loading-title="Signing out"
+                    data-loading-message="Please wait while your session is closed.">
                     @csrf
 
                     <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ms-2">

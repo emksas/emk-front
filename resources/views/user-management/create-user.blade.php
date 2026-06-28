@@ -21,7 +21,10 @@
                 <div class="p-6 text-center lg:p-8 bg-white border-b border-gray-200 dark:bg-gray-900 dark:border-gray-800">
                     <h3 id="create-user-heading" class="text-lg font-semibold text-gray-900 dark:text-gray-100">User Details</h3>
 
-                    <form action="{{ route('user-management.users.store') }}" method="POST" class="mx-auto mt-6 max-w-2xl space-y-4 text-left">
+                    <form action="{{ route('user-management.users.store') }}" method="POST" class="mx-auto mt-6 max-w-2xl space-y-4 text-left"
+                        data-loading="true"
+                        data-loading-title="Creating user"
+                        data-loading-message="Please wait while the user account is created.">
                         @csrf
 
                         <div>

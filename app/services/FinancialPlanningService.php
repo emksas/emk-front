@@ -87,6 +87,17 @@ class FinancialPlanningService
         return Http::delete($this->apiUrl("/financial-planning/user/{$userId}/plan/{$planId}"));
     }
 
+    public function getAccountingAccounts(string|int $userId): array
+    {
+        $response = Http::get($this->apiUrl("/accounting-account/user/{$userId}"));
+
+        if ($response->failed()) {
+            return [];
+        }
+
+        return $response->json() ?? [];
+    }
+
     private function getOperationsByPlan(string|int $userId, string|int $planId): Response
     {
         return Http::get($this->apiUrl("/planned-operations/user/{$userId}/plan/{$planId}"));
